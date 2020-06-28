@@ -1,5 +1,5 @@
 ﻿// 
-// Program.cs
+// AppInfo.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,25 +24,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Logging.Serilog;
+using System.Reflection;
 
 namespace StarTrekCardMaker
 {
-    class Program
+    public static class AppInfo
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args)
-        {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-        }
+        public static Assembly Assembly => _assembly ??= Assembly.GetExecutingAssembly();
+        private static Assembly _assembly = null;
 
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
-        {
-            return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
-        }
+        public static string Name => _name ??= Assembly.GetName().Name;
+        private static string _name = null;
+
+        public static string Version => _version ??= Assembly.GetName().Version.ToString();
+        private static string _version = null;
     }
 }

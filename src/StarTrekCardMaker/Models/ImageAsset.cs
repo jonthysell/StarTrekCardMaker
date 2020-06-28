@@ -1,5 +1,5 @@
 ﻿// 
-// Program.cs
+// ImageAsset.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,25 +24,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Logging.Serilog;
+using System;
 
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.Models
 {
-    class Program
+    public class ImageAsset
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args)
-        {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-        }
+        public readonly string Id;
 
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
+        public readonly string Path;
+
+        public readonly double X;
+
+        public readonly double Y;
+
+        public ImageAsset(string id, string path, double x = 0.0, double y = 0.0)
         {
-            return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
+            Id = id ?? throw new ArgumentNullException(nameof(id));
+            Path = path ?? throw new ArgumentNullException(nameof(path));
+            X = x;
+            Y = y;
         }
     }
 }

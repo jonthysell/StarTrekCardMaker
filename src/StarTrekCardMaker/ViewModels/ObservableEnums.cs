@@ -1,5 +1,5 @@
 ﻿// 
-// App.xaml.cs
+// ObservableEnums.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,54 +24,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
 
-using StarTrekCardMaker.ViewModels;
-using StarTrekCardMaker.Views;
-
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.ViewModels
 {
-    public class App : Application
+    public static class ObservableEnums
     {
-        public AppViewModel AppVM => AppViewModel.Instance;
+        public static readonly Dictionary<string, ObservableCollection<string>> EnumCache = new Dictionary<string, ObservableCollection<string>>();
 
-        public override void Initialize()
+        public static ObservableCollection<string> GetCollection<TEnum>()
         {
-            AvaloniaXamlLoader.Load(this);
-        }
-
-        public override void OnFrameworkInitializationCompleted()
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (!EnumCache.TryGetValue(typeof(TEnum).Name, out var result))
             {
-                desktop.Startup += Desktop_Startup;
-                desktop.Exit += Desktop_Exit;
+                result = new ObservableCollection<string>(GetFriendlyNames(Enum.GetNames(typeof(TEnum))));
+                EnumCache[typeof(TEnum).Name] = result;
             }
 
-            base.OnFrameworkInitializationCompleted();
+            return result;
         }
 
-        private void Desktop_Startup(object sender, ControlledApplicationLifetimeStartupEventArgs e)
+        public static IEnumerable<string> GetFriendlyNames(IEnumerable<string> names)
         {
-            MessageHandlers.RegisterMessageHandlers(this);
+            return names.Select(item => GetFriendlyName(item));
+        }
 
-            AppViewModel.Initialize(e.Args);
+        public static string GetFriendlyName(string name)
+        {
+            StringBuilder sb = new StringBuilder();
 
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            for (int i = 0; i < name.Length; i++)
             {
-                var window = new MainWindow
+                if (i > 0 && char.IsUpper(name[i]))
                 {
-                    VM = new MainViewModel()
-                };
-                desktop.MainWindow = window;
+                    sb.Append(' ');
+                }
+                sb.Append(name[i]);
             }
+
+            return sb.ToString();
         }
 
-        private void Desktop_Exit(object sender, ControlledApplicationLifetimeExitEventArgs e)
+        public static string GetName(string friendlyName)
         {
-            MessageHandlers.UnregisterMessageHandlers(this);
+            return friendlyName.Replace(" ", "");
         }
     }
 }

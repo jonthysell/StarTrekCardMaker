@@ -1,5 +1,5 @@
 ﻿// 
-// Program.cs
+// CachedImage.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,25 +24,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Logging.Serilog;
+using System;
+using System.IO;
 
-namespace StarTrekCardMaker
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+
+namespace StarTrekCardMaker.Rendering
 {
-    class Program
+    public class CachedImage
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args)
+        public static IAssetLoader Assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
+        public Uri Source { get; protected set; }
+
+        public double X { get; protected set; }
+
+        public double Y { get; protected set; }
+
+        public IBitmap Bitmap => _bitmap ?? (_bitmap = new Bitmap(Source.IsFile ? File.OpenRead(Source.LocalPath) : Assets.Open(Source)));
+        private IBitmap _bitmap;
+
+        public CachedImage(Uri source, double x, double y)
         {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+            Source = source ?? throw new ArgumentNullException(nameof(source));
+            X = x;
+            Y = y;
         }
 
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
+        public CachedImage(string source, double x, double y) : this(new Uri(source, UriKind.RelativeOrAbsolute), x, y) { }
+
+        public IControl ToControl()
         {
-            return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
+            var control = new Image()
+            {
+                Source = Bitmap
+            };
+
+            control.SetValue(Canvas.LeftProperty, X);
+            control.SetValue(Canvas.TopProperty, Y);
+
+            return control;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// 
-// Program.cs
+// CardType.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,25 +24,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Logging.Serilog;
-
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.Models
 {
-    class Program
+    public enum CardType
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args)
-        {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-        }
-
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
-        {
-            return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
-        }
+        Artifact,
+        DilemmaBoth,
+        DilemmaPlanet,
+        DilemmaSpace,
+        Doorway,
+        Event,
+        Equipment,
+        Facility,
+        Incident,
+        Interrupt,
+        Mission,
+        Objective,
+        Personnel,
+        QArtifact,
+        QDilemma,
+        QEvent,
+        QInterrupt,
+        QMission,
+        Ship,
+        Tactic,
+        TimeLocation,
     }
 }

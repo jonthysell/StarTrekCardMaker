@@ -1,5 +1,5 @@
 ﻿// 
-// Program.cs
+// ObservableCardDataText.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,25 +24,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Logging.Serilog;
+using System;
 
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.ViewModels
 {
-    class Program
+    public class ObservableCardDataText : ObservableCardData
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args)
+        public override string Value
         {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+            get
+            {
+                return Parent.InternalObject.GetValue(Key);
+            }
+            set
+            {
+                if (Parent.InternalObject.SetValue(Key, value))
+                {
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
-        {
-            return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
-        }
+        #region Creation
+
+        public ObservableCardDataText(ObservableCard parent, string key, Func<ObservableCard, bool> isEnabled = null) : base(parent, key, isEnabled) { }
+
+        #endregion
     }
 }

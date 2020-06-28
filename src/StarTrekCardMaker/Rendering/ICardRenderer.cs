@@ -1,5 +1,5 @@
 ﻿// 
-// MainWindow.xaml.cs
+// ICardRenderer.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,26 +24,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
-namespace StarTrekCardMaker
+using StarTrekCardMaker.Models;
+
+namespace StarTrekCardMaker.Rendering
 {
-    public class MainWindow : Window
+    public interface ICardRenderer
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
-        }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        IControl GetControl(Card card);
     }
 }

@@ -1,0 +1,98 @@
+<Window Height="600"
+        MinHeight="480"
+        MinWidth="640"
+        Title="{Binding Title}"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        d:DesignHeight="600"
+        d:DesignWidth="800"
+        mc:Ignorable="d"
+        x:Class="StarTrekCardMaker.Views.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:StarTrekCardMaker.ViewModels"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DockPanel Margin="5">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Command="{Binding NewCard}"
+                          Header="_New"
+                          HotKey="Ctrl+N" />
+                <MenuItem Command="{Binding OpenCard}"
+                          Header="_Open..."
+                          HotKey="Ctrl+O" />
+                <MenuItem Command="{Binding Card.Save}"
+                          Header="_Save"
+                          HotKey="Ctrl+S" />
+                <MenuItem Command="{Binding Card.SaveAs}"
+                          Header="Save _As..."
+                          HotKey="Ctrl+Shift+S" />
+                <Separator />
+              <MenuItem Command="{Binding Card.Export}"
+                          Header="_Export..."
+                          HotKey="Ctrl+E" />
+                <Separator />
+                <MenuItem Command="{Binding Close}"
+                          Header="E_xit"
+                          HotKey="Alt+F4" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Command="{Binding NotImplementedCommand}"
+                          Header="_About Star Trek Card Maker" />
+            </MenuItem>
+        </Menu>
+        <ScrollViewer DockPanel.Dock="Right"
+                      IsVisible="{Binding CardLoaded}">
+            <ItemsControl Items="{Binding Card.Data}"
+                          Width="250">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="{x:Type vm:ObservableCardDataText}">
+                        <StackPanel IsVisible="{Binding IsEnabled}">
+                            <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
+                                       FontSize="16"
+                                       Margin="5"
+                                       MaxWidth="240"
+                                       TextAlignment="Center"
+                                       Text="{Binding FriendlyKey}" />
+                            <TextBox AcceptsReturn="True"
+                                     FontSize="14"
+                                     Margin="5"
+                                     MaxWidth="230"
+                                     Padding="5"
+                                     Text="{Binding Value}"
+                                     TextWrapping="Wrap"
+                                     Watermark="{Binding FriendlyKey}" />
+                        </StackPanel>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:ObservableCardDataEnumBase}">
+                        <StackPanel IsVisible="{Binding IsEnabled}">
+                            <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
+                                       FontSize="16"
+                                       Margin="5"
+                                       MaxWidth="240"
+                                       Text="{Binding FriendlyKey}"
+                                       TextAlignment="Center" />
+                            <ComboBox FontSize="14"
+                                      Items="{Binding Values}"
+                                      Margin="5"
+                                      MaxWidth="230"
+                                      Padding="5"
+                                      SelectedItem="{Binding Value}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid RowDefinitions="Auto,*" IsVisible="{Binding CardLoaded}">
+            <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
+                       FontSize="16"
+                       Margin="5"
+                       Text="Preview"
+                       TextAlignment="Center" />
+            <ScrollViewer Grid.Row="1">
+                <Grid Name="CardRenderTarget" />
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</Window>

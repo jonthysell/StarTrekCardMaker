@@ -1,5 +1,5 @@
 ﻿// 
-// App.xaml.cs
+// MainWindow.xaml.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,54 +24,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 using StarTrekCardMaker.ViewModels;
-using StarTrekCardMaker.Views;
 
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.Views
 {
-    public class App : Application
+    public class MainWindow : Window
     {
-        public AppViewModel AppVM => AppViewModel.Instance;
+        public MainViewModel VM
+        {
+            get
+            {
+                return (MainViewModel)DataContext;
+            }
+            set
+            {
+                DataContext = value;
+                value.RequestClose = Close;
+                value.RenderCard += VM_RenderCard;
+            }
+        }
 
-        public override void Initialize()
+        public Grid CardRenderTarget => _cardRenderTarget ?? (_cardRenderTarget = this.FindControl<Grid>("CardRenderTarget"));
+        private Grid _cardRenderTarget;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
+        }
+
+        private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
 
-        public override void OnFrameworkInitializationCompleted()
+        private void VM_RenderCard(object sender, EventArgs e)
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            CardRenderTarget.Children.Clear();
+
+            var renderedCard = Rendering.CardRenderer.Render(VM.Card);
+
+            if (null != renderedCard)
             {
-                desktop.Startup += Desktop_Startup;
-                desktop.Exit += Desktop_Exit;
+                CardRenderTarget.Children.Add(renderedCard);
             }
-
-            base.OnFrameworkInitializationCompleted();
-        }
-
-        private void Desktop_Startup(object sender, ControlledApplicationLifetimeStartupEventArgs e)
-        {
-            MessageHandlers.RegisterMessageHandlers(this);
-
-            AppViewModel.Initialize(e.Args);
-
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                var window = new MainWindow
-                {
-                    VM = new MainViewModel()
-                };
-                desktop.MainWindow = window;
-            }
-        }
-
-        private void Desktop_Exit(object sender, ControlledApplicationLifetimeExitEventArgs e)
-        {
-            MessageHandlers.UnregisterMessageHandlers(this);
         }
     }
 }

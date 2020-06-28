@@ -1,5 +1,5 @@
 ﻿// 
-// App.xaml.cs
+// ViewModelBase.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,54 +24,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
+using System;
 
-using StarTrekCardMaker.ViewModels;
-using StarTrekCardMaker.Views;
+using GalaSoft.MvvmLight.Command;
 
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.ViewModels
 {
-    public class App : Application
+    public abstract class ViewModelBase : GalaSoft.MvvmLight.ViewModelBase
     {
         public AppViewModel AppVM => AppViewModel.Instance;
 
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        #region Properties
 
-        public override void OnFrameworkInitializationCompleted()
+        public abstract string Title { get; }
+
+        #endregion
+
+        #region Commands
+
+        public RelayCommand NotImplementedCommand
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            get
             {
-                desktop.Startup += Desktop_Startup;
-                desktop.Exit += Desktop_Exit;
-            }
-
-            base.OnFrameworkInitializationCompleted();
-        }
-
-        private void Desktop_Startup(object sender, ControlledApplicationLifetimeStartupEventArgs e)
-        {
-            MessageHandlers.RegisterMessageHandlers(this);
-
-            AppViewModel.Initialize(e.Args);
-
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                var window = new MainWindow
+                return _notImplementedCommand ?? (_notImplementedCommand = new RelayCommand(() =>
                 {
-                    VM = new MainViewModel()
-                };
-                desktop.MainWindow = window;
+                    ExceptionUtils.HandleException(new NotImplementedException());
+                }, () => {
+                    return false;
+                }));
             }
         }
+        private RelayCommand _notImplementedCommand;
 
-        private void Desktop_Exit(object sender, ControlledApplicationLifetimeExitEventArgs e)
-        {
-            MessageHandlers.UnregisterMessageHandlers(this);
-        }
+        #endregion
+
+        public Action RequestClose;
+
+        protected ViewModelBase() : base() { }
     }
 }

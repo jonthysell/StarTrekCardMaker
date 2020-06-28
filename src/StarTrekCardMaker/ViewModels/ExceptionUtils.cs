@@ -1,5 +1,5 @@
 ﻿// 
-// Program.cs
+// ExceptionUtils.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,25 +24,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Logging.Serilog;
+using System;
 
-namespace StarTrekCardMaker
+using Avalonia.Threading;
+using GalaSoft.MvvmLight.Messaging;
+
+namespace StarTrekCardMaker.ViewModels
 {
-    class Program
+    public static class ExceptionUtils
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args)
+        public static void HandleException(Exception exception)
         {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-        }
-
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
-        {
-            return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
+            Dispatcher.UIThread.Post(() =>
+            {
+                Messenger.Default.Send(new ExceptionMessage(exception));
+            });
         }
     }
 }

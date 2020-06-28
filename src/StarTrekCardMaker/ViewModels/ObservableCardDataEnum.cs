@@ -1,5 +1,5 @@
 ﻿// 
-// Program.cs
+// ObservableCardDataEnum.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,25 +24,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Logging.Serilog;
+using System;
+using System.Collections.ObjectModel;
 
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.ViewModels
 {
-    class Program
+    public class ObservableCardDataEnum<TEnum> : ObservableCardDataEnumBase where TEnum : struct
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args)
+        public override string Value
         {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+            get
+            {
+                return ObservableEnums.GetFriendlyName(Parent.InternalObject.GetEnumValue<TEnum>(Key).ToString());
+            }
+            set
+            {
+                if (Parent.InternalObject.SetEnumValue(Key, Enum.Parse<TEnum>(ObservableEnums.GetName(value))))
+                {
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
-        {
-            return AppBuilder.Configure<App>().UsePlatformDetect().LogToDebug();
-        }
+        public override ObservableCollection<string> Values => ObservableEnums.GetCollection<TEnum>();
+
+        #region Creation
+
+        public ObservableCardDataEnum(ObservableCard parent, Func<ObservableCard, bool> isEnabled = null) : base(parent, typeof(TEnum).Name, isEnabled) { }
+
+        public ObservableCardDataEnum(ObservableCard parent, string key, Func<ObservableCard, bool> isEnabled = null) : base(parent, key, isEnabled) { }
+
+        #endregion
     }
 }

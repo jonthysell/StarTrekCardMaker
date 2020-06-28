@@ -1,5 +1,5 @@
 ﻿// 
-// App.xaml.cs
+// CardRenderer.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -25,53 +25,44 @@
 // THE SOFTWARE.
 
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
+using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 
 using StarTrekCardMaker.ViewModels;
-using StarTrekCardMaker.Views;
 
-namespace StarTrekCardMaker
+namespace StarTrekCardMaker.Rendering
 {
-    public class App : Application
+    public static class CardRenderer
     {
-        public AppViewModel AppVM => AppViewModel.Instance;
-
-        public override void Initialize()
+        public static IControl Render(ObservableCard card)
         {
-            AvaloniaXamlLoader.Load(this);
-        }
-
-        public override void OnFrameworkInitializationCompleted()
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (card == null)
             {
-                desktop.Startup += Desktop_Startup;
-                desktop.Exit += Desktop_Exit;
+                return null;
             }
 
-            base.OnFrameworkInitializationCompleted();
+            var renderer = card.InternalObject.Edition == Models.Edition.FirstEdition ? new Rendering.FirstEditionCardRenderer() : null;
+
+            return renderer?.GetControl(card.InternalObject);
         }
 
-        private void Desktop_Startup(object sender, ControlledApplicationLifetimeStartupEventArgs e)
+        public static void RenderToFile(ObservableCard card, string filename)
         {
-            MessageHandlers.RegisterMessageHandlers(this);
+            var target = Render(card);
 
-            AppViewModel.Initialize(e.Args);
-
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (null != target)
             {
-                var window = new MainWindow
+                var pixelSize = new PixelSize((int)target.Width, (int)target.Height);
+                var size = new Size(target.Width, target.Height);
+                var dpiVector = new Vector(96, 96);
+                using (var renderBitmap = new RenderTargetBitmap(pixelSize, dpiVector))
                 {
-                    VM = new MainViewModel()
-                };
-                desktop.MainWindow = window;
+                    target.Measure(size);
+                    target.Arrange(new Rect(size));
+                    renderBitmap.Render(target);
+                    renderBitmap.Save(filename);
+                }
             }
-        }
-
-        private void Desktop_Exit(object sender, ControlledApplicationLifetimeExitEventArgs e)
-        {
-            MessageHandlers.UnregisterMessageHandlers(this);
         }
     }
 }
