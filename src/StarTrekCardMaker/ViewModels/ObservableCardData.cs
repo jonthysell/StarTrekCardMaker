@@ -58,6 +58,7 @@ namespace StarTrekCardMaker.ViewModels
             {
                 case nameof(Value):
                     Parent.RaisePropertyChanged(Key);
+                    Parent.RaisePropertyChanged(nameof(Parent.IsDirty));
                     break;
             }
         }

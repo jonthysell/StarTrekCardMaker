@@ -75,14 +75,11 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Incident:
                 case CardType.Interrupt:
                 case CardType.Objective:
-                case CardType.Tactic:
-                    RenderTypedCard(target, card);
-                    break;
                 case CardType.QArtifact:
                 case CardType.QDilemma:
                 case CardType.QEvent:
                 case CardType.QInterrupt:
-                    RenderTypedQCard(target, card);
+                    RenderTypedCard(target, card);
                     break;
             }
 
@@ -99,31 +96,6 @@ namespace StarTrekCardMaker.Rendering
         }
 
         private static void RenderTypedCard(Canvas target, Card card)
-        {
-            AddInnerRect(target);
-
-            AddBorder(target, card);
-
-            AddInnerBorder(target);
-
-            AddTitleBar(target, card);
-
-            AddTypedTitle(target, card);
-
-            AddProperty(target, card);
-
-            //AddArt
-
-            AddArtBorder(target, card);
-
-            AddTextBox(target, card);
-
-            AddExpansionIcon(target, card);
-
-            AddText(target, card);
-        }
-
-        private static void RenderTypedQCard(Canvas target, Card card)
         {
             AddInnerRect(target);
 
@@ -244,7 +216,6 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Incident:
                 case CardType.Interrupt:
                 case CardType.Objective:
-                case CardType.Tactic:
                 case CardType.QDilemma:
                 case CardType.QArtifact:
                 case CardType.QEvent:
@@ -268,14 +239,13 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Incident:
                 case CardType.Interrupt:
                 case CardType.Objective:
-                case CardType.Tactic:
                     AddCachedImageByEnumKey(target, card, Card.TypedTextBoxKey);
                     break;
                 case CardType.QArtifact:
                 case CardType.QDilemma:
                 case CardType.QEvent:
                 case CardType.QInterrupt:
-                    AddCachedImage(target, "TypedTextBox.Q");
+                    AddCachedImage(target, $"{Card.TypedTextBoxKey}.Q");
                     break;
             }
         }
@@ -299,23 +269,22 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Incident:
                 case CardType.Interrupt:
                 case CardType.Objective:
-                case CardType.Tactic:
-                    AddTypedTextBlocks(target, card);
+                    AddTypedTextBlocks(target, card, Card.TypedTextBoxKey);
                     break;
                 case CardType.QArtifact:
                 case CardType.QDilemma:
                 case CardType.QEvent:
                 case CardType.QInterrupt:
-                    AddTextBlock(target, $"TypedTextBox.Q{Card.TitleKey}", card.GetValue(Card.TitleKey));
+                    AddTypedTextBlocks(target, card, Card.QTypedTextBoxKey);
                     break;
             }
         }
 
-        private static void AddTypedTextBlocks(Canvas target, Card card)
+        private static void AddTypedTextBlocks(Canvas target, Card card, string textboxKey)
         {
-            AddTextBlock(target, $"TypedTextBox.{Card.TitleKey}", card.GetValue(Card.TitleKey));
-            AddTextBlock(target, $"TypedTextBox.{card.GetValue(CurrentConfig.Enums[Card.TypedTextBoxKey])}.{Card.LoreKey}", card.GetValue(Card.LoreKey));
-            AddTextBlock(target, $"TypedTextBox.{card.GetValue(CurrentConfig.Enums[Card.TypedTextBoxKey])}.{Card.GametextKey}", card.GetValue(Card.GametextKey));
+            AddTextBlock(target, $"{textboxKey}.{Card.TitleKey}", card.GetValue(Card.TitleKey));
+            AddTextBlock(target, $"{textboxKey}.{card.GetValue(CurrentConfig.Enums[textboxKey])}.{Card.LoreKey}", card.GetValue(Card.LoreKey));
+            AddTextBlock(target, $"{textboxKey}.{card.GetValue(CurrentConfig.Enums[textboxKey])}.{Card.GametextKey}", card.GetValue(Card.GametextKey));
         }
 
         private static void AddTextBlock(Canvas target, string textboxId, string textboxContents)

@@ -44,7 +44,6 @@ namespace StarTrekCardMaker.Models
                 case CardType.Incident:
                 case CardType.Interrupt:
                 case CardType.Objective:
-                case CardType.Tactic:
                     return true;
             }
 
@@ -52,6 +51,21 @@ namespace StarTrekCardMaker.Models
         }
 
         public static bool IsQCard(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.QArtifact:
+                case CardType.QDilemma:
+                case CardType.QEvent:
+                case CardType.QInterrupt:
+                case CardType.QMission:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsQTypedCard(CardType cardType)
         {
             switch (cardType)
             {

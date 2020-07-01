@@ -8,6 +8,7 @@
     </constants>
     <enums>
       <enum id="TypedTextBox" values="ThreeLoreThreeGametext|TwoLoreFourGametext|OneLoreFiveGametext|SevenGametext" />
+      <enum id="QTypedTextBox" values="OneLoreSevenGametext|TwoLoreSixGametext|ThreeLoreFiveGametext" />
     </enums>
     <images>
       <image id="Border" path="Assets/FirstEdition/Default/Border" enum="true" />
@@ -21,10 +22,14 @@
     </images>
     <textboxes>
       <textbox id="TypedTextBox.Title" font="VerbSpacing" size="16" caps="true" align="center" x="46" y="304" width="261" height="17" />
-      <textbox id="TypedTextBox.QTitle" font="VerbSpacing" size="16" align="center" color="white" caps="true" x="46" y="304" width="261" height="17" />
       <textbox id="TypedTextBox.ThreeLoreThreeGametext.Lore" font="Lore" size="13.8" x="62" y="330" width="230" height="50" />
       <textbox id="TypedTextBox.ThreeLoreThreeGametext.Gametext" font="Gametext" size="13.4" x="62" y="407" width="230" height="50" />
+      <textbox id="TypedTextBox.TwoLoreFourGametext.Lore" font="Lore" size="13.8" x="58" y="330" width="246" height="34" />
+      <textbox id="TypedTextBox.TwoLoreFourGametext.Gametext" font="Gametext" size="13.4" x="58" y="390" width="246" height="66" />
+      <textbox id="TypedTextBox.OneLoreFiveGametext.Lore" font="Lore" size="13.8" x="58" y="330" width="246" height="17" />
+      <textbox id="TypedTextBox.OneLoreFiveGametext.Gametext" font="Gametext" size="13.4" x="58" y="373" width="246" height="81" />
       <textbox id="TypedTextBox.SevenGametext.Gametext" font="Gametext" size="13.4" x="58" y="330" width="246" height="116" />
+      <textbox id="QTypedTextBox.Title" font="VerbSpacing" size="16" align="center" color="white" caps="true" x="46" y="304" width="261" height="17" />
     </textboxes>
   </config>
 </configs>

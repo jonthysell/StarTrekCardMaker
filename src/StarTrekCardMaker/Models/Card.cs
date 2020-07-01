@@ -41,6 +41,7 @@ namespace StarTrekCardMaker.Models
         public const string ExpansionIconKey = "ExpansionIcon";
 
         public const string TypedTextBoxKey = "TypedTextBox";
+        public const string QTypedTextBoxKey = "QTypedTextBox";
 
         public const string TitleKey = "Title";
         public const string LoreKey = "Lore";
