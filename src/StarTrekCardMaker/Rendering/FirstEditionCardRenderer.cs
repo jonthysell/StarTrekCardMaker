@@ -115,9 +115,9 @@ namespace StarTrekCardMaker.Rendering
 
             AddTextBox(target, card);
 
-            AddExpansionIcon(target, card);
-
             AddText(target, card);
+
+            AddExpansionIcon(target, card);
         }
 
         private static void AddInnerRect(Canvas target)
@@ -313,6 +313,11 @@ namespace StarTrekCardMaker.Rendering
                 Width = descriptor.Width,
                 Height = descriptor.Height
             };
+
+            if (AppVM.DebugMode)
+            {
+                textBlock.Background = Brushes.Magenta;
+            }
 
             Canvas.SetLeft(textBlock, descriptor.X);
             Canvas.SetTop(textBlock, descriptor.Y);

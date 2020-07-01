@@ -98,6 +98,8 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool CardLoaded => null != Card;
 
+        public bool DebugMode => AppVM.DebugMode;
+
         #endregion
 
         #region Commands
@@ -165,15 +167,48 @@ namespace StarTrekCardMaker.ViewModels
         }
         private RelayCommand _close;
 
+        public RelayCommand ToggleDebugMode
+        {
+            get
+            {
+                return _toggleDebugMode ?? (_toggleDebugMode = new RelayCommand(() =>
+                {
+                    try
+                    {
+                        AppVM.DebugMode = !AppVM.DebugMode;
+                        RaisePropertyChanged(nameof(DebugMode));
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionUtils.HandleException(ex);
+                    }
+                }));
+            }
+        }
+        private RelayCommand _toggleDebugMode;
+
         public event EventHandler RenderCard;
 
         #endregion
 
-        public MainViewModel() : base() { }
+        public MainViewModel() : base()
+        {
+            PropertyChanged += MainViewModel_PropertyChanged;
+        }
 
         private void OnRenderCard()
         {
             RenderCard?.Invoke(this, null);
+        }
+
+        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(DebugMode):
+                    OnRenderCard();
+                    break;
+            }
         }
 
         private void Card_PropertyChanged(object sender, PropertyChangedEventArgs e)

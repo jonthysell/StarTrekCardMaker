@@ -37,6 +37,15 @@
                           Header="E_xit"
                           HotKey="Alt+F4" />
             </MenuItem>
+          <MenuItem Header="_Settings">
+            <MenuItem Command="{Binding ToggleDebugMode}"
+                      HotKey="Ctrl+D"
+                      Header="_Debug Mode">
+              <MenuItem.Icon>
+                <CheckBox IsChecked="{Binding DebugMode}" IsEnabled="False" />
+              </MenuItem.Icon>
+            </MenuItem>
+          </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Command="{Binding NotImplementedCommand}"
                           Header="_About Star Trek Card Maker" />

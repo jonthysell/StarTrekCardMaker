@@ -63,6 +63,8 @@ namespace StarTrekCardMaker.ViewModels
 
         public ConfigManager Configs { get; private set; }
 
+        public bool DebugMode { get; set; } = false;
+
         private AppViewModel() { }
 
         private void ParseArgs(string[] args)
