@@ -47,11 +47,11 @@ namespace StarTrekCardMaker.ViewModels
 
     public class ExceptionMessage : MessageBase
     {
-        public readonly Exception Exception;
+        public readonly ExceptionViewModel VM;
 
         public ExceptionMessage(Exception exception)
         {
-            Exception = exception ?? throw new ArgumentNullException(nameof(exception));
+            VM = new ExceptionViewModel(exception ?? throw new ArgumentNullException(nameof(exception)));
         }
     }
 

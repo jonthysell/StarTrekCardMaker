@@ -36,6 +36,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using GalaSoft.MvvmLight.Messaging;
 
 using StarTrekCardMaker.ViewModels;
+using StarTrekCardMaker.Views;
 
 namespace StarTrekCardMaker
 {
@@ -59,7 +60,14 @@ namespace StarTrekCardMaker
 
         private static async Task ShowExceptionDialogAsync(ExceptionMessage message)
         {
-            Trace.TraceError($"Exception: { message.Exception.Message }");
+            Trace.TraceError($"Exception: { message.VM.Details }");
+
+            var window = new ExceptionWindow()
+            {
+                VM = message.VM
+            };
+
+            await window.ShowDialog(MainWindow);
         }
 
         private static async Task ShowOpenFileDialogAsync(OpenFileMessage message)
