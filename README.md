@@ -1,6 +1,6 @@
 # Star Trek Card Maker #
 
-Star Trek Card Maker is an application for creating cards for the Star Trek Collectible Card Game.
+Star Trek Card Maker is an application for creating cards for the Star Trek Customizable Card Game.
 
 Image assets were borrowed from [McKinleyStation](https://github.com/makeitTim/McKinleyStation).
 
