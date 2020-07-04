@@ -50,7 +50,7 @@ namespace StarTrekCardMaker.Views
             }
         }
 
-        public Grid CardRenderTarget => _cardRenderTarget ?? (_cardRenderTarget = this.FindControl<Grid>("CardRenderTarget"));
+        public Grid CardRenderTarget => _cardRenderTarget ??= this.FindControl<Grid>("CardRenderTarget");
         private Grid _cardRenderTarget;
 
         public MainWindow()

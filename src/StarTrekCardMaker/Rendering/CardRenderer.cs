@@ -55,13 +55,13 @@ namespace StarTrekCardMaker.Rendering
                 var pixelSize = new PixelSize((int)target.Width, (int)target.Height);
                 var size = new Size(target.Width, target.Height);
                 var dpiVector = new Vector(96, 96);
-                using (var renderBitmap = new RenderTargetBitmap(pixelSize, dpiVector))
-                {
-                    target.Measure(size);
-                    target.Arrange(new Rect(size));
-                    renderBitmap.Render(target);
-                    renderBitmap.Save(filename);
-                }
+                
+                using var renderBitmap = new RenderTargetBitmap(pixelSize, dpiVector);
+
+                target.Measure(size);
+                target.Arrange(new Rect(size));
+                renderBitmap.Render(target);
+                renderBitmap.Save(filename);
             }
         }
     }

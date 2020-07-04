@@ -40,7 +40,7 @@ namespace StarTrekCardMaker.Rendering
     {
         public static AppViewModel AppVM => AppViewModel.Instance;
 
-        public static Config CurrentConfig => _currentConfig ?? (_currentConfig = AppVM.Configs.GetConfig(Edition.FirstEdition));
+        public static Config CurrentConfig => _currentConfig ??= AppVM.Configs.GetConfig(Edition.FirstEdition);
         private static Config _currentConfig = null;
 
         public static double CardWidth => CurrentConfig.Constants["CardWidth"];
@@ -442,9 +442,9 @@ namespace StarTrekCardMaker.Rendering
             return true;
         }
 
-        private static Dictionary<string, Dictionary<string, CachedImage>> CachedImages = new Dictionary<string, Dictionary<string, CachedImage>>();
+        private static readonly Dictionary<string, Dictionary<string, CachedImage>> CachedImages = new Dictionary<string, Dictionary<string, CachedImage>>();
 
-        private static Dictionary<string, FontFamily> Fonts = new Dictionary<string, FontFamily>()
+        private static readonly Dictionary<string, FontFamily> Fonts = new Dictionary<string, FontFamily>()
         {
             { "Gametext", new FontFamily(new Uri("avares://StarTrekCardMaker"), "/Fonts/*.ttf#Gametext") },
             { "Lore", new FontFamily(new Uri("avares://StarTrekCardMaker"), "/Fonts/*.ttf#Lore") },

@@ -108,7 +108,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _newCard ?? (_newCard = new RelayCommand(() =>
+                return _newCard ??= new RelayCommand(() =>
                 {
                     try
                     {
@@ -118,7 +118,7 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                }));
+                });
             }
         }
         private RelayCommand _newCard;
@@ -127,7 +127,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _openCard ?? (_openCard = new RelayCommand(() =>
+                return _openCard ??= new RelayCommand(() =>
                 {
                     Messenger.Default.Send(new OpenFileMessage("Open Card", FileType.CardXml, Card?.FileName, (filename) =>
                     {
@@ -143,7 +143,7 @@ namespace StarTrekCardMaker.ViewModels
                             ExceptionUtils.HandleException(ex);
                         }
                     }));
-                }));
+                });
             }
         }
         private RelayCommand _openCard;
@@ -152,7 +152,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _close ?? (_close = new RelayCommand(() =>
+                return _close ??= new RelayCommand(() =>
                 {
                     try
                     {
@@ -162,7 +162,7 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                }));
+                });
             }
         }
         private RelayCommand _close;
@@ -171,7 +171,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _toggleDebugMode ?? (_toggleDebugMode = new RelayCommand(() =>
+                return _toggleDebugMode ??= new RelayCommand(() =>
                 {
                     try
                     {
@@ -182,7 +182,7 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                }));
+                });
             }
         }
         private RelayCommand _toggleDebugMode;

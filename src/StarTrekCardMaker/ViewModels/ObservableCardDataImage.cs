@@ -54,7 +54,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _openImage ?? (_openImage = new RelayCommand(() =>
+                return _openImage ??= new RelayCommand(() =>
                 {
                     Messenger.Default.Send(new OpenFileMessage("Open Image", FileType.ImportedImage, null, (filename) =>
                     {
@@ -70,7 +70,7 @@ namespace StarTrekCardMaker.ViewModels
                             ExceptionUtils.HandleException(ex);
                         }
                     }));
-                }));
+                });
             }
         }
         private RelayCommand _openImage;
@@ -79,10 +79,10 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _clearImage ?? (_clearImage = new RelayCommand(() =>
+                return _clearImage ??= new RelayCommand(() =>
                 {
                     Value = "";
-                }));
+                });
             }
         }
         private RelayCommand _clearImage;

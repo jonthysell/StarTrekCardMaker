@@ -48,7 +48,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _close ?? (_close = new RelayCommand(() =>
+                return _close ??= new RelayCommand(() =>
                 {
                     try
                     {
@@ -58,14 +58,14 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                }));
+                });
             }
         }
         private RelayCommand _close;
 
         #endregion
 
-        private Exception _exception;
+        private readonly Exception _exception;
 
         public ExceptionViewModel(Exception exception) : base()
         {

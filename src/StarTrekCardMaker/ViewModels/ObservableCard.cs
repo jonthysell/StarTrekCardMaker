@@ -59,7 +59,7 @@ namespace StarTrekCardMaker.ViewModels
 
         public override bool IsDirty => _newCardDirty || base.IsDirty;
 
-        public ObservableCollection<ObservableCardData> Data => _data ?? (_data = GetData());
+        public ObservableCollection<ObservableCardData> Data => _data ??= GetData();
         private ObservableCollection<ObservableCardData> _data = null;
 
         #endregion
@@ -70,7 +70,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _save ?? (_save = new RelayCommand(() =>
+                return _save ??= new RelayCommand(() =>
                 {
                     try
                     {
@@ -87,7 +87,7 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                }));
+                });
             }
         }
         private RelayCommand _save;
@@ -96,7 +96,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _saveAs ?? (_saveAs = new RelayCommand(() =>
+                return _saveAs ??= new RelayCommand(() =>
                 {
                     try
                     {
@@ -106,7 +106,7 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                }));
+                });
             }
         }
         private RelayCommand _saveAs;
@@ -115,7 +115,7 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _export ?? (_export = new RelayCommand(() =>
+                return _export ??= new RelayCommand(() =>
                  {
                      Messenger.Default.Send(new SaveFileMessage("Export Card", FileType.ExportedImage, FileName, (filename) =>
                      {
@@ -131,7 +131,7 @@ namespace StarTrekCardMaker.ViewModels
                              ExceptionUtils.HandleException(ex);
                          }
                      }));
-                 }));
+                 });
             }
         }
         private RelayCommand _export;

@@ -34,7 +34,7 @@ namespace StarTrekCardMaker.Models
 {
     public class ConfigManager
     {
-        private Dictionary<Edition, Dictionary<string, Config>> _configs = new Dictionary<Edition, Dictionary<string, Config>>();
+        private readonly Dictionary<Edition, Dictionary<string, Config>> _configs = new Dictionary<Edition, Dictionary<string, Config>>();
 
         public ConfigManager() { }
 

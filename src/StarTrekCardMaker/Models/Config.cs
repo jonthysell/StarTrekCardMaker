@@ -164,6 +164,6 @@ namespace StarTrekCardMaker.Models
             return Path.GetFileNameWithoutExtension(file).TrimStart(Numbers);
         }
 
-        private static char[] Numbers = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        private static readonly char[] Numbers = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     }
 }

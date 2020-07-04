@@ -46,12 +46,12 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return _notImplementedCommand ?? (_notImplementedCommand = new RelayCommand(() =>
+                return _notImplementedCommand ??= new RelayCommand(() =>
                 {
                     ExceptionUtils.HandleException(new NotImplementedException());
                 }, () => {
                     return false;
-                }));
+                });
             }
         }
         private RelayCommand _notImplementedCommand;

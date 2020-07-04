@@ -131,19 +131,19 @@ namespace StarTrekCardMaker
 
         private static List<FileDialogFilter> GetOpenFilters(bool image = false)
         {
-            var filters = new List<FileDialogFilter>();
-
-            filters.Add(new FileDialogFilter()
+            var filters = new List<FileDialogFilter>
             {
-                Name = image ? "Image Files" : "Card Files",
-                Extensions = new List<string>() { image ? "jpg" : "xml"  }
-            });
-
-            filters.Add(new FileDialogFilter()
-            {
-                Name = "All Files",
-                Extensions = new List<string>() { "*" }
-            });
+                new FileDialogFilter()
+                {
+                    Name = image ? "Image Files" : "Card Files",
+                    Extensions = image ? new List<string>() { "jpg", "png", "gif" } : new List<string>() { "xml" }
+                },
+                new FileDialogFilter()
+                {
+                    Name = "All Files",
+                    Extensions = new List<string>() { "*" }
+                }
+            };
 
             return filters;
         }
@@ -155,19 +155,20 @@ namespace StarTrekCardMaker
 
         private static List<FileDialogFilter> GetSaveFilters(bool export = false)
         {
-            var filters = new List<FileDialogFilter>();
-
-            filters.Add(new FileDialogFilter()
+            var filters = new List<FileDialogFilter>
             {
-                Name = export ? "Image Files" : "Card Files",
-                Extensions = new List<string>() { export ? "png" : "xml" }
-            });
+                new FileDialogFilter()
+                {
+                    Name = export ? "Image Files" : "Card Files",
+                    Extensions = new List<string>() { export ? "png" : "xml" }
+                },
 
-            filters.Add(new FileDialogFilter()
-            {
-                Name = "All Files",
-                Extensions = new List<string>() { "*" }
-            });
+                new FileDialogFilter()
+                {
+                    Name = "All Files",
+                    Extensions = new List<string>() { "*" }
+                }
+            };
 
             return filters;
         }

@@ -73,6 +73,6 @@ namespace StarTrekCardMaker.Models
 
         public const string NoneValue = "None";
 
-        private static IEnumerable<string> NoneEnum = new[] { NoneValue };
+        private static readonly IEnumerable<string> NoneEnum = new[] { NoneValue };
     }
 }

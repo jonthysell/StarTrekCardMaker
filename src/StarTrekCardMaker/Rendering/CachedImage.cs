@@ -44,7 +44,7 @@ namespace StarTrekCardMaker.Rendering
 
         public double Y { get; protected set; }
 
-        public IBitmap Bitmap => _bitmap ?? (_bitmap = new Bitmap(Source.IsFile ? File.OpenRead(Source.LocalPath) : Assets.Open(Source)));
+        public IBitmap Bitmap => _bitmap ??= new Bitmap(Source.IsFile ? File.OpenRead(Source.LocalPath) : Assets.Open(Source));
         private IBitmap _bitmap;
 
         public CachedImage(Uri source, double x, double y)
