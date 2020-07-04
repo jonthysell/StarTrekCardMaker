@@ -101,6 +101,8 @@ namespace StarTrekCardMaker.Rendering
 
             AddBorder(target, card);
 
+            AddArt(target, card);
+
             AddInnerBorder(target);
 
             AddTitleBar(target, card);
@@ -108,8 +110,6 @@ namespace StarTrekCardMaker.Rendering
             AddTypedTitle(target, card);
 
             AddProperty(target, card);
-
-            AddArt(target, card);
 
             AddArtBorder(target, card);
 
@@ -210,7 +210,6 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.DilemmaBoth:
                 case CardType.DilemmaPlanet:
                 case CardType.DilemmaSpace:
-                case CardType.Doorway:
                 case CardType.Event:
                 case CardType.Equipment:
                 case CardType.Incident:
@@ -221,6 +220,9 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.QEvent:
                 case CardType.QInterrupt:
                     AddCardArt(target, card, "ArtBox.Medium", Card.ArtKey);
+                    break;
+                case CardType.Doorway:
+                    AddCardArt(target, card, "ArtBox.ExtraLarge", Card.ArtKey);
                     break;
             }
         }
@@ -233,7 +235,6 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.DilemmaBoth:
                 case CardType.DilemmaPlanet:
                 case CardType.DilemmaSpace:
-                case CardType.Doorway:
                 case CardType.Event:
                 case CardType.Equipment:
                 case CardType.Incident:
@@ -256,13 +257,15 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.DilemmaBoth:
                 case CardType.DilemmaPlanet:
                 case CardType.DilemmaSpace:
-                case CardType.Doorway:
                 case CardType.Event:
                 case CardType.Equipment:
-                case CardType.Incident:
                 case CardType.Interrupt:
-                case CardType.Objective:
                     AddCachedImageByEnumKey(target, card, Card.TypedTextBoxKey);
+                    break;
+                case CardType.Doorway:
+                case CardType.Incident:
+                case CardType.Objective:
+                    AddCachedImage(target, $"{Card.TypedTextBoxKey}.SevenGametext");
                     break;
                 case CardType.QArtifact:
                 case CardType.QDilemma:
@@ -286,12 +289,9 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.DilemmaBoth:
                 case CardType.DilemmaPlanet:
                 case CardType.DilemmaSpace:
-                case CardType.Doorway:
                 case CardType.Event:
                 case CardType.Equipment:
-                case CardType.Incident:
                 case CardType.Interrupt:
-                case CardType.Objective:
                     AddTypedTextBlocks(target, card, Card.TypedTextBoxKey);
                     break;
                 case CardType.QArtifact:
@@ -299,6 +299,11 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.QEvent:
                 case CardType.QInterrupt:
                     AddTypedTextBlocks(target, card, Card.QTypedTextBoxKey);
+                    break;
+                case CardType.Doorway:
+                case CardType.Incident:
+                case CardType.Objective:
+                    AddTypedTextBlocks(target, card, Card.TypedTextBoxKey, "SevenGametext");
                     break;
             }
         }
@@ -356,9 +361,14 @@ namespace StarTrekCardMaker.Rendering
 
         private static void AddTypedTextBlocks(Canvas target, Card card, string textboxKey)
         {
+            AddTypedTextBlocks(target, card, textboxKey, card.GetValue(CurrentConfig.Enums[textboxKey]));
+        }
+
+        private static void AddTypedTextBlocks(Canvas target, Card card, string textboxKey, string textboxValue)
+        {
             AddTextBlock(target, $"{textboxKey}.{Card.TitleKey}", card.GetValue(Card.TitleKey));
-            AddTextBlock(target, $"{textboxKey}.{card.GetValue(CurrentConfig.Enums[textboxKey])}.{Card.LoreKey}", card.GetValue(Card.LoreKey));
-            AddTextBlock(target, $"{textboxKey}.{card.GetValue(CurrentConfig.Enums[textboxKey])}.{Card.GametextKey}", card.GetValue(Card.GametextKey));
+            AddTextBlock(target, $"{textboxKey}.{textboxValue}.{Card.LoreKey}", card.GetValue(Card.LoreKey));
+            AddTextBlock(target, $"{textboxKey}.{textboxValue}.{Card.GametextKey}", card.GetValue(Card.GametextKey));
         }
 
         private static void AddTextBlock(Canvas target, string textboxId, string textboxContents)

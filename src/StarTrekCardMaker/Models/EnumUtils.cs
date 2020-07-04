@@ -38,12 +38,9 @@ namespace StarTrekCardMaker.Models
                 case CardType.DilemmaBoth:
                 case CardType.DilemmaPlanet:
                 case CardType.DilemmaSpace:
-                case CardType.Doorway:
                 case CardType.Event:
                 case CardType.Equipment:
-                case CardType.Incident:
                 case CardType.Interrupt:
-                case CardType.Objective:
                     return true;
             }
 
