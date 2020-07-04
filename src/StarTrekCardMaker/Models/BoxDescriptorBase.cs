@@ -1,5 +1,5 @@
 ﻿// 
-// TextBoxDescriptor.cs
+// BoxDescriptorBase.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -28,41 +28,26 @@ using System;
 
 namespace StarTrekCardMaker.Models
 {
-    public enum TextBoxAlignment
+    public abstract class BoxDescriptorBase
     {
-        left,
-        center,
-        right,
-    };
+        public readonly string Id;
 
-    public enum TextBoxColor
-    {
-        black,
-        white,
-    }
+        public readonly double X;
 
-    public class TextBoxDescriptor : BoxDescriptorBase
-    {
-        public readonly string FontFamily;
+        public readonly double Y;
 
-        public readonly double FontSize;
+        public readonly double Width;
 
-        public readonly TextBoxAlignment Alignment;
+        public readonly double Height;
 
-        public readonly TextBoxColor Color;
-
-        public readonly bool AllCaps;
-
-        public TextBoxDescriptor(string id, string fontFamily, double fontSize, TextBoxAlignment alignment, TextBoxColor color, bool allCaps, double x, double y, double width, double height) : base(id, x, y, width, height)
+        public BoxDescriptorBase(string id, double x, double y, double width, double height)
         {
-            FontFamily = fontFamily ?? throw new ArgumentNullException(nameof(fontFamily));
+            Id = id ?? throw new ArgumentNullException(nameof(id));
 
-            FontSize = fontSize;
-
-            Alignment = alignment;
-            Color = color;
-
-            AllCaps = allCaps;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
         }
     }
 }

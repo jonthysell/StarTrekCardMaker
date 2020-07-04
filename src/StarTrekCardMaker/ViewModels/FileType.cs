@@ -30,5 +30,6 @@ namespace StarTrekCardMaker.ViewModels
     {
        CardXml,
        ExportedImage,
+       ImportedImage,
     }
 }

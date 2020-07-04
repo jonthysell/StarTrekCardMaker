@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
-
+using Avalonia.Media.Imaging;
 using StarTrekCardMaker.Models;
 using StarTrekCardMaker.ViewModels;
 
@@ -109,7 +109,7 @@ namespace StarTrekCardMaker.Rendering
 
             AddProperty(target, card);
 
-            //AddArt
+            AddArt(target, card);
 
             AddArtBorder(target, card);
 
@@ -202,6 +202,29 @@ namespace StarTrekCardMaker.Rendering
             AddCachedImageByEnumKey(target, card, Card.PropertyLogoKey);
         }
 
+        private static void AddArt(Canvas target, Card card)
+        {
+            switch (card.CardType)
+            {
+                case CardType.Artifact:
+                case CardType.DilemmaBoth:
+                case CardType.DilemmaPlanet:
+                case CardType.DilemmaSpace:
+                case CardType.Doorway:
+                case CardType.Event:
+                case CardType.Equipment:
+                case CardType.Incident:
+                case CardType.Interrupt:
+                case CardType.Objective:
+                case CardType.QDilemma:
+                case CardType.QArtifact:
+                case CardType.QEvent:
+                case CardType.QInterrupt:
+                    AddCardArt(target, card, "ArtBox.Medium", Card.ArtKey);
+                    break;
+            }
+        }
+
         private static void AddArtBorder(Canvas target, Card card)
         {
             switch (card.CardType)
@@ -280,6 +303,62 @@ namespace StarTrekCardMaker.Rendering
             }
         }
 
+        private static void AddCardArt(Canvas target, Card card, string artboxId, string artKey)
+        {
+            string base64 = card.GetValue(artKey);
+            if (TryCreateImage(base64, artboxId, out IControl result))
+            {
+                target.Children.Add(result);
+            }
+        }
+
+        private static bool TryCreateImage(string base64, string imageboxId, out IControl result)
+        {
+            if (!CurrentConfig.ImageBoxDescriptors.TryGetValue(imageboxId, out ImageBoxDescriptor descriptor))
+            {
+                result = null;
+                return false;
+            }
+
+            try
+            {
+                var stream = Base64Utils.CreateStreamFromBase64(base64);
+
+                var border = new Border()
+                {
+                    Width = descriptor.Width,
+                    Height = descriptor.Height,
+                };
+
+                if (AppVM.DebugMode)
+                {
+                    border.Background = Brushes.Magenta;
+                }
+                else
+                {
+                    Image image = new Image()
+                    {
+                        Source = new Bitmap(stream),
+                        Width = descriptor.Width,
+                        Height = descriptor.Height,
+                        Stretch = Stretch.UniformToFill,
+                    };
+
+                    border.Child = image;
+                }
+
+                Canvas.SetLeft(border, descriptor.X);
+                Canvas.SetTop(border, descriptor.Y);
+
+                result = border;
+                return true;
+            }
+            catch (Exception) { }
+
+            result = null;
+            return false;
+        }
+
         private static void AddTypedTextBlocks(Canvas target, Card card, string textboxKey)
         {
             AddTextBlock(target, $"{textboxKey}.{Card.TitleKey}", card.GetValue(Card.TitleKey));
@@ -289,13 +368,13 @@ namespace StarTrekCardMaker.Rendering
 
         private static void AddTextBlock(Canvas target, string textboxId, string textboxContents)
         {
-            if (TryCreateTextBlock(textboxId, textboxContents, out TextBlock result))
+            if (TryCreateTextBlock(textboxId, textboxContents, out IControl result))
             {
                 target.Children.Add(result);
             }
         }
 
-        private static bool TryCreateTextBlock(string textboxId, string textboxContents, out TextBlock result)
+        private static bool TryCreateTextBlock(string textboxId, string textboxContents, out IControl result)
         {
             if (!CurrentConfig.TextBoxDescriptors.TryGetValue(textboxId, out TextBoxDescriptor descriptor))
             {

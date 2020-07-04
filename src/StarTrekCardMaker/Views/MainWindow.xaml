@@ -29,7 +29,7 @@
                           Header="Save _As..."
                           HotKey="Ctrl+Shift+S" />
                 <Separator />
-              <MenuItem Command="{Binding Card.Export}"
+                <MenuItem Command="{Binding Card.Export}"
                           Header="_Export..."
                           HotKey="Ctrl+E" />
                 <Separator />
@@ -37,15 +37,16 @@
                           Header="E_xit"
                           HotKey="Alt+F4" />
             </MenuItem>
-          <MenuItem Header="_Settings">
-            <MenuItem Command="{Binding ToggleDebugMode}"
-                      HotKey="Ctrl+D"
-                      Header="_Debug Mode">
-              <MenuItem.Icon>
-                <CheckBox IsChecked="{Binding DebugMode}" IsEnabled="False" />
-              </MenuItem.Icon>
+            <MenuItem Header="_Settings">
+                <MenuItem Command="{Binding ToggleDebugMode}"
+                          Header="_Debug Mode"
+                          HotKey="Ctrl+D">
+                    <MenuItem.Icon>
+                        <CheckBox IsChecked="{Binding DebugMode}"
+                                  IsEnabled="False" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
-          </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Command="{Binding NotImplementedCommand}"
                           Header="_About Star Trek Card Maker" />
@@ -62,8 +63,8 @@
                                        FontSize="16"
                                        Margin="5"
                                        MaxWidth="240"
-                                       TextAlignment="Center"
-                                       Text="{Binding FriendlyKey}" />
+                                       Text="{Binding FriendlyKey}"
+                                       TextAlignment="Center" />
                             <TextBox AcceptsReturn="True"
                                      FontSize="14"
                                      Margin="5"
@@ -90,10 +91,40 @@
                                       SelectedItem="{Binding Value}" />
                         </StackPanel>
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:ObservableCardDataImage}">
+                        <StackPanel IsVisible="{Binding IsEnabled}">
+                            <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
+                                       FontSize="16"
+                                       Margin="5"
+                                       MaxWidth="240"
+                                       Text="{Binding FriendlyKey}"
+                                       TextAlignment="Center" />
+                            <Image Margin="5"
+                                   Source="{Binding Value, Converter={StaticResource Base64BitmapConverter}}"
+                                   Stretch="UniformToFill"
+                                   Width="230" />
+                            <Grid ColumnDefinitions="*,*"
+                                  MaxWidth="240">
+                                <Button Command="{Binding OpenImage}"
+                                        Content="Open..."
+                                        FontSize="14"
+                                        Grid.Column="0"
+                                        Margin="5"
+                                        Padding="5" />
+                                <Button Command="{Binding ClearImage}"
+                                        Content="Clear"
+                                        FontSize="14"
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        Padding="5" />
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
                 </ItemsControl.DataTemplates>
             </ItemsControl>
         </ScrollViewer>
-        <Grid RowDefinitions="Auto,*" IsVisible="{Binding CardLoaded}">
+        <Grid IsVisible="{Binding CardLoaded}"
+              RowDefinitions="Auto,*">
             <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
                        FontSize="16"
                        Margin="5"

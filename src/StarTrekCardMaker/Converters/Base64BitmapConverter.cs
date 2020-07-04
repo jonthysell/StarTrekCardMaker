@@ -1,5 +1,5 @@
 ﻿// 
-// TextBoxDescriptor.cs
+// Base64BitmapConverter.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -25,44 +25,34 @@
 // THE SOFTWARE.
 
 using System;
+using System.Globalization;
 
-namespace StarTrekCardMaker.Models
+using Avalonia.Data.Converters;
+using Avalonia.Media.Imaging;
+
+using StarTrekCardMaker.Models;
+
+namespace StarTrekCardMaker.Converters
 {
-    public enum TextBoxAlignment
+    public class Base64BitmapConverter : IValueConverter
     {
-        left,
-        center,
-        right,
-    };
-
-    public enum TextBoxColor
-    {
-        black,
-        white,
-    }
-
-    public class TextBoxDescriptor : BoxDescriptorBase
-    {
-        public readonly string FontFamily;
-
-        public readonly double FontSize;
-
-        public readonly TextBoxAlignment Alignment;
-
-        public readonly TextBoxColor Color;
-
-        public readonly bool AllCaps;
-
-        public TextBoxDescriptor(string id, string fontFamily, double fontSize, TextBoxAlignment alignment, TextBoxColor color, bool allCaps, double x, double y, double width, double height) : base(id, x, y, width, height)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            FontFamily = fontFamily ?? throw new ArgumentNullException(nameof(fontFamily));
+            if (value is string base64)
+            {
+                try
+                {
+                    var stream = Base64Utils.CreateStreamFromBase64(base64);
+                    return new Bitmap(stream);
+                }
+                catch (Exception) { }
+            }
+            return null;
+        }
 
-            FontSize = fontSize;
-
-            Alignment = alignment;
-            Color = color;
-
-            AllCaps = allCaps;
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
         }
     }
 }

@@ -44,6 +44,8 @@ namespace StarTrekCardMaker.Models
 
         public Dictionary<string, ImageAsset> ImageAssets { get; private set; } = new Dictionary<string, ImageAsset>();
 
+        public Dictionary<string, ImageBoxDescriptor> ImageBoxDescriptors { get; private set; } = new Dictionary<string, ImageBoxDescriptor>();
+
         public Dictionary<string, TextBoxDescriptor> TextBoxDescriptors { get; private set; } = new Dictionary<string, TextBoxDescriptor>();
 
         public Config() { }
@@ -120,6 +122,17 @@ namespace StarTrekCardMaker.Models
                                 config.Enums[id] = new DynamicEnum(id, files.Select(f => EnumUtils.GetFriendlyValue(GetFileId(f))), optional);
                             }
                         }
+                    }
+                    else if (name == "imagebox")
+                    {
+                        string id = xmlReader.GetAttribute("id");
+
+                        double.TryParse(xmlReader.GetAttribute("x"), out double x);
+                        double.TryParse(xmlReader.GetAttribute("y"), out double y);
+                        double.TryParse(xmlReader.GetAttribute("width"), out double width);
+                        double.TryParse(xmlReader.GetAttribute("height"), out double height);
+
+                        config.ImageBoxDescriptors[id] = new ImageBoxDescriptor(id, x, y, width, height);
                     }
                     else if (name == "textbox")
                     {

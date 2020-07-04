@@ -201,6 +201,7 @@ namespace StarTrekCardMaker.ViewModels
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.BorderKey]));
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.PropertyLogoKey]));
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.ExpansionIconKey]));
+                data.Add(new ObservableCardDataImage(this, Card.ArtKey));
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.TypedTextBoxKey], (card) => EnumUtils.IsTypedCard(card.InternalObject.CardType)));
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.QTypedTextBoxKey], (card) => EnumUtils.IsQTypedCard(card.InternalObject.CardType)));
                 data.Add(new ObservableCardDataText(this, Card.TitleKey));

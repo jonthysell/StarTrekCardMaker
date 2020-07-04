@@ -59,26 +59,25 @@ namespace StarTrekCardMaker.ViewModels
     {
         public readonly string Title;
 
+        public readonly FileType FileType;
+
         public readonly string ExistingFile;
 
-        public FileMessage(string title, string existingFile = null, Action<string> callback = null) : base(callback)
+        public FileMessage(string title, FileType fileType, string existingFile = null, Action<string> callback = null) : base(callback)
         {
             Title = title;
+            FileType = fileType;
             ExistingFile = existingFile;
         }
     }
 
     public class OpenFileMessage : FileMessage
     {
-        public OpenFileMessage(string title, string existingFile = null, Action<string> callback = null) : base(title, existingFile, callback) { }
+        public OpenFileMessage(string title, FileType fileType, string existingFile = null, Action<string> callback = null) : base(title, fileType, existingFile, callback) { }
     }
 
     public class SaveFileMessage : FileMessage
     {
-        public readonly FileType FileType;
-        public SaveFileMessage(string title, FileType fileType, string existingFile = null, Action<string> callback = null) : base(title, existingFile, callback)
-        {
-            FileType = fileType;
-        }
+        public SaveFileMessage(string title, FileType fileType, string existingFile = null, Action<string> callback = null) : base(title, fileType, existingFile, callback) { }
     }
 }

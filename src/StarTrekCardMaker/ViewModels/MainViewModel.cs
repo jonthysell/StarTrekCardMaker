@@ -129,7 +129,7 @@ namespace StarTrekCardMaker.ViewModels
             {
                 return _openCard ?? (_openCard = new RelayCommand(() =>
                 {
-                    Messenger.Default.Send(new OpenFileMessage("Open Card", Card?.FileName, (filename) =>
+                    Messenger.Default.Send(new OpenFileMessage("Open Card", FileType.CardXml, Card?.FileName, (filename) =>
                     {
                         try
                         {

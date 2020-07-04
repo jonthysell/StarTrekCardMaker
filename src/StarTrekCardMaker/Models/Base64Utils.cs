@@ -1,5 +1,5 @@
 ﻿// 
-// TextBoxDescriptor.cs
+// Base64Utils.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -25,44 +25,39 @@
 // THE SOFTWARE.
 
 using System;
+using System.IO;
 
 namespace StarTrekCardMaker.Models
 {
-    public enum TextBoxAlignment
+    public static class Base64Utils
     {
-        left,
-        center,
-        right,
-    };
-
-    public enum TextBoxColor
-    {
-        black,
-        white,
-    }
-
-    public class TextBoxDescriptor : BoxDescriptorBase
-    {
-        public readonly string FontFamily;
-
-        public readonly double FontSize;
-
-        public readonly TextBoxAlignment Alignment;
-
-        public readonly TextBoxColor Color;
-
-        public readonly bool AllCaps;
-
-        public TextBoxDescriptor(string id, string fontFamily, double fontSize, TextBoxAlignment alignment, TextBoxColor color, bool allCaps, double x, double y, double width, double height) : base(id, x, y, width, height)
+        public static string ReadFileToBase64(string filename)
         {
-            FontFamily = fontFamily ?? throw new ArgumentNullException(nameof(fontFamily));
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                throw new ArgumentNullException(nameof(filename));
+            }
 
-            FontSize = fontSize;
+            filename = Path.GetFullPath(filename);
 
-            Alignment = alignment;
-            Color = color;
+            using var fs = new FileStream(filename, FileMode.Open);
 
-            AllCaps = allCaps;
+            var bytes = new byte[fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
+
+            return Convert.ToBase64String(bytes);
+        }
+
+        public static Stream CreateStreamFromBase64(string base64)
+        {
+            if (string.IsNullOrWhiteSpace(base64))
+            {
+                throw new ArgumentNullException(nameof(base64));
+            }
+
+            var bytes = Convert.FromBase64String(base64);
+
+            return new MemoryStream(bytes);
         }
     }
 }

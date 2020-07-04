@@ -37,8 +37,11 @@ namespace StarTrekCardMaker.Models
         public readonly Dictionary<string, string> Data = new Dictionary<string, string>();
 
         public const string BorderKey = "Border";
+
         public const string PropertyLogoKey = "PropertyLogo";
         public const string ExpansionIconKey = "ExpansionIcon";
+
+        public const string ArtKey = "Art";
 
         public const string TypedTextBoxKey = "TypedTextBox";
         public const string QTypedTextBoxKey = "QTypedTextBox";

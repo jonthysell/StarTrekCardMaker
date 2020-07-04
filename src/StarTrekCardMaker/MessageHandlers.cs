@@ -72,7 +72,7 @@ namespace StarTrekCardMaker
                 {
                     AllowMultiple = false,
                     Title = message.Title,
-                    Filters = GetFilters(),
+                    Filters = GetOpenFilters(message.FileType == FileType.ImportedImage),
                     Directory = null != message.ExistingFile ? Path.GetDirectoryName(message.ExistingFile) : null,
                     InitialFileName = null != message.ExistingFile ? Path.GetFileName(message.ExistingFile) : null,
                 };
@@ -103,8 +103,8 @@ namespace StarTrekCardMaker
                 var dialog = new SaveFileDialog()
                 {
                     Title = message.Title,
-                    Filters = GetFilters(message.FileType == FileType.ExportedImage),
-                    DefaultExtension = GetDefaultExtension(message.FileType == FileType.ExportedImage),
+                    Filters = GetSaveFilters(message.FileType == FileType.ExportedImage),
+                    DefaultExtension = GetSaveDefaultExtension(message.FileType == FileType.ExportedImage),
                     Directory = null != message.ExistingFile ? Path.GetDirectoryName(message.ExistingFile) : null,
                     InitialFileName = null != message.ExistingFile ? Path.GetFileName(message.ExistingFile) : null,
                 };
@@ -121,12 +121,31 @@ namespace StarTrekCardMaker
             }
         }
 
-        private static string GetDefaultExtension(bool export = false)
+        private static List<FileDialogFilter> GetOpenFilters(bool image = false)
+        {
+            var filters = new List<FileDialogFilter>();
+
+            filters.Add(new FileDialogFilter()
+            {
+                Name = image ? "Image Files" : "Card Files",
+                Extensions = new List<string>() { image ? "jpg" : "xml"  }
+            });
+
+            filters.Add(new FileDialogFilter()
+            {
+                Name = "All Files",
+                Extensions = new List<string>() { "*" }
+            });
+
+            return filters;
+        }
+
+        private static string GetSaveDefaultExtension(bool export = false)
         {
             return export ? "png" : "xml";
         }
 
-        private static List<FileDialogFilter> GetFilters(bool export = false)
+        private static List<FileDialogFilter> GetSaveFilters(bool export = false)
         {
             var filters = new List<FileDialogFilter>();
 
