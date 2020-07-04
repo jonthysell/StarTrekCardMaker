@@ -21,9 +21,9 @@
       <image id="TypedTextBox" path="Assets/FirstEdition/Default/TypedTextBox" x="16" y="15" />
     </images>
     <imageboxes>
-      <imagebox id="ArtBox.Small" x="0" y="0" width="100" height="100" />
+      <imagebox id="ArtBox.Small" x="49" y="94" width="255" height="175" />
       <imagebox id="ArtBox.Medium" x="49" y="94" width="255" height="184" />
-      <imagebox id="ArtBox.Large" x="0" y="0" width="100" height="100" />
+      <imagebox id="ArtBox.Large" x="49" y="94" width="255" height="192" />
     </imageboxes>
     <textboxes>
       <textbox id="TypedTextBox.Title" font="VerbSpacing" size="16" caps="true" align="center" x="46" y="304" width="261" height="17" />

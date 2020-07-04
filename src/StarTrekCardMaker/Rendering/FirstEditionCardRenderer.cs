@@ -320,43 +320,38 @@ namespace StarTrekCardMaker.Rendering
                 return false;
             }
 
+            var border = new Border()
+            {
+                Width = descriptor.Width,
+                Height = descriptor.Height,
+            };
+
+            if (AppVM.DebugMode)
+            {
+                border.Background = Brushes.Magenta;
+            }
+
+            Canvas.SetLeft(border, descriptor.X);
+            Canvas.SetTop(border, descriptor.Y);
+
             try
             {
                 var stream = Base64Utils.CreateStreamFromBase64(base64);
 
-                var border = new Border()
+                Image image = new Image()
                 {
+                    Source = new Bitmap(stream),
                     Width = descriptor.Width,
                     Height = descriptor.Height,
+                    Stretch = Stretch.UniformToFill,
                 };
 
-                if (AppVM.DebugMode)
-                {
-                    border.Background = Brushes.Magenta;
-                }
-                else
-                {
-                    Image image = new Image()
-                    {
-                        Source = new Bitmap(stream),
-                        Width = descriptor.Width,
-                        Height = descriptor.Height,
-                        Stretch = Stretch.UniformToFill,
-                    };
-
-                    border.Child = image;
-                }
-
-                Canvas.SetLeft(border, descriptor.X);
-                Canvas.SetTop(border, descriptor.Y);
-
-                result = border;
-                return true;
+                border.Child = image;
             }
             catch (Exception) { }
 
-            result = null;
-            return false;
+            result = border;
+            return true;
         }
 
         private static void AddTypedTextBlocks(Canvas target, Card card, string textboxKey)
