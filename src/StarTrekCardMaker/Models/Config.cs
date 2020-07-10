@@ -50,11 +50,16 @@ namespace StarTrekCardMaker.Models
 
         public Config() { }
 
-        public static Config Read(XmlReader xmlReader)
+        public static Config Read(XmlReader xmlReader, string baseDir)
         {
             if (null == xmlReader)
             {
                 throw new ArgumentNullException(nameof(xmlReader));
+            }
+
+            if (string.IsNullOrWhiteSpace(baseDir))
+            {
+                throw new ArgumentNullException(nameof(baseDir));
             }
 
             Config config = new Config();
@@ -92,7 +97,12 @@ namespace StarTrekCardMaker.Models
                     else if (name == "image")
                     {
                         string id = xmlReader.GetAttribute("id");
-                        string path = Path.GetFullPath(xmlReader.GetAttribute("path"));
+                        string path = xmlReader.GetAttribute("path");
+
+                        if (!Path.IsPathFullyQualified(path))
+                        {
+                            path = Path.Combine(baseDir, path);
+                        }
 
                         double.TryParse(xmlReader.GetAttribute("x"), out double x);
                         double.TryParse(xmlReader.GetAttribute("y"), out double y);

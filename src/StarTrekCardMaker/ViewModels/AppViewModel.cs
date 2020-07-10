@@ -26,7 +26,7 @@
 
 using System;
 using System.IO;
-
+using System.Reflection;
 using StarTrekCardMaker.Models;
 
 namespace StarTrekCardMaker.ViewModels
@@ -65,11 +65,13 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool DebugMode { get; set; } = false;
 
+        public bool ValidConfig => null != Configs;
+
         private AppViewModel() { }
 
         private void ParseArgs(string[] args)
         {
-            string configFile = "config.xml";
+            string configFile = ConfigFileName;
 
             if (null != args && args.Length > 0)
             {
@@ -84,9 +86,41 @@ namespace StarTrekCardMaker.ViewModels
                 }
             }
 
-            using var configStream = File.OpenRead(configFile);
+            if (!Path.IsPathFullyQualified(configFile))
+            {
+                configFile = Path.GetFullPath(configFile);
+            }
 
-            Configs = ConfigManager.LoadXml(configStream);
+            if (!TryLoadConfig(configFile))
+            {
+                // External config not found, try the "bundled" config
+                configFile = Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(Config)).Location), ConfigFileName);
+                if (!TryLoadConfig(configFile))
+                {
+                    ExceptionUtils.HandleException(new FileNotFoundException("Unable to load config file."));
+                }
+            }
         }
+
+        private bool TryLoadConfig(string configFile)
+        {
+            if (File.Exists(configFile))
+            {
+                try
+                {
+                    Configs = ConfigManager.LoadXml(configFile);
+                    return true;
+                }
+                catch (FileNotFoundException) { }
+                catch (Exception ex)
+                {
+                    ExceptionUtils.HandleException(ex);
+                }
+            }
+
+            return false;
+        }
+
+        private const string ConfigFileName = "config.xml";
     }
 }

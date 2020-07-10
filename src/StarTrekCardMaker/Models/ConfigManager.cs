@@ -81,16 +81,18 @@ namespace StarTrekCardMaker.Models
 
         public const string DefaultConfigName = "Default";
 
-        public static ConfigManager LoadXml(Stream inputStream)
+        public static ConfigManager LoadXml(string configFile)
         {
-            if (null == inputStream)
+            if (string.IsNullOrWhiteSpace(configFile))
             {
-                throw new ArgumentNullException(nameof(inputStream));
+                throw new ArgumentNullException(nameof(configFile));
             }
 
             var configs = new ConfigManager();
 
-            using XmlReader xmlReader = XmlReader.Create(inputStream);
+            string baseDir = Path.GetDirectoryName(configFile);
+
+            using XmlReader xmlReader = XmlReader.Create(File.OpenRead(configFile));
 
             while (xmlReader.Read())
             {
@@ -100,7 +102,7 @@ namespace StarTrekCardMaker.Models
 
                     if (name == "config")
                     {
-                        Config config = Config.Read(xmlReader.ReadSubtree());
+                        Config config = Config.Read(xmlReader.ReadSubtree(), baseDir);
                         configs.Add(config);
                     }
                 }

@@ -100,6 +100,8 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool DebugMode => AppVM.DebugMode;
 
+        public bool ValidConfig => AppVM.ValidConfig;
+
         #endregion
 
         #region Commands
@@ -118,7 +120,7 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                });
+                }, () => ValidConfig);
             }
         }
         private RelayCommand _newCard;
@@ -143,7 +145,7 @@ namespace StarTrekCardMaker.ViewModels
                             ExceptionUtils.HandleException(ex);
                         }
                     }));
-                });
+                }, () => ValidConfig);
             }
         }
         private RelayCommand _openCard;
@@ -182,7 +184,7 @@ namespace StarTrekCardMaker.ViewModels
                     {
                         ExceptionUtils.HandleException(ex);
                     }
-                });
+                }, () => ValidConfig);
             }
         }
         private RelayCommand _toggleDebugMode;
