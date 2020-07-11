@@ -42,8 +42,9 @@
                           Header="_Debug Mode"
                           HotKey="Ctrl+D">
                     <MenuItem.Icon>
-                        <CheckBox IsChecked="{Binding DebugMode}"
-                                  IsEnabled="False" />
+                        <CheckBox BorderThickness="0"
+                                  IsChecked="{Binding DebugMode}"
+                                  IsHitTestVisible="False" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
