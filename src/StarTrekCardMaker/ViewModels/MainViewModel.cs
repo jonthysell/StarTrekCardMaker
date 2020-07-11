@@ -189,6 +189,25 @@ namespace StarTrekCardMaker.ViewModels
         }
         private RelayCommand _toggleDebugMode;
 
+        public RelayCommand ShowAbout
+        {
+            get
+            {
+                return _showAbout ??= new RelayCommand(() =>
+                {
+                    try
+                    {
+                        Messenger.Default.Send(new AboutMessage());
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionUtils.HandleException(ex);
+                    }
+                }, () => ValidConfig);
+            }
+        }
+        private RelayCommand _showAbout;
+
         public event EventHandler RenderCard;
 
         #endregion

@@ -1,5 +1,5 @@
 ﻿// 
-// ExceptionWindow.xaml.cs
+// AboutWindow.xaml.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -32,13 +32,13 @@ using StarTrekCardMaker.ViewModels;
 
 namespace StarTrekCardMaker.Views
 {
-    public class ExceptionWindow : Window
+    public class AboutWindow : Window
     {
-        public ExceptionViewModel VM
+        public AboutViewModel VM
         {
             get
             {
-                return (ExceptionViewModel)DataContext;
+                return (AboutViewModel)DataContext;
             }
             set
             {
@@ -47,7 +47,7 @@ namespace StarTrekCardMaker.Views
             }
         }
 
-        public ExceptionWindow()
+        public AboutWindow()
         {
             InitializeComponent();
 #if DEBUG

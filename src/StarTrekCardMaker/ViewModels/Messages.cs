@@ -55,6 +55,16 @@ namespace StarTrekCardMaker.ViewModels
         }
     }
 
+    public class AboutMessage : MessageBase
+    {
+        public readonly AboutViewModel VM;
+
+        public AboutMessage()
+        {
+            VM = new AboutViewModel();
+        }
+    }
+
     public abstract class FileMessage : CallbackMessage<string>
     {
         public readonly string Title;

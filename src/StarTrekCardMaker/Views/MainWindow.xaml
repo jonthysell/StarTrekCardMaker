@@ -49,7 +49,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Command="{Binding NotImplementedCommand}"
+                <MenuItem Command="{Binding ShowAbout}"
                           Header="_About Star Trek Card Maker" />
             </MenuItem>
         </Menu>

@@ -47,6 +47,7 @@ namespace StarTrekCardMaker
         public static void RegisterMessageHandlers(object recipient)
         {
             Messenger.Default.Register<ExceptionMessage>(recipient, async (message) => await ShowExceptionDialogAsync(message));
+            Messenger.Default.Register<AboutMessage>(recipient, async (message) => await ShowAboutDialogAsync(message));
             Messenger.Default.Register<OpenFileMessage>(recipient, async (message) => await ShowOpenFileDialogAsync(message));
             Messenger.Default.Register<SaveFileMessage>(recipient, async (message) => await ShowSaveFileDialogAsync(message));
         }
@@ -54,6 +55,7 @@ namespace StarTrekCardMaker
         public static void UnregisterMessageHandlers(object recipient)
         {
             Messenger.Default.Unregister<ExceptionMessage>(recipient);
+            Messenger.Default.Unregister<AboutMessage>(recipient);
             Messenger.Default.Unregister<OpenFileMessage>(recipient);
             Messenger.Default.Unregister<SaveFileMessage>(recipient);
         }
@@ -63,6 +65,16 @@ namespace StarTrekCardMaker
             Trace.TraceError($"Exception: { message.VM.Details }");
 
             var window = new ExceptionWindow()
+            {
+                VM = message.VM
+            };
+
+            await window.ShowDialog(MainWindow);
+        }
+
+        private static async Task ShowAboutDialogAsync(AboutMessage message)
+        {
+            var window = new AboutWindow()
             {
                 VM = message.VM
             };
