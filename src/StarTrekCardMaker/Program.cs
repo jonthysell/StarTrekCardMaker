@@ -36,7 +36,7 @@ namespace StarTrekCardMaker
         // yet and stuff might break.
         public static void Main(string[] args)
         {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);break
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
