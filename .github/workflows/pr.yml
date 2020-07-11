@@ -33,5 +33,6 @@ jobs:
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v2
-      name:  ${{ matrix.configuration }}-Build
-      path: ${{ env.BuildDir }}/${{ matrix.configuration }}/netcoreapp3.1
+      with:
+        name:  ${{ matrix.configuration }}-Build
+        path: ${{ env.BuildDir }}/${{ matrix.configuration }}/netcoreapp3.1
