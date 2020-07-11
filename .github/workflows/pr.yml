@@ -10,8 +10,8 @@ on:
       - master
 
 jobs:
-  build_and_test:
-    name: Build and Test
+  pr_build_and_test:
+    name: PR Build and Test
     runs-on: windows-latest
     strategy:
       matrix:
