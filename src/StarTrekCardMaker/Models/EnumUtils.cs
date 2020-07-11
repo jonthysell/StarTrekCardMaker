@@ -55,7 +55,7 @@ namespace StarTrekCardMaker.Models
                 case CardType.QDilemma:
                 case CardType.QEvent:
                 case CardType.QInterrupt:
-                case CardType.QMission:
+                //case CardType.QMission:
                     return true;
             }
 

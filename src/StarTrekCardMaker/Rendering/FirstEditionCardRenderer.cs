@@ -157,7 +157,7 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Incident:
                 case CardType.Interrupt:
                 case CardType.Objective:
-                case CardType.Tactic:
+                //case CardType.Tactic:
                 case CardType.QArtifact:
                 case CardType.QDilemma:
                 case CardType.QEvent:
@@ -181,7 +181,7 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Incident:
                 case CardType.Interrupt:
                 case CardType.Objective:
-                case CardType.Tactic:
+                //case CardType.Tactic:
                     AddCachedImage(target, $"TypedTitle.{card.CardType}");
                     break;
                 case CardType.QDilemma:
