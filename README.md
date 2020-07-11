@@ -2,7 +2,7 @@
 
 Star Trek Card Maker is an application for creating cards for the Star Trek Customizable Card Game.
 
-Image assets were borrowed from [McKinleyStation](https://github.com/makeitTim/McKinleyStation).
+Image and font assets were borrowed from [McKinleyStation](https://github.com/makeitTim/McKinleyStation).
 
 Star Trek in all forms is copyright and trademark of CBS Paramount Studios which has no affiliation with this application.
 

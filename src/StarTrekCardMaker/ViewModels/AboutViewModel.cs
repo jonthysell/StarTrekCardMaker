@@ -39,7 +39,7 @@ namespace StarTrekCardMaker.ViewModels
         public string Text => string.Join(Environment.NewLine + Environment.NewLine,
             $"{AppInfo.Name} v{AppInfo.Version}",
             "Star Trek Card Maker is an application for creating cards for the Star Trek Customizable Card Game.",
-            "Image assets were borrowed from github.com/makeitTim/McKinleyStation.",
+            "Image and font assets were borrowed from github.com/makeitTim/McKinleyStation.",
             "Star Trek in all forms is copyright and trademark of CBS Paramount Studios which has no affiliation with this application.",
             AppInfo.MitLicenseName,
             AppInfo.Copyright,
