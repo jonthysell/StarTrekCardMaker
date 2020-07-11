@@ -41,7 +41,7 @@ namespace StarTrekCardMaker.Rendering
                 return null;
             }
 
-            var renderer = card.InternalObject.Edition == Models.Edition.FirstEdition ? new Rendering.FirstEditionCardRenderer() : null;
+            var renderer = card.InternalObject.Edition == Models.Edition.FirstEdition ? new FirstEditionCardRenderer() : null;
 
             return renderer?.GetControl(card.InternalObject);
         }

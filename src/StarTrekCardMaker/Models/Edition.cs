@@ -29,6 +29,6 @@ namespace StarTrekCardMaker.Models
     public enum Edition
     {
         FirstEdition,
-        SecondEdition,
+        //SecondEdition,
     }
 }
