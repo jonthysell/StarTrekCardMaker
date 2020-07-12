@@ -18,6 +18,6 @@ Write-Host "Create package..."
 
 Set-Location -Path "$OutputRoot"
 
-7za a "$TargetOutputPackageName" "$TargetOutputDirectory" -tzip -mx=9
+zip -r "$TargetOutputPackageName" "$TargetOutputDirectory"
 
 Set-Location -Path "$StartingLocation"
