@@ -19,7 +19,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        target: [Portable, Windows]
+   curl     target: [Portable, Windows]
     steps:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -29,18 +29,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Get 7zr.exe
+    - name: Get 7zip
       uses: wei/wget@v1
-      with:
-        args: https://www.7-zip.org/a/7zr.exe
-
-    - name: Get 7z Extras
-      uses: wei/wget@v1
-      with:
-        args: https://www.7-zip.org/a/7z1900-extra.7z
-
-    - name: Extract 7z Extras
-      run: 7zr e 7z1900-extra.7z -o bld/ 7za.exe
+      run: |
+        curl https://www.7-zip.org/a/7zr.exe -o  7zr.exe 
+        curl https://www.7-zip.org/a/7z1900-extra.7z -o 7z1900-extra.7z
+        7zr e 7z1900-extra.7z -o bld/ 7za.exe
 
     - name: Build ${{ matrix.target }}
       run: ${{ env.ScriptDir }}/Build${{ matrix.target }}.ps1
