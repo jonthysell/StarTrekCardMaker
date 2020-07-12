@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configs>
+  <config edition="FirstEdition" name="Default">
+    <constants>
+      <constant id="CardWidth" value="354" />
+      <constant id="CardHeight" value="494" />
+      <constant id="InnerRectMargin" value="22" />
+    </constants>
+    <enums>
+      <enum id="TypedTextBox" values="ThreeLoreThreeGametext|TwoLoreFourGametext|OneLoreFiveGametext|SevenGametext" />
+      <enum id="QTypedTextBox" values="OneLoreSevenGametext|TwoLoreSixGametext|ThreeLoreFiveGametext|FourLoreFourGametext" />
+    </enums>
+    <images>
+      <image id="Border" path="Assets/FirstEdition/Default/Border" enum="true" />
+      <image id="InnerBorder" path="Assets/FirstEdition/Default/InnerBorder.png" x="16" y="15" />
+      <image id="ArtBorder" path="Assets/FirstEdition/Default/ArtBorder" x="16" y="15" />
+      <image id="TypedTitleBar" path="Assets/FirstEdition/Default/TypedTitleBar.png" x="16" y="15" />
+      <image id="TypedTitle" path="Assets/FirstEdition/Default/TypedTitle" x="16" y="15" />
+      <image id="PropertyLogo" path="Assets/FirstEdition/Default/PropertyLogo" x="176" y="15" enum="true" optional="true" />
+      <image id="ExpansionIcon" path="Assets/FirstEdition/Default/ExpansionIcon" x="284" y="300" enum="true" optional="true" />
+      <image id="TypedTextBox" path="Assets/FirstEdition/Default/TypedTextBox" x="16" y="15" />
+    </images>
+    <imageboxes>
+      <imagebox id="ArtBox.Small" x="49" y="94" width="255" height="175" />
+      <imagebox id="ArtBox.Medium" x="49" y="94" width="255" height="184" />
+      <imagebox id="ArtBox.Large" x="49" y="94" width="255" height="192" />
+      <imagebox id="ArtBox.ExtraLarge" x="22" y="22" width="310" height="450" />
+    </imageboxes>
+    <textboxes>
+      <textbox id="TypedTextBox.Title" font="VerbSpacing" size="16" caps="true" align="center" x="46" y="304" width="261" height="17" />
+      <textbox id="TypedTextBox.ThreeLoreThreeGametext.Lore" font="Lore" size="13.8" x="62" y="330" width="242" height="50" />
+      <textbox id="TypedTextBox.ThreeLoreThreeGametext.Gametext" font="Gametext" size="13.4" x="62" y="407" width="242" height="50" />
+      <textbox id="TypedTextBox.TwoLoreFourGametext.Lore" font="Lore" size="13.8" x="58" y="330" width="246" height="34" />
+      <textbox id="TypedTextBox.TwoLoreFourGametext.Gametext" font="Gametext" size="13.4" x="58" y="390" width="246" height="66" />
+      <textbox id="TypedTextBox.OneLoreFiveGametext.Lore" font="Lore" size="13.8" x="58" y="330" width="246" height="17" />
+      <textbox id="TypedTextBox.OneLoreFiveGametext.Gametext" font="Gametext" size="13.4" x="58" y="373" width="246" height="81" />
+      <textbox id="TypedTextBox.SevenGametext.Gametext" font="Gametext" size="13.4" x="58" y="330" width="246" height="116" />
+      <textbox id="QTypedTextBox.Title" font="VerbSpacing" size="16" align="center" color="white" caps="true" x="46" y="304" width="261" height="17" />
+      <textbox id="QTypedTextBox.OneLoreSevenGametext.Lore" font="Lore" size="13.2" color="white" x="71" y="327" width="222" height="17" />
+      <textbox id="QTypedTextBox.OneLoreSevenGametext.Gametext" font="Gametext" color="white" size="13.4" x="58" y="343" width="246" height="112" />
+      <textbox id="QTypedTextBox.TwoLoreSixGametext.Lore" font="Lore" size="13.2" color="white" x="71" y="327" width="222" height="34" />
+      <textbox id="QTypedTextBox.TwoLoreSixGametext.Gametext" font="Gametext" color="white" size="13.4" x="58" y="360" width="246" height="95" />
+      <textbox id="QTypedTextBox.ThreeLoreFiveGametext.Lore" font="Lore" size="13.2" color="white" x="71" y="327" width="222" height="50" />
+      <textbox id="QTypedTextBox.ThreeLoreFiveGametext.Gametext" font="Gametext" color="white" size="13.4" x="58" y="376" width="246" height="81" />
+      <textbox id="QTypedTextBox.FourLoreFourGametext.Lore" font="Lore" size="13.2" color="white" x="71" y="327" width="222" height="65" />
+      <textbox id="QTypedTextBox.FourLoreFourGametext.Gametext" font="Gametext" color="white" size="13.4" x="58" y="391" width="246" height="66" />
+    </textboxes>
+  </config>
+</configs>
