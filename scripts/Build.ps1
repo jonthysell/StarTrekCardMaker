@@ -1,11 +1,10 @@
-param([string]$Product, [string]$Target)
+param([string]$Product, [string]$Target, [string]$PublishArgs)
 
 $StartingLocation = Get-Location
 
 Set-Location -Path "$PSScriptRoot\.."
 
 [string] $SolutionPath = "src\$Product.sln"
-[string] $ProfilesPath = "src\$Product\Properties\PublishProfiles"
 
 [string] $OutputRoot = "bld"
 [string] $TargetOutputDirectory = "$Product.$Target"
@@ -18,7 +17,7 @@ if (Test-Path "$OutputRoot\$TargetOutputDirectory") {
 
 Write-Host "Build release..."
 
-dotnet publish -p:PublishProfile="$ProfilesPath\$Target`Release.pubxml" -o "$OutputRoot\$TargetOutputDirectory" "$SolutionPath"
+dotnet publish $PublishArgs.Split() -c Release -o "$OutputRoot\$TargetOutputDirectory" "$SolutionPath"
 
 Write-Host "Copy readme and license..."
 
