@@ -30,7 +30,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Get 7zip
-      uses: wei/wget@v1
       run: |
         curl https://www.7-zip.org/a/7zr.exe -o  7zr.exe 
         curl https://www.7-zip.org/a/7z1900-extra.7z -o 7z1900-extra.7z
