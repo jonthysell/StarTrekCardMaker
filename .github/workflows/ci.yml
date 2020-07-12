@@ -29,6 +29,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Get 7zr.exe
+      uses: wei/wget@v1
+      with:
+        args: https://www.7-zip.org/a/7zr.exe
+
+    - name: Get 7z Extras
+      uses: wei/wget@v1
+      with:
+        args: https://www.7-zip.org/a/7z1900-extra.7z
+
+    - name: Extract 7z Extras
+      run: 7zr e 7z1900-extra.7z -o bld/ 7za.exe
+
     - name: Build ${{ matrix.target }}
       run: ${{ env.ScriptDir }}/Build${{ matrix.target }}.ps1
 
