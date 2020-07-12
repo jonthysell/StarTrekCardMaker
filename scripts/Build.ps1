@@ -18,9 +18,11 @@ if (Test-Path "$OutputRoot\$TargetOutputDirectory") {
 
 Write-Host "Build release..."
 
-dotnet publish -p:PublishProfile="$ProfilesPath\$Target`Release.pubxml" "$SolutionPath"
+dotnet publish -p:PublishProfile="$ProfilesPath\$Target`Release.pubxml" -o "$OutputRoot\$TargetOutputDirectory" "$SolutionPath"
 
 Write-Host "Copy readme and license..."
 
 Copy-Item "README.md" -Destination "$OutputRoot\$TargetOutputDirectory\ReadMe.txt"
 Copy-Item "LICENSE.md" -Destination "$OutputRoot\$TargetOutputDirectory\License.txt"
+
+Set-Location -Path "$StartingLocation"
