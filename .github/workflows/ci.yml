@@ -35,7 +35,7 @@ jobs:
         mkdir ${{ env.BuildDir }}
         curl https://www.7-zip.org/a/7zr.exe -o ${{ env.BuildDir }}/7zr.exe 
         curl https://www.7-zip.org/a/7z1900-extra.7z -o ${{ env.BuildDir }}/7z1900-extra.7z
-        ${{ env.BuildDir }}/7zr.exe e ${{ env.BuildDir }}/7z1900-extra.7z -y
+        ${{ env.BuildDir }}/7zr.exe e ${{ env.BuildDir }}/7z1900-extra.7z -obld 7za.exe
 
     - name: Build ${{ matrix.target }}
       run: ${{ env.ScriptDir }}/Build${{ matrix.target }}.ps1
