@@ -3,6 +3,7 @@ name: CI Build
 env:
   BuildDir: ./bld
   ScriptDir: ./scripts
+  ToolsDir: ./tools
 
 on:
   push:
@@ -32,9 +33,10 @@ jobs:
     - name: Get 7zip
       working-directory: ./
       run: |
-        curl https://www.7-zip.org/a/7zr.exe -o 7zr.exe 
-        curl https://www.7-zip.org/a/7z1900-extra.7z -o 7z1900-extra.7z
-        7zr.exe e 7z1900-extra.7z -o bld/ 7za.exe
+        echo ${{ env.ToolsDir }}
+        curl https://www.7-zip.org/a/7zr.exe -o ${{ env.ToolsDir }}/7zr.exe 
+        curl https://www.7-zip.org/a/7z1900-extra.7z -o ${{ env.ToolsDir }}/7z1900-extra.7z
+        ${{ env.ToolsDir }}/7zr.exe e 7z1900-extra.7z -o ${{ env.ToolsDir }}/ 7za.exe
 
     - name: Build ${{ matrix.target }}
       run: ${{ env.ScriptDir }}/Build${{ matrix.target }}.ps1
