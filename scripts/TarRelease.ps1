@@ -1,23 +1,20 @@
 param([string]$Product, [string]$Target)
 
-$StartingLocation = Get-Location
-
-Set-Location -Path "$PSScriptRoot\.."
-
 [string] $OutputRoot = "bld"
 [string] $TargetOutputDirectory = "$Product.$Target"
 [string] $TargetOutputPackageName = "$Product.$Target.tar.gz"
 
-Write-Host "Remove old package..."
+$StartingLocation = Get-Location
+Set-Location -Path "$PSScriptRoot\.."
 
 if (Test-Path "$OutputRoot\$TargetOutputPackageName") {
+    Write-Host "Remove old package..."
     Remove-Item "$OutputRoot\$TargetOutputPackageName"
 }
 
-Write-Host "Create package..."
-
 Set-Location -Path "$OutputRoot"
 
+Write-Host "Create package..."
 tar -zcvf "$TargetOutputPackageName" "$TargetOutputDirectory"
 
 Set-Location -Path "$StartingLocation"
