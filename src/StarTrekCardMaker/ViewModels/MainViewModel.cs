@@ -100,6 +100,9 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool DebugMode => AppVM.DebugMode;
 
+
+        public bool ShowMenu => AppInfo.IsWindows || AppInfo.IsLinux;
+
         public bool ValidConfig => AppVM.ValidConfig;
 
         #endregion

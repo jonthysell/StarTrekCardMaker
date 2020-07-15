@@ -15,8 +15,16 @@
         xmlns:vm="clr-namespace:StarTrekCardMaker.ViewModels"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel Margin="5">
-      <TextBox Margin="5" Padding="5" Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True"
-        Width="460" Height="200" BorderBrush="Transparent" BorderThickness="0" />
+        <TextBox AcceptsReturn="True"
+                 BorderBrush="Transparent"
+                 BorderThickness="0"
+                 Height="200"
+                 IsReadOnly="True"
+                 Margin="5"
+                 Padding="5"
+                 Text="{Binding Text}"
+                 TextWrapping="Wrap"
+                 Width="460" />
         <StackPanel HorizontalAlignment="Right"
                     Orientation="Horizontal">
             <Button Command="{Binding Close}"
