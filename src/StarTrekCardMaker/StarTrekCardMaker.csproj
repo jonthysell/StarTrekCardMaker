@@ -24,8 +24,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.10" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
+    <PackageReference Include="Avalonia" Version="0.9.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.11" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
   </ItemGroup>
 </Project>
