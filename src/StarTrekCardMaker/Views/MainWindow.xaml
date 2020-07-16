@@ -1,4 +1,5 @@
 <Window Height="600"
+        Icon="avares://StarTrekCardMaker/icon.ico"
         MinHeight="480"
         MinWidth="640"
         Title="{Binding Title}"
@@ -171,14 +172,24 @@
                 </ItemsControl.DataTemplates>
             </ItemsControl>
         </ScrollViewer>
-        <Grid IsVisible="{Binding CardLoaded}"
-              RowDefinitions="Auto,*">
+        <Grid RowDefinitions="Auto,*">
+            <Image Grid.RowSpan="2"
+                   Height="256"
+                   HorizontalAlignment="Center"
+                   IsVisible="{Binding CardLoaded, Converter={StaticResource InverseBooleanValueConverter}}"
+                   Margin="5"
+                   Opacity="0.2"
+                   Source="avares://StarTrekCardMaker/icon.ico"
+                   VerticalAlignment="Center"
+                   Width="256" />
             <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
                        FontSize="16"
+                       IsVisible="{Binding CardLoaded}"
                        Margin="5"
                        Text="Preview"
                        TextAlignment="Center" />
-            <ScrollViewer Grid.Row="1">
+            <ScrollViewer Grid.Row="1"
+                          IsVisible="{Binding CardLoaded}">
                 <Grid Name="CardRenderTarget" />
             </ScrollViewer>
         </Grid>

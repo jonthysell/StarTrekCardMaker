@@ -8,5 +8,6 @@
     </Application.Styles>
     <Application.Resources>
         <converters:Base64BitmapConverter x:Key="Base64BitmapConverter" />
+        <converters:InverseBooleanValueConverter x:Key="InverseBooleanValueConverter" />
     </Application.Resources>
 </Application>
