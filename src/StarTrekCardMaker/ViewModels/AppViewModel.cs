@@ -27,6 +27,10 @@
 using System;
 using System.IO;
 using System.Reflection;
+
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+
 using StarTrekCardMaker.Models;
 
 namespace StarTrekCardMaker.ViewModels
@@ -66,6 +70,25 @@ namespace StarTrekCardMaker.ViewModels
         public bool DebugMode { get; set; } = false;
 
         public bool ValidConfig => null != Configs;
+
+        public RelayCommand ShowAbout
+        {
+            get
+            {
+                return _showAbout ??= new RelayCommand(() =>
+                {
+                    try
+                    {
+                        Messenger.Default.Send(new AboutMessage());
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionUtils.HandleException(ex);
+                    }
+                });
+            }
+        }
+        private RelayCommand _showAbout;
 
         private AppViewModel() { }
 

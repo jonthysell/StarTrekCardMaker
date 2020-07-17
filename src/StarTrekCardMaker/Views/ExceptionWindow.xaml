@@ -1,4 +1,5 @@
 <Window CanResize="False"
+        Icon="avares://StarTrekCardMaker/icon.ico"
         MinHeight="100"
         MinWidth="480"
         SizeToContent="Height"

@@ -100,6 +100,9 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool DebugMode => AppVM.DebugMode;
 
+
+        public bool ShowMenu => AppInfo.IsWindows || AppInfo.IsLinux;
+
         public bool ValidConfig => AppVM.ValidConfig;
 
         #endregion
@@ -189,24 +192,7 @@ namespace StarTrekCardMaker.ViewModels
         }
         private RelayCommand _toggleDebugMode;
 
-        public RelayCommand ShowAbout
-        {
-            get
-            {
-                return _showAbout ??= new RelayCommand(() =>
-                {
-                    try
-                    {
-                        Messenger.Default.Send(new AboutMessage());
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionUtils.HandleException(ex);
-                    }
-                }, () => ValidConfig);
-            }
-        }
-        private RelayCommand _showAbout;
+        public RelayCommand ShowAbout => AppVM.ShowAbout;
 
         public event EventHandler RenderCard;
 

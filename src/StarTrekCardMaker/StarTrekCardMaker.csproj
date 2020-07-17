@@ -5,6 +5,7 @@
     <StartupObject>StarTrekCardMaker.Program</StartupObject>
     <AssemblyName>StarTrekCardMaker</AssemblyName>
     <RootNamespace>StarTrekCardMaker</RootNamespace>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
@@ -14,6 +15,7 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Include="Fonts\**" />
+    <AvaloniaResource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml">
@@ -24,8 +26,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.10" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
+    <PackageReference Include="Avalonia" Version="0.9.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.11" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
   </ItemGroup>
 </Project>

@@ -26,6 +26,7 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace StarTrekCardMaker
 {
@@ -42,6 +43,12 @@ namespace StarTrekCardMaker
 
         public static string Copyright => _copyright ??= Assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
         private static string _copyright = null;
+
+        public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+        public static bool IsMacOS => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+        public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
         public static string MitLicenseName => "The MIT License (MIT)";
 

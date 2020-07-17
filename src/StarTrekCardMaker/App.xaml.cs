@@ -58,6 +58,7 @@ namespace StarTrekCardMaker
             MessageHandlers.RegisterMessageHandlers(this);
 
             AppViewModel.Initialize(e.Args);
+            DataContext = AppVM;
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {

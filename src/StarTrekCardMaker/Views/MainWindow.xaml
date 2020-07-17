@@ -1,4 +1,5 @@
 <Window Height="600"
+        Icon="avares://StarTrekCardMaker/icon.ico"
         MinHeight="480"
         MinWidth="640"
         Title="{Binding Title}"
@@ -13,8 +14,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:StarTrekCardMaker.ViewModels"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="File">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Command="{Binding NewCard}"
+                                        Gesture="Cmd+N"
+                                        Header="New" />
+                        <NativeMenuItem Command="{Binding OpenCard}"
+                                        Gesture="Cmd+O"
+                                        Header="Open..." />
+                        <NativeMenuItemSeperator />
+                        <NativeMenuItem Command="{Binding Card.Save}"
+                                        Gesture="Cmd+S"
+                                        Header="Save" />
+                        <NativeMenuItem Command="{Binding Card.SaveAs}"
+                                        Gesture="Cmd+Shift+S"
+                                        Header="Save As..." />
+                        <NativeMenuItemSeperator />
+                        <NativeMenuItem Command="{Binding Card.Export}"
+                                        Gesture="Cmd+E"
+                                        Header="Export..." />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Settings">
+                <NativeMenuItem.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Command="{Binding ToggleDebugMode}"
+                                        Gesture="Cmd+D"
+                                        Header="Debug Mode" />
+                    </NativeMenu>
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+            <NativeMenuItem Header="Help">
+                <NativeMenuItem.Menu>
+                    <NativeMenu />
+                </NativeMenuItem.Menu>
+            </NativeMenuItem>
+        </NativeMenu>
+    </NativeMenu.Menu>
     <DockPanel Margin="5">
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top"
+              IsEnabled="{Binding ShowMenu}"
+              IsVisible="{Binding ShowMenu}">
             <MenuItem Header="_File">
                 <MenuItem Command="{Binding NewCard}"
                           Header="_New"
@@ -22,6 +66,7 @@
                 <MenuItem Command="{Binding OpenCard}"
                           Header="_Open..."
                           HotKey="Ctrl+O" />
+                <Separator />
                 <MenuItem Command="{Binding Card.Save}"
                           Header="_Save"
                           HotKey="Ctrl+S" />
@@ -124,14 +169,24 @@
                 </ItemsControl.DataTemplates>
             </ItemsControl>
         </ScrollViewer>
-        <Grid IsVisible="{Binding CardLoaded}"
-              RowDefinitions="Auto,*">
+        <Grid RowDefinitions="Auto,*">
+            <Image Grid.RowSpan="2"
+                   Height="256"
+                   HorizontalAlignment="Center"
+                   IsVisible="{Binding CardLoaded, Converter={StaticResource InverseBooleanValueConverter}}"
+                   Margin="5"
+                   Opacity="0.2"
+                   Source="avares://StarTrekCardMaker/icon.ico"
+                   VerticalAlignment="Center"
+                   Width="256" />
             <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
                        FontSize="16"
+                       IsVisible="{Binding CardLoaded}"
                        Margin="5"
                        Text="Preview"
                        TextAlignment="Center" />
-            <ScrollViewer Grid.Row="1">
+            <ScrollViewer Grid.Row="1"
+                          IsVisible="{Binding CardLoaded}">
                 <Grid Name="CardRenderTarget" />
             </ScrollViewer>
         </Grid>
