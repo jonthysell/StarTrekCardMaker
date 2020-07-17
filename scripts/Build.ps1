@@ -1,12 +1,18 @@
-param([string]$Product, [string]$Target, [string]$PublishArgs)
+param(
+    [string]$Product,
+    [string]$Target,
+    [string]$BuildArgs = ""
+)
 
 [string] $SolutionPath = "src\$Product.sln"
+
+[string] $RepoRoot = Resolve-Path "$PSScriptRoot\.."
 
 [string] $OutputRoot = "bld"
 [string] $TargetOutputDirectory = "$Product.$Target"
 
 $StartingLocation = Get-Location
-Set-Location -Path "$PSScriptRoot\.."
+Set-Location -Path $RepoRoot
 
 if (Test-Path "$OutputRoot\$TargetOutputDirectory") {
     Write-Host "Clean output folder..."
@@ -15,7 +21,7 @@ if (Test-Path "$OutputRoot\$TargetOutputDirectory") {
 
 Write-Host "Build release..."
 
-dotnet publish $PublishArgs.Split() -c Release -o "$OutputRoot\$TargetOutputDirectory" "$SolutionPath"
+dotnet msbuild $BuildArgs.Split() -restore -p:Configuration=Release -p:PublishDir="$RepoRoot\$OutputRoot\$TargetOutputDirectory" "$SolutionPath"
 Copy-Item "README.md" -Destination "$OutputRoot\$TargetOutputDirectory\ReadMe.txt"
 Copy-Item "LICENSE.md" -Destination "$OutputRoot\$TargetOutputDirectory\License.txt"
 

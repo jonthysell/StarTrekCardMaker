@@ -24,6 +24,6 @@ if (-Not (Test-Path ".\7za.exe")) {
 }
 
 Write-Host "Create package..."
-.\7za.exe a "$TargetOutputPackageName" "$TargetOutputDirectory" -tzip
+.\7za.exe a "$TargetOutputPackageName" "$TargetOutputDirectory" -tzip -mx9
 
 Set-Location -Path "$StartingLocation"
