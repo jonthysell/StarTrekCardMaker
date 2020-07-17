@@ -1,4 +1,5 @@
-<Application x:Class="StarTrekCardMaker.App"
+<Application Name="Star Trek Card Maker"
+             x:Class="StarTrekCardMaker.App"
              xmlns="https://github.com/avaloniaui"
              xmlns:converters="clr-namespace:StarTrekCardMaker.Converters"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -10,4 +11,10 @@
         <converters:Base64BitmapConverter x:Key="Base64BitmapConverter" />
         <converters:InverseBooleanValueConverter x:Key="InverseBooleanValueConverter" />
     </Application.Resources>
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Command="{Binding ShowAbout}"
+                            Header="About Star Trek Card Maker" />
+        </NativeMenu>
+    </NativeMenu.Menu>
 </Application>
