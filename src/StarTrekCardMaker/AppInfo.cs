@@ -35,7 +35,7 @@ namespace StarTrekCardMaker
         public static Assembly Assembly => _assembly ??= Assembly.GetExecutingAssembly();
         private static Assembly _assembly = null;
 
-        public static string Name => _name ??= Assembly.GetName().Name;
+        public static string Name => _name ??= Models.EnumUtils.GetFriendlyValue(Assembly.GetName().Name);
         private static string _name = null;
 
         public static string Version => _version ??= Assembly.GetName().Version.ToString();
