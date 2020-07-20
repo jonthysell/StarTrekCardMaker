@@ -1,8 +1,8 @@
 name: Pull Request Validation
 
 env:
+  BinDir: ./src/StarTrekCardMaker/bin
   SolutionFile: ./src/StarTrekCardMaker.sln
-  BuildDir: ./src/StarTrekCardMaker/bin
 
 on:
   pull_request:
@@ -35,4 +35,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name:  ${{ matrix.configuration }}Binaries
-        path: ${{ env.BuildDir }}/${{ matrix.configuration }}/netcoreapp3.1
+        path: ${{ env.BinDir }}/${{ matrix.configuration }}/netcoreapp3.1
