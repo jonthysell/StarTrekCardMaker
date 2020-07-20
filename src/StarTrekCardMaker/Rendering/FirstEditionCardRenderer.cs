@@ -387,6 +387,9 @@ namespace StarTrekCardMaker.Rendering
                 return false;
             }
 
+            double textOffsetX = GetTextOffsetX();
+            double textOffsetY = GetTextOffsetY();
+
             var textBlock = new TextBlock()
             {
                 Text = descriptor.AllCaps ? textboxContents.ToUpperInvariant() : textboxContents,
@@ -394,8 +397,8 @@ namespace StarTrekCardMaker.Rendering
                 Foreground = descriptor.Color == TextBoxColor.white ? Brushes.White : Brushes.Black,
                 FontFamily = Fonts[descriptor.FontFamily],
                 FontSize = descriptor.FontSize,
-                Width = descriptor.Width,
-                Height = descriptor.Height
+                Width = descriptor.Width - textOffsetX,
+                Height = descriptor.Height - textOffsetY,
             };
 
             if (AppVM.DebugMode)
@@ -403,11 +406,34 @@ namespace StarTrekCardMaker.Rendering
                 textBlock.Background = Brushes.Magenta;
             }
 
-            Canvas.SetLeft(textBlock, descriptor.X);
-            Canvas.SetTop(textBlock, descriptor.Y);
+            Canvas.SetLeft(textBlock, descriptor.X + textOffsetX);
+            Canvas.SetTop(textBlock, descriptor.Y + textOffsetY);
 
             result = textBlock;
             return true;
+        }
+
+        private static double GetTextOffsetX() => TryGetPlatformConstant("TextOffset.X", out double value) ? value : 0;
+
+        private static double GetTextOffsetY() => TryGetPlatformConstant("TextOffset.Y", out double value) ? value : 0;
+
+        private static bool TryGetPlatformConstant(string key, out double result)
+        {
+            if (AppInfo.IsWindows)
+            {
+                return CurrentConfig.Constants.TryGetValue($"{key}.Windows", out result);
+            }
+            else if (AppInfo.IsMacOS)
+            {
+                return CurrentConfig.Constants.TryGetValue($"{key}.MacOS", out result);
+            }
+            else if (AppInfo.IsLinux)
+            {
+                return CurrentConfig.Constants.TryGetValue($"{key}.Linux", out result);
+            }
+
+            result = default;
+            return false;
         }
 
         private static void AddCachedImageByEnumKey(Canvas target, Card card, string enumKey)

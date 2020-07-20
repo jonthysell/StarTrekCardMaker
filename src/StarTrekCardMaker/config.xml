@@ -5,6 +5,8 @@
       <constant id="CardWidth" value="354" />
       <constant id="CardHeight" value="494" />
       <constant id="InnerRectMargin" value="22" />
+      <constant id="TextOffset.Y.Linux" value="2" />
+      <constant id="TextOffset.Y.MacOS" value="2" />
     </constants>
     <enums>
       <enum id="TypedTextBox" values="ThreeLoreThreeGametext|TwoLoreFourGametext|OneLoreFiveGametext|SevenGametext" />
