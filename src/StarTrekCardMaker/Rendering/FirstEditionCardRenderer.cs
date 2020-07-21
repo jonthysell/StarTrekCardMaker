@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
@@ -48,6 +49,8 @@ namespace StarTrekCardMaker.Rendering
         public static double CardHeight => CurrentConfig.Constants["CardHeight"];
 
         public static double InnerRectMargin => CurrentConfig.Constants["InnerRectMargin"];
+
+        public readonly static string DefaultCopyrightText = "Not endorsed by CBS or Paramount Pictures";
 
         public IControl GetControl(Card card)
         {
@@ -116,6 +119,8 @@ namespace StarTrekCardMaker.Rendering
             AddTextBox(target, card);
 
             AddText(target, card);
+
+            AddCopyrightText(target, card);
 
             AddExpansionIcon(target, card);
         }
@@ -308,6 +313,31 @@ namespace StarTrekCardMaker.Rendering
             }
         }
 
+        private static void AddCopyrightText(Canvas target, Card card)
+        {
+            switch (card.CardType)
+            {
+                case CardType.Artifact:
+                case CardType.DilemmaBoth:
+                case CardType.DilemmaPlanet:
+                case CardType.DilemmaSpace:
+                case CardType.Event:
+                case CardType.Equipment:
+                case CardType.Incident:
+                case CardType.Interrupt:
+                case CardType.Objective:
+                case CardType.QArtifact:
+                case CardType.QDilemma:
+                case CardType.QEvent:
+                case CardType.QInterrupt:
+                    AddTextBlock(target, "ArtBox.Medium.Copyright", card.GetValue(Card.CopyrightKey, DefaultCopyrightText));
+                    break;
+                case CardType.Doorway:
+                    AddTextBlock(target, "ArtBox.ExtraLarge.Copyright", card.GetValue(Card.CopyrightKey, DefaultCopyrightText));
+                    break;
+            }
+        }
+
         private static void AddCardArt(Canvas target, Card card, string artboxId, string artKey)
         {
             string base64 = card.GetValue(artKey);
@@ -408,6 +438,12 @@ namespace StarTrekCardMaker.Rendering
 
             Canvas.SetLeft(textBlock, descriptor.X + textOffsetX);
             Canvas.SetTop(textBlock, descriptor.Y + textOffsetY);
+
+            if (descriptor.RotateDegrees != 0.0)
+            {
+                textBlock.RenderTransform = new RotateTransform(descriptor.RotateDegrees);
+                textBlock.RenderTransformOrigin = new RelativePoint(0, 0, RelativeUnit.Relative);
+            }
 
             result = textBlock;
             return true;

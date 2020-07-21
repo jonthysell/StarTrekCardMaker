@@ -40,7 +40,9 @@ namespace StarTrekCardMaker.Models
 
         public readonly double Height;
 
-        public BoxDescriptorBase(string id, double x, double y, double width, double height)
+        public readonly double RotateDegrees;
+
+        public BoxDescriptorBase(string id, double x, double y, double width, double height, double rotateDegrees)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
 
@@ -48,6 +50,7 @@ namespace StarTrekCardMaker.Models
             Y = y;
             Width = width;
             Height = height;
+            RotateDegrees = rotateDegrees;
         }
     }
 }

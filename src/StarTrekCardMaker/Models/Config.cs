@@ -141,8 +141,9 @@ namespace StarTrekCardMaker.Models
                         double.TryParse(xmlReader.GetAttribute("y"), out double y);
                         double.TryParse(xmlReader.GetAttribute("width"), out double width);
                         double.TryParse(xmlReader.GetAttribute("height"), out double height);
+                        double.TryParse(xmlReader.GetAttribute("rotate"), out double rotateDegrees);
 
-                        config.ImageBoxDescriptors[id] = new ImageBoxDescriptor(id, x, y, width, height);
+                        config.ImageBoxDescriptors[id] = new ImageBoxDescriptor(id, x, y, width, height, rotateDegrees);
                     }
                     else if (name == "textbox")
                     {
@@ -160,8 +161,9 @@ namespace StarTrekCardMaker.Models
                         double.TryParse(xmlReader.GetAttribute("y"), out double y);
                         double.TryParse(xmlReader.GetAttribute("width"), out double width);
                         double.TryParse(xmlReader.GetAttribute("height"), out double height);
+                        double.TryParse(xmlReader.GetAttribute("rotate"), out double rotateDegrees);
 
-                        config.TextBoxDescriptors[id] = new TextBoxDescriptor(id, fontFamily, fontSize, alignment, color, caps, x, y, width, height);
+                        config.TextBoxDescriptors[id] = new TextBoxDescriptor(id, fontFamily, fontSize, alignment, color, caps, x, y, width, height, rotateDegrees);
                     }
                 }
             }
