@@ -207,6 +207,7 @@ namespace StarTrekCardMaker.ViewModels
                 data.Add(new ObservableCardDataText(this, Card.TitleKey));
                 data.Add(new ObservableCardDataText(this, Card.LoreKey));
                 data.Add(new ObservableCardDataText(this, Card.GametextKey));
+                data.Add(new ObservableCardDataText(this, Card.CopyrightKey));
             }
 
             return data;

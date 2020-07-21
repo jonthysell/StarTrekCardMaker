@@ -53,7 +53,7 @@ namespace StarTrekCardMaker.Models
 
         public readonly bool AllCaps;
 
-        public TextBoxDescriptor(string id, string fontFamily, double fontSize, TextBoxAlignment alignment, TextBoxColor color, bool allCaps, double x, double y, double width, double height) : base(id, x, y, width, height)
+        public TextBoxDescriptor(string id, string fontFamily, double fontSize, TextBoxAlignment alignment, TextBoxColor color, bool allCaps, double x, double y, double width, double height, double rotateDegrees) : base(id, x, y, width, height, rotateDegrees)
         {
             FontFamily = fontFamily ?? throw new ArgumentNullException(nameof(fontFamily));
 

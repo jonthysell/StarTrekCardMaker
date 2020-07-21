@@ -28,6 +28,6 @@ namespace StarTrekCardMaker.Models
 {
     public class ImageBoxDescriptor : BoxDescriptorBase
     {
-        public ImageBoxDescriptor(string id, double x, double y, double width, double height) : base(id, x, y, width, height) { }
+        public ImageBoxDescriptor(string id, double x, double y, double width, double height, double rotateDegrees) : base(id, x, y, width, height, rotateDegrees) { }
     }
 }
