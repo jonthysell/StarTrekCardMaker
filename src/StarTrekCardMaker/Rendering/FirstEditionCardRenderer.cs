@@ -139,6 +139,10 @@ namespace StarTrekCardMaker.Rendering
             AddBorder(target, card);
 
             AddTextBox(target, card);
+
+            AddText(target, card);
+
+            AddCopyrightText(target, card);
         }
 
         private static void AddInnerRect(Canvas target)
@@ -343,6 +347,11 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Objective:
                     AddTypedTextBlocks(target, card, Card.TypedTextBoxKey, "SevenGametext");
                     break;
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    AddMissionTextBlocks(target, card, Card.MissionTextBoxKey);
+                    break;
             }
         }
 
@@ -367,6 +376,11 @@ namespace StarTrekCardMaker.Rendering
                     break;
                 case CardType.Doorway:
                     AddTextBlock(target, "ArtBox.ExtraLarge.Copyright", card.GetValue(Card.CopyrightKey, DefaultCopyrightText));
+                    break;
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    AddTextBlock(target, "ArtBox.Full.Copyright", card.GetValue(Card.CopyrightKey, DefaultCopyrightText));
                     break;
             }
         }
@@ -432,6 +446,16 @@ namespace StarTrekCardMaker.Rendering
             AddTextBlock(target, $"{textboxKey}.{Card.TitleKey}", card.GetValue(Card.TitleKey));
             AddTextBlock(target, $"{textboxKey}.{textboxValue}.{Card.LoreKey}", card.GetValue(Card.LoreKey));
             AddTextBlock(target, $"{textboxKey}.{textboxValue}.{Card.GametextKey}", card.GetValue(Card.GametextKey));
+        }
+
+        private static void AddMissionTextBlocks(Canvas target, Card card, string textboxKey)
+        {
+            AddMissionTextBlocks(target, card, textboxKey, card.GetValue(CurrentConfig.Enums[textboxKey]));
+        }
+
+        private static void AddMissionTextBlocks(Canvas target, Card card, string textboxKey, string textboxValue)
+        {
+            AddTextBlock(target, $"{textboxKey}.{textboxValue}.{Card.TitleKey}", card.GetValue(Card.TitleKey));
         }
 
         private static void AddTextBlock(Canvas target, string textboxId, string textboxContents)
