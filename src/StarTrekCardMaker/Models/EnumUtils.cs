@@ -76,6 +76,19 @@ namespace StarTrekCardMaker.Models
             return false;
         }
 
+        public static bool IsMissionCard(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    return true;
+            }
+
+            return false;
+        }
+
         public static string GetFriendlyValue(string value)
         {
             StringBuilder sb = new StringBuilder();

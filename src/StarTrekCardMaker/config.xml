@@ -4,13 +4,14 @@
     <constants>
       <constant id="CardWidth" value="354" />
       <constant id="CardHeight" value="494" />
-      <constant id="InnerRectMargin" value="22" />
+      <constant id="InnerRectMargin" value="16" />
       <constant id="TextOffset.Y.Linux" value="2" />
       <constant id="TextOffset.Y.MacOS" value="2" />
     </constants>
     <enums>
       <enum id="TypedTextBox" values="ThreeLoreThreeGametext|TwoLoreFourGametext|OneLoreFiveGametext|SevenGametext" />
       <enum id="QTypedTextBox" values="OneLoreSevenGametext|TwoLoreSixGametext|ThreeLoreFiveGametext|FourLoreFourGametext" />
+      <enum id="MissionTextBox" values="TwoLoreTwoGametext|TwoLoreThreeGametext" />
     </enums>
     <images>
       <image id="Border" path="Assets/FirstEdition/Default/Border" enum="true" />
@@ -21,12 +22,14 @@
       <image id="PropertyLogo" path="Assets/FirstEdition/Default/PropertyLogo" x="176" y="15" enum="true" optional="true" />
       <image id="ExpansionIcon" path="Assets/FirstEdition/Default/ExpansionIcon" x="284" y="300" enum="true" optional="true" />
       <image id="TypedTextBox" path="Assets/FirstEdition/Default/TypedTextBox" x="16" y="15" />
+      <image id="MissionTextBox" path="Assets/FirstEdition/Default/MissionTextBox" x="16" y="15"/>
     </images>
     <imageboxes>
       <imagebox id="ArtBox.Small" x="49" y="94" width="255" height="175" />
       <imagebox id="ArtBox.Medium" x="49" y="94" width="255" height="184" />
       <imagebox id="ArtBox.Large" x="49" y="94" width="255" height="192" />
       <imagebox id="ArtBox.ExtraLarge" x="22" y="22" width="310" height="450" />
+      <imagebox id="ArtBox.Full" x="16" y="16" width="322" height="462" />
     </imageboxes>
     <textboxes>
       <textbox id="TypedTextBox.Title" font="VerbSpacing" size="16" caps="true" align="center" x="46" y="304" width="261" height="17" />

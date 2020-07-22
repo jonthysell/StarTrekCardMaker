@@ -84,6 +84,11 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.QInterrupt:
                     RenderTypedCard(target, card);
                     break;
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    RenderMission(target, card);
+                    break;
             }
 
             return target;
@@ -102,9 +107,9 @@ namespace StarTrekCardMaker.Rendering
         {
             AddInnerRect(target);
 
-            AddBorder(target, card);
-
             AddArt(target, card);
+
+            AddBorder(target, card);
 
             AddInnerBorder(target);
 
@@ -123,6 +128,17 @@ namespace StarTrekCardMaker.Rendering
             AddCopyrightText(target, card);
 
             AddExpansionIcon(target, card);
+        }
+
+        private static void RenderMission(Canvas target, Card card)
+        {
+            AddInnerRect(target);
+
+            AddArt(target, card);
+
+            AddBorder(target, card);
+
+            AddTextBox(target, card);
         }
 
         private static void AddInnerRect(Canvas target)
@@ -229,6 +245,11 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Doorway:
                     AddCardArt(target, card, "ArtBox.ExtraLarge", Card.ArtKey);
                     break;
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    AddCardArt(target, card, "ArtBox.Full", Card.ArtKey);
+                    break;
             }
         }
 
@@ -277,6 +298,18 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.QEvent:
                 case CardType.QInterrupt:
                     AddCachedImage(target, $"{Card.TypedTextBoxKey}.Q");
+                    break;
+                case CardType.MissionBoth:
+                    AddCachedImageByEnumKey(target, card, $"{Card.MissionTextBoxKey}");
+                    AddCachedImage(target, $"{Card.MissionTextBoxKey}.{card.GetValue(CurrentConfig.Enums[Card.MissionTextBoxKey])}.Both");
+                    break;
+                case CardType.MissionPlanet:
+                    AddCachedImageByEnumKey(target, card, $"{Card.MissionTextBoxKey}");
+                    AddCachedImage(target, $"{Card.MissionTextBoxKey}.{card.GetValue(CurrentConfig.Enums[Card.MissionTextBoxKey])}.Planet");
+                    break;
+                case CardType.MissionSpace:
+                    AddCachedImageByEnumKey(target, card, $"{Card.MissionTextBoxKey}");
+                    AddCachedImage(target, $"{Card.MissionTextBoxKey}.{card.GetValue(CurrentConfig.Enums[Card.MissionTextBoxKey])}.Space");
                     break;
             }
         }
