@@ -52,6 +52,12 @@ namespace StarTrekCardMaker.Models
         public const string GametextKey = "Gametext";
         public const string CopyrightKey = "Copyright";
 
+        public const string AffiliationKey = "Affiliation";
+
+        public const string Affiliation2Key = "Affiliation2";
+        public const string Affiliation3Key = "Affiliation3";
+        public const string Affiliation4Key = "Affiliation4";
+
         public Edition Edition
         {
             get
@@ -131,6 +137,21 @@ namespace StarTrekCardMaker.Models
             Data.TryGetValue(key, out string oldValue);
             Data[key] = value;
             return value != oldValue;
+        }
+
+        public List<string> GetAffiliations()
+        {
+            List<string> values = new List<string>();
+            foreach (string key in new[] { AffiliationKey, Affiliation2Key, Affiliation3Key, Affiliation4Key })
+            {
+                string value = GetValue(key);
+                if (string.IsNullOrWhiteSpace(value) || value == DynamicEnum.NoneValue)
+                {
+                    break;
+                }
+                values.Add(value);
+            }
+            return values;
         }
 
         public static Card LoadXml(Stream inputStream)

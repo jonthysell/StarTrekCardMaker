@@ -38,7 +38,7 @@ namespace StarTrekCardMaker.Models
 
         public string Name { get; private set; } = null;
 
-        public Dictionary<string, double> Constants { get; private set; } = new Dictionary<string, double>();
+        public Dictionary<string, string> Constants { get; private set; } = new Dictionary<string, string>();
 
         public Dictionary<string, DynamicEnum> Enums { get; private set; } = new Dictionary<string, DynamicEnum>();
 
@@ -49,6 +49,61 @@ namespace StarTrekCardMaker.Models
         public Dictionary<string, TextBoxDescriptor> TextBoxDescriptors { get; private set; } = new Dictionary<string, TextBoxDescriptor>();
 
         public Config() { }
+
+        public bool TryGetConstant(string key, out string result) => Constants.TryGetValue(key, out result);
+
+        public bool TryGetConstant(string key, out double result)
+        {
+            if (TryGetConstant(key, out string strResult))
+            {
+                return double.TryParse(strResult, out result);
+            }
+
+            result = default;
+            return false;
+        }
+
+        public string GetConstant(string key)
+        {
+            TryGetConstant(key, out string result);
+            return result;
+        }
+
+        public double GetDoubleConstant(string key)
+        {
+            TryGetConstant(key, out double result);
+            return result;
+        }
+
+        public bool TryGetPlatformConstant(string key, out string result)
+        {
+            if (AppInfo.IsWindows)
+            {
+                return TryGetConstant($"{key}.Windows", out result);
+            }
+            else if (AppInfo.IsMacOS)
+            {
+                return TryGetConstant($"{key}.MacOS", out result);
+            }
+            else if (AppInfo.IsLinux)
+            {
+                return TryGetConstant($"{key}.Linux", out result);
+            }
+
+            result = default;
+            return false;
+        }
+
+        public bool TryGetPlatformConstant(string key, out double result)
+        {
+            if (TryGetPlatformConstant(key, out string strResult))
+            {
+                return double.TryParse(strResult, out result);
+            }
+
+            result = default;
+            return false;
+        }
 
         public static Config Read(XmlReader xmlReader, string baseDir)
         {
@@ -79,9 +134,7 @@ namespace StarTrekCardMaker.Models
                     {
                         string id = xmlReader.GetAttribute("id");
 
-                        double.TryParse(xmlReader.GetAttribute("value"), out double value);
-
-                        config.Constants[id] = value;
+                        config.Constants[id] = xmlReader.GetAttribute("value");
                     }
                     else if (name == "enum")
                     {

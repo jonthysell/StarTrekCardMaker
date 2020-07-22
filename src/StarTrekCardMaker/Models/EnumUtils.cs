@@ -24,6 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StarTrekCardMaker.Models
@@ -89,13 +91,37 @@ namespace StarTrekCardMaker.Models
             return false;
         }
 
+        public static bool IsAffiliatedCard(CardType cardType)
+        {
+            switch (cardType)
+            {
+                //case CardType.Facility:
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                //case CardType.Personnel:
+                //case CardType.Ship:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static IEnumerable<string> GetFriendlyValues(IEnumerable<string> values)
+        {
+            return values.Select(item => GetFriendlyValue(item));
+        }
+
         public static string GetFriendlyValue(string value)
         {
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < value.Length; i++)
             {
-                if (i > 0 && char.IsUpper(value[i]))
+                if (i > 0 && (
+                    (char.IsLetterOrDigit(value[i-1]) && char.IsUpper(value[i])) ||
+                    (char.IsLower(value[i-1]) && char.IsDigit(value[i]))
+                   ))
                 {
                     sb.Append(' ');
                 }

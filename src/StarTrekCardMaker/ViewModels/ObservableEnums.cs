@@ -24,11 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using StarTrekCardMaker.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace StarTrekCardMaker.ViewModels
 {
@@ -40,37 +39,11 @@ namespace StarTrekCardMaker.ViewModels
         {
             if (!EnumCache.TryGetValue(typeof(TEnum).Name, out var result))
             {
-                result = new ObservableCollection<string>(GetFriendlyNames(Enum.GetNames(typeof(TEnum))));
+                result = new ObservableCollection<string>(EnumUtils.GetFriendlyValues(Enum.GetNames(typeof(TEnum))));
                 EnumCache[typeof(TEnum).Name] = result;
             }
 
             return result;
-        }
-
-        public static IEnumerable<string> GetFriendlyNames(IEnumerable<string> names)
-        {
-            return names.Select(item => GetFriendlyName(item));
-        }
-
-        public static string GetFriendlyName(string name)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < name.Length; i++)
-            {
-                if (i > 0 && char.IsUpper(name[i]))
-                {
-                    sb.Append(' ');
-                }
-                sb.Append(name[i]);
-            }
-
-            return sb.ToString();
-        }
-
-        public static string GetName(string friendlyName)
-        {
-            return friendlyName.Replace(" ", "");
         }
     }
 }

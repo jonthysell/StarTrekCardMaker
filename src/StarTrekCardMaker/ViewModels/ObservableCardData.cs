@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using StarTrekCardMaker.Models;
 using System;
 using System.ComponentModel;
 
@@ -33,7 +34,7 @@ namespace StarTrekCardMaker.ViewModels
     {
         public string Key { get; private set; }
 
-        public virtual string FriendlyKey => ObservableEnums.GetFriendlyName(Key);
+        public virtual string FriendlyKey => EnumUtils.GetFriendlyValue(Key);
 
         public abstract string Value { get; set; }
 

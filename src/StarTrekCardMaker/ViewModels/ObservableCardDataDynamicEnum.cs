@@ -65,10 +65,12 @@ namespace StarTrekCardMaker.ViewModels
 
         #region Creation
 
-        public ObservableCardDataDynamicEnum(ObservableCard parent, DynamicEnum dynamicEnum, Func<ObservableCard, bool> isEnabled = null) : base(parent, dynamicEnum?.Id, isEnabled)
+        public ObservableCardDataDynamicEnum(ObservableCard parent, string key, DynamicEnum dynamicEnum, Func<ObservableCard, bool> isEnabled = null) : base(parent, key, isEnabled)
         {
             DynamicEnum = dynamicEnum ?? throw new ArgumentNullException(nameof(dynamicEnum));
         }
+
+        public ObservableCardDataDynamicEnum(ObservableCard parent, DynamicEnum dynamicEnum, Func<ObservableCard, bool> isEnabled = null) : this(parent, dynamicEnum?.Id, dynamicEnum, isEnabled) { }
 
         #endregion
     }

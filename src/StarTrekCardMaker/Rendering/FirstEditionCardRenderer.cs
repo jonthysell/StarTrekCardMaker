@@ -44,11 +44,11 @@ namespace StarTrekCardMaker.Rendering
         public static Config CurrentConfig => _currentConfig ??= AppVM.Configs.GetConfig(Edition.FirstEdition);
         private static Config _currentConfig = null;
 
-        public static double CardWidth => CurrentConfig.Constants["CardWidth"];
+        public static double CardWidth => CurrentConfig.GetDoubleConstant("CardWidth");
 
-        public static double CardHeight => CurrentConfig.Constants["CardHeight"];
+        public static double CardHeight => CurrentConfig.GetDoubleConstant("CardHeight");
 
-        public static double InnerRectMargin => CurrentConfig.Constants["InnerRectMargin"];
+        public static double InnerRectMargin => CurrentConfig.GetDoubleConstant("InnerRectMargin");
 
         public readonly static string DefaultCopyrightText = "Not endorsed by CBS or Paramount Pictures";
 
@@ -143,6 +143,8 @@ namespace StarTrekCardMaker.Rendering
             AddText(target, card);
 
             AddCopyrightText(target, card);
+
+            AddMissionAffiliations(target, card);
         }
 
         private static void AddInnerRect(Canvas target)
@@ -321,6 +323,48 @@ namespace StarTrekCardMaker.Rendering
         private static void AddExpansionIcon(Canvas target, Card card)
         {
             AddCachedImageByEnumKey(target, card, Card.ExpansionIconKey);
+        }
+
+        private static void AddMissionAffiliations(Canvas target, Card card)
+        {
+            var affiliations = card.GetAffiliations();
+
+            for (int i = 0; i < affiliations.Count; i++)
+            {
+                TryGetCachedBrush($"MissionAffiliation.Color.{affiliations[i]}", out IBrush affiliationMissionBrush);
+                var mainBoxBorder = AddBorderByImageBoxId(target, $"MissionAffiliation.MainBox.{i + 1}-{affiliations.Count}", AppVM.DebugMode ? Brushes.Magenta : affiliationMissionBrush ?? Brushes.Transparent);
+
+                if (null != mainBoxBorder && TryGetCachedImage($"MissionAffiliation.{affiliations[i]}", out CachedImage result))
+                {
+                    mainBoxBorder.Child = new Image()
+                    {
+                        Source = result.Bitmap,
+                    };
+                }
+
+                AddBorderByImageBoxId(target, $"MissionAffiliation.MiniBox.{i + 1}-{affiliations.Count}", AppVM.DebugMode ? Brushes.Magenta : affiliationMissionBrush ?? Brushes.Transparent);
+            }
+        }
+
+        private static Border AddBorderByImageBoxId(Canvas target, string key, IBrush fill)
+        {
+            if (CurrentConfig.ImageBoxDescriptors.TryGetValue(key, out ImageBoxDescriptor descriptor))
+            {
+                var border = new Border()
+                {
+                    Width = descriptor.Width,
+                    Height = descriptor.Height,
+                    Background = fill,
+                };
+
+                Canvas.SetLeft(border, descriptor.X);
+                Canvas.SetTop(border, descriptor.Y);
+                target.Children.Add(border);
+
+                return border;
+            }
+
+            return null;
         }
 
         private static void AddText(Canvas target, Card card)
@@ -506,27 +550,35 @@ namespace StarTrekCardMaker.Rendering
             return true;
         }
 
-        private static double GetTextOffsetX() => TryGetPlatformConstant("TextOffset.X", out double value) ? value : 0;
+        private static double GetTextOffsetX() => CurrentConfig.TryGetPlatformConstant("TextOffset.X", out double value) ? value : 0;
 
-        private static double GetTextOffsetY() => TryGetPlatformConstant("TextOffset.Y", out double value) ? value : 0;
+        private static double GetTextOffsetY() => CurrentConfig.TryGetPlatformConstant("TextOffset.Y", out double value) ? value : 0;
 
-        private static bool TryGetPlatformConstant(string key, out double result)
+        private static bool TryGetCachedBrush(string brushId, out IBrush result)
         {
-            if (AppInfo.IsWindows)
+            string configName = CurrentConfig.Name;
+            string cacheKey = $"{Edition.FirstEdition}.{configName}";
+
+            if (!CachedBrushes.TryGetValue(cacheKey, out Dictionary<string, IBrush> configBrushes))
             {
-                return CurrentConfig.Constants.TryGetValue($"{key}.Windows", out result);
-            }
-            else if (AppInfo.IsMacOS)
-            {
-                return CurrentConfig.Constants.TryGetValue($"{key}.MacOS", out result);
-            }
-            else if (AppInfo.IsLinux)
-            {
-                return CurrentConfig.Constants.TryGetValue($"{key}.Linux", out result);
+                configBrushes = new Dictionary<string, IBrush>();
+                CachedBrushes[cacheKey] = configBrushes;
             }
 
-            result = default;
-            return false;
+            if (!configBrushes.TryGetValue(brushId, out IBrush cachedBrush))
+            {
+                if (!AppVM.Configs.TryGetConfig(Edition.FirstEdition, configName, out Config config) || !config.TryGetConstant(brushId, out string brushValue))
+                {
+                    result = null;
+                    return false;
+                }
+
+                cachedBrush = new SolidColorBrush(Color.Parse(brushValue));
+                configBrushes[brushId] = cachedBrush;
+            }
+
+            result = cachedBrush;
+            return true;
         }
 
         private static void AddCachedImageByEnumKey(Canvas target, Card card, string enumKey)
@@ -570,6 +622,8 @@ namespace StarTrekCardMaker.Rendering
             result = cachedImage;
             return true;
         }
+
+        private static readonly Dictionary<string, Dictionary<string, IBrush>> CachedBrushes = new Dictionary<string, Dictionary<string, IBrush>>();
 
         private static readonly Dictionary<string, Dictionary<string, CachedImage>> CachedImages = new Dictionary<string, Dictionary<string, CachedImage>>();
 

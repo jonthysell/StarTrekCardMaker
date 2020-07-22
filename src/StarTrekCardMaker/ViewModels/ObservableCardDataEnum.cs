@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using StarTrekCardMaker.Models;
 using System;
 using System.Collections.ObjectModel;
 
@@ -35,11 +36,11 @@ namespace StarTrekCardMaker.ViewModels
         {
             get
             {
-                return ObservableEnums.GetFriendlyName(Parent.InternalObject.GetEnumValue<TEnum>(Key).ToString());
+                return EnumUtils.GetFriendlyValue(Parent.InternalObject.GetEnumValue<TEnum>(Key).ToString());
             }
             set
             {
-                if (Parent.InternalObject.SetEnumValue(Key, Enum.Parse<TEnum>(ObservableEnums.GetName(value))))
+                if (Parent.InternalObject.SetEnumValue(Key, Enum.Parse<TEnum>(EnumUtils.GetValue(value))))
                 {
                     RaisePropertyChanged();
                 }
