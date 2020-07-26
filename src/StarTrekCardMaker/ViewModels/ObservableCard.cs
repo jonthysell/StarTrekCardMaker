@@ -223,7 +223,7 @@ namespace StarTrekCardMaker.ViewModels
 
         #endregion
 
-        private void TrySaveAs()
+        private void TrySaveAs(Action callback = null)
         {
             Messenger.Default.Send(new SaveFileMessage("Save Card As...", FileType.CardXml, FileName, (filename) =>
             {
@@ -231,7 +231,7 @@ namespace StarTrekCardMaker.ViewModels
                 {
                     if (!string.IsNullOrWhiteSpace(filename))
                     {
-                        TrySave(filename);
+                        TrySave(filename, callback);
                     }
                 }
                 catch (Exception ex)
@@ -241,7 +241,7 @@ namespace StarTrekCardMaker.ViewModels
             }));
         }
 
-        private void TrySave(string filename = null)
+        private void TrySave(string filename = null, Action callback = null)
         {
             filename ??= FileName;
 
@@ -252,6 +252,20 @@ namespace StarTrekCardMaker.ViewModels
             FileName = filename;
 
             SaveToOriginal();
+
+            callback?.Invoke();
+        }
+
+        internal void TryClose(Action callback = null)
+        {
+            if (string.IsNullOrWhiteSpace(FileName))
+            {
+                TrySaveAs(callback);
+            }
+            else
+            {
+                TrySave(null, callback);
+            }
         }
     }
 }

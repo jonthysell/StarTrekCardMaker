@@ -100,7 +100,6 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool DebugMode => AppVM.DebugMode;
 
-
         public bool ShowMenu => AppInfo.IsWindows || AppInfo.IsLinux;
 
         public bool ValidConfig => AppVM.ValidConfig;
@@ -117,7 +116,10 @@ namespace StarTrekCardMaker.ViewModels
                 {
                     try
                     {
-                        Card = ObservableCard.NewCard();
+                        if (TryCloseCard(() => NewCard.Execute(null)))
+                        {
+                            Card = ObservableCard.NewCard();
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -134,20 +136,30 @@ namespace StarTrekCardMaker.ViewModels
             {
                 return _openCard ??= new RelayCommand(() =>
                 {
-                    Messenger.Default.Send(new OpenFileMessage("Open Card", FileType.CardXml, Card?.FileName, (filename) =>
+                    try
                     {
-                        try
+                        if (TryCloseCard(() => OpenCard.Execute(null)))
                         {
-                            if (!string.IsNullOrWhiteSpace(filename))
+                            Messenger.Default.Send(new OpenFileMessage("Open Card", FileType.CardXml, Card?.FileName, (filename) =>
                             {
-                                Card = ObservableCard.OpenCard(filename);
-                            }
+                                try
+                                {
+                                    if (!string.IsNullOrWhiteSpace(filename))
+                                    {
+                                        Card = ObservableCard.OpenCard(filename);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ExceptionUtils.HandleException(ex);
+                                }
+                            }));
                         }
-                        catch (Exception ex)
-                        {
-                            ExceptionUtils.HandleException(ex);
-                        }
-                    }));
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionUtils.HandleException(ex);
+                    }
                 }, () => ValidConfig);
             }
         }
@@ -194,13 +206,52 @@ namespace StarTrekCardMaker.ViewModels
 
         public RelayCommand ShowAbout => AppVM.ShowAbout;
 
+        #endregion
+
         public event EventHandler RenderCard;
 
-        #endregion
+        private bool _canClose = false;
 
         public MainViewModel() : base()
         {
             PropertyChanged += MainViewModel_PropertyChanged;
+        }
+
+        public bool TryClose()
+        {
+            return TryCloseCard(RequestClose);
+        }
+
+        private bool TryCloseCard(Action callback)
+        {
+            if (_canClose || !CardLoaded || (CardLoaded && !Card.IsDirty))
+            {
+                _canClose = false;
+                return true;
+            }
+
+            Messenger.Default.Send(new ConfirmationMessage("Your card has unsaved changes. Would you like to save first?", (result) =>
+            {
+                try
+                {
+                    switch (result)
+                    {
+                        case ConfirmationResult.No:
+                            _canClose = true;
+                            callback?.Invoke();
+                            break;
+                        case ConfirmationResult.Yes:
+                            Card.TryClose(callback);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionUtils.HandleException(ex);
+                }
+            }));
+
+            return false;
         }
 
         private void OnRenderCard()

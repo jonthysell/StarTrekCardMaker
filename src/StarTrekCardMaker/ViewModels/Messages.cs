@@ -45,6 +45,16 @@ namespace StarTrekCardMaker.ViewModels
         }
     }
 
+    public class ConfirmationMessage : CallbackMessage<ConfirmationResult>
+    {
+        public readonly ConfirmationViewModel VM;
+
+        public ConfirmationMessage(string message, Action<ConfirmationResult> callback = null) : base(callback)
+        {
+            VM = new ConfirmationViewModel(message);
+        }
+    }
+
     public class ExceptionMessage : MessageBase
     {
         public readonly ExceptionViewModel VM;

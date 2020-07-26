@@ -32,6 +32,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+
 using StarTrekCardMaker.Models;
 using StarTrekCardMaker.ViewModels;
 

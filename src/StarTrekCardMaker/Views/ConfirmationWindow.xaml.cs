@@ -1,5 +1,5 @@
 ﻿// 
-// MainWindow.xaml.cs
+// ConfirmationWindow.xaml.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,9 +24,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.ComponentModel;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -35,29 +32,24 @@ using StarTrekCardMaker.ViewModels;
 
 namespace StarTrekCardMaker.Views
 {
-    public class MainWindow : Window
+    public class ConfirmationWindow : Window
     {
-        public MainViewModel VM
+        public ConfirmationViewModel VM
         {
             get
             {
-                return (MainViewModel)DataContext;
+                return (ConfirmationViewModel)DataContext;
             }
             set
             {
                 DataContext = value;
                 value.RequestClose = Close;
-                value.RenderCard += VM_RenderCard;
             }
         }
 
-        public Grid CardRenderTarget => _cardRenderTarget ??= this.FindControl<Grid>("CardRenderTarget");
-        private Grid _cardRenderTarget;
-
-        public MainWindow()
+        public ConfirmationWindow()
         {
             InitializeComponent();
-            Closing += MainWindow_Closing;
 #if DEBUG
             this.AttachDevTools();
 #endif
@@ -66,26 +58,6 @@ namespace StarTrekCardMaker.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-        }
-        
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
-        {
-            if (!VM.TryClose())
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void VM_RenderCard(object sender, EventArgs e)
-        {
-            CardRenderTarget.Children.Clear();
-
-            var renderedCard = Rendering.CardRenderer.Render(VM.Card);
-
-            if (null != renderedCard)
-            {
-                CardRenderTarget.Children.Add(renderedCard);
-            }
         }
     }
 }
