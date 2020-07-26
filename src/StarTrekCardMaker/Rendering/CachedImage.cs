@@ -29,8 +29,11 @@ using System.IO;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+
+using StarTrekCardMaker.Models;
 
 namespace StarTrekCardMaker.Rendering
 {
@@ -56,15 +59,29 @@ namespace StarTrekCardMaker.Rendering
 
         public CachedImage(string source, double x, double y) : this(new Uri(source, UriKind.RelativeOrAbsolute), x, y) { }
 
-        public IControl ToControl()
+        public IControl ToControl(ImageBoxDescriptor imageBoxDescriptor = null)
         {
             var control = new Image()
             {
                 Source = Bitmap
             };
 
-            control.SetValue(Canvas.LeftProperty, X);
-            control.SetValue(Canvas.TopProperty, Y);
+            if (null == imageBoxDescriptor)
+            {
+                control.SetValue(Canvas.LeftProperty, X);
+                control.SetValue(Canvas.TopProperty, Y);
+            }
+
+            if (null != imageBoxDescriptor)
+            {
+                control.Width = imageBoxDescriptor.Width;
+                control.Height = imageBoxDescriptor.Height;
+
+                control.Stretch = Stretch.Uniform;
+
+                control.SetValue(Canvas.LeftProperty, imageBoxDescriptor.X);
+                control.SetValue(Canvas.TopProperty, imageBoxDescriptor.Y);
+            }
 
             return control;
         }

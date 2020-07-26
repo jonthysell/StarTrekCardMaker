@@ -40,9 +40,12 @@ namespace StarTrekCardMaker.Models
                 case CardType.DilemmaBoth:
                 case CardType.DilemmaPlanet:
                 case CardType.DilemmaSpace:
+                case CardType.Doorway:
                 case CardType.Event:
                 case CardType.Equipment:
+                case CardType.Incident:
                 case CardType.Interrupt:
+                case CardType.Objective:
                     return true;
             }
 
@@ -91,7 +94,44 @@ namespace StarTrekCardMaker.Models
             return false;
         }
 
-        public static bool IsAffiliatedCard(CardType cardType)
+        public static bool ShowPropertyLogoOption(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.Artifact:
+                case CardType.DilemmaBoth:
+                case CardType.DilemmaPlanet:
+                case CardType.DilemmaSpace:
+                case CardType.Doorway:
+                case CardType.Event:
+                case CardType.Equipment:
+                //case CardType.Facility:
+                case CardType.Incident:
+                case CardType.Interrupt:
+                case CardType.Objective:
+                //case CardType.Personnel:
+                case CardType.QArtifact:
+                case CardType.QDilemma:
+                case CardType.QEvent:
+                case CardType.QInterrupt:
+                //case CardType.Ship:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool ShowBorderOption(CardType cardType)
+        {
+            return true;
+        }
+
+        public static bool ShowExpansionIconOption(CardType cardType)
+        {
+            return true;
+        }
+
+        public static bool ShowAffiliationOption(CardType cardType)
         {
             switch (cardType)
             {
@@ -105,6 +145,78 @@ namespace StarTrekCardMaker.Models
             }
 
             return false;
+        }
+
+        public static bool ShowTypedTextBoxOption(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.Artifact:
+                case CardType.DilemmaBoth:
+                case CardType.DilemmaPlanet:
+                case CardType.DilemmaSpace:
+                case CardType.Event:
+                case CardType.Equipment:
+                case CardType.Interrupt:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool ShowQTypedTextBoxOption(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.QArtifact:
+                case CardType.QDilemma:
+                case CardType.QEvent:
+                case CardType.QInterrupt:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool ShowMissionTextBoxOption(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool ShowTitleOption(CardType cardType)
+        {
+            return true;
+        }
+
+        public static bool ShowLoreOption(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.Doorway:
+                case CardType.Incident:
+                case CardType.Objective:
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool ShowGametextOption(CardType cardType)
+        {
+            return true;
+        }
+
+        public static bool ShowCopyrightOption(CardType cardType)
+        {
+            return true;
         }
 
         public static IEnumerable<string> GetFriendlyValues(IEnumerable<string> values)

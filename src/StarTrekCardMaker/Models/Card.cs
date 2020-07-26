@@ -122,6 +122,11 @@ namespace StarTrekCardMaker.Models
             return defaultValue;
         }
 
+        public string GetFullyQualifiedValue(DynamicEnum dynamicEnum)
+        {
+            return $"{dynamicEnum?.Id}.{GetValue(dynamicEnum)}";
+        }
+
         public string GetValue(string key, string defaultValue = "")
         {
             if (Data.TryGetValue(key, out string value) && !string.IsNullOrWhiteSpace(value))

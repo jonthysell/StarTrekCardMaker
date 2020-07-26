@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -146,6 +147,8 @@ namespace StarTrekCardMaker.Rendering
             AddCopyrightText(target, card);
 
             AddMissionAffiliations(target, card);
+
+            AddExpansionIcon(target, card);
         }
 
         private static void AddInnerRect(Canvas target)
@@ -298,7 +301,7 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Doorway:
                 case CardType.Incident:
                 case CardType.Objective:
-                    AddCachedImage(target, $"{Card.TypedTextBoxKey}.SevenGametext");
+                    AddCachedImage(target, $"{Card.TypedTextBoxKey}.SevenGametext", GetOverrides(Card.TypedTextBoxKey, "SevenGametext"));
                     break;
                 case CardType.QArtifact:
                 case CardType.QDilemma:
@@ -323,7 +326,35 @@ namespace StarTrekCardMaker.Rendering
 
         private static void AddExpansionIcon(Canvas target, Card card)
         {
-            AddCachedImageByEnumKey(target, card, Card.ExpansionIconKey);
+            switch (card.CardType)
+            {
+                case CardType.Artifact:
+                case CardType.DilemmaBoth:
+                case CardType.DilemmaPlanet:
+                case CardType.DilemmaSpace:
+                case CardType.Event:
+                case CardType.Equipment:
+                case CardType.Interrupt:
+                    AddCachedImageByEnumKey(target, card, Card.ExpansionIconKey, Card.TypedTextBoxKey);
+                    break;
+                case CardType.Doorway:
+                case CardType.Incident:
+                case CardType.Objective:
+                    string expansionValue = card.GetValue(CurrentConfig.Enums[Card.ExpansionIconKey]);
+                    AddCachedImage(target, $"{Card.ExpansionIconKey}.{expansionValue}", GetOverrides(Card.TypedTextBoxKey, "SevenGametext", Card.ExpansionIconKey, expansionValue));
+                    break;
+                case CardType.QArtifact:
+                case CardType.QDilemma:
+                case CardType.QEvent:
+                case CardType.QInterrupt:
+                    AddCachedImageByEnumKey(target, card, Card.ExpansionIconKey, Card.QTypedTextBoxKey);
+                    break;
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    AddCachedImageByEnumKey(target, card, Card.ExpansionIconKey, Card.MissionTextBoxKey);
+                    break;
+            }
         }
 
         private static void AddMissionAffiliations(Canvas target, Card card)
@@ -582,18 +613,42 @@ namespace StarTrekCardMaker.Rendering
             return true;
         }
 
-        private static void AddCachedImageByEnumKey(Canvas target, Card card, string enumKey)
+        private static void AddCachedImageByEnumKey(Canvas target, Card card, string enumKey, string imageBoxEnumKey = null)
         {
-            string enumValue = card.GetValue(CurrentConfig.Enums[enumKey]);
+            string fullyQualifiedEnumValue = card.GetFullyQualifiedValue(CurrentConfig.Enums[enumKey]);
 
-            AddCachedImage(target, $"{enumKey}.{enumValue}");
+            List<string> defaultImageBoxIds = new List<string>(null == imageBoxEnumKey ? GetOverrides(card, enumKey) : GetOverrides(card, imageBoxEnumKey, enumKey));
+
+            AddCachedImage(target, fullyQualifiedEnumValue, defaultImageBoxIds);
         }
 
-        private static void AddCachedImage(Canvas target, string imageId)
+        private static void AddCachedImage(Canvas target, string imageId, IEnumerable<string> imageBoxOverrides = null)
         {
             if (TryGetCachedImage(imageId, out CachedImage cachedImage))
             {
-                target.Children.Add(cachedImage.ToControl());
+                ImageBoxDescriptor imageBoxDescriptor = null;
+
+                if (null == imageBoxOverrides)
+                {
+                    var defaultOverrides = new List<string>();
+
+                    string[] split = imageId.Split('.', StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < split.Length; i++)
+                    {
+                        defaultOverrides.Add(string.Join('.', split.Skip(i).ToArray()));
+                    }
+                    imageBoxOverrides = defaultOverrides;
+                }
+
+                foreach (var imageBoxId in imageBoxOverrides)
+                {
+                    if (CurrentConfig.ImageBoxDescriptors.TryGetValue(imageBoxId, out imageBoxDescriptor))
+                    {
+                        break;
+                    }
+                }
+
+                target.Children.Add(cachedImage.ToControl(imageBoxDescriptor));
             }
         }
 
@@ -622,6 +677,47 @@ namespace StarTrekCardMaker.Rendering
 
             result = cachedImage;
             return true;
+        }
+
+        private static IEnumerable<string> GetOverrides(Card card, string enumKey)
+        {
+            return GetOverrides(enumKey, card.GetValue(CurrentConfig.Enums[enumKey]));
+        }
+
+        private static IEnumerable<string> GetOverrides(string enumKey, string value)
+        {
+            string fqEnumValue = $"{enumKey}.{value}";
+
+            List<string> overrides = new List<string>() // ExpansionIcon
+            {
+                fqEnumValue, // ExpansionIcon.Premiere
+                enumKey,     // ExpansionIcon
+            };
+
+            return overrides;
+        }
+
+        private static IEnumerable<string> GetOverrides(Card card, string enumKey1, string enumKey2)
+        {
+            return GetOverrides(enumKey1, card.GetValue(CurrentConfig.Enums[enumKey1]), enumKey2, card.GetValue(CurrentConfig.Enums[enumKey2]));
+        }
+
+        private static IEnumerable<string> GetOverrides(string enumKey1, string value1, string enumKey2, string value2)
+        {
+            string fqEnumValue1 = $"{enumKey1}.{value1}";
+            string fqEnumValue2 = $"{enumKey2}.{value2}";
+
+            List<string> overrides = new List<string>() // TypedTextBox, ExpansionIcon
+            {
+                $"{fqEnumValue1}.{fqEnumValue2}", // TypedTextBox.ThreeLoreThreeGametext.ExpansionIcon.Premiere
+                $"{fqEnumValue1}.{enumKey2}",     // TypedTextBox.ThreeLoreThreeGametext.ExpansionIcon
+                $"{enumKey1}.{fqEnumValue2}",     // TypedTextBox.ExpansionIcon.Premiere
+                $"{enumKey1}.{enumKey2}",         // TypedTextBox.ExpansionIcon
+                fqEnumValue2,                     // ExpansionIcon.Premiere
+                enumKey2,                         // ExpansionIcon
+            };
+
+            return overrides;
         }
 
         private static readonly Dictionary<string, Dictionary<string, IBrush>> CachedBrushes = new Dictionary<string, Dictionary<string, IBrush>>();

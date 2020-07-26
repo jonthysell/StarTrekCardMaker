@@ -198,24 +198,24 @@ namespace StarTrekCardMaker.ViewModels
             if (InternalObject.Edition == Edition.FirstEdition)
             {
                 data.Add(new ObservableCardDataEnum<CardType>(this));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.BorderKey]));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.PropertyLogoKey]));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.ExpansionIconKey]));
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.AffiliationKey, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.IsAffiliatedCard(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation2Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.IsAffiliatedCard(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 1));
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation3Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.IsAffiliatedCard(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 2));
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation4Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.IsAffiliatedCard(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 3));
+                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.BorderKey], (card) => EnumUtils.ShowBorderOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.PropertyLogoKey], (card) => EnumUtils.ShowPropertyLogoOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.ExpansionIconKey], (card) => EnumUtils.ShowExpansionIconOption(card.InternalObject.CardType)));
+
+                data.Add(new ObservableCardDataDynamicEnum(this, Card.AffiliationKey, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation2Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 1));
+                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation3Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 2));
+                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation4Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 3));
                 data.Add(new ObservableCardDataImage(this, Card.ArtKey));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.TypedTextBoxKey], (card) => EnumUtils.IsTypedCard(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.QTypedTextBoxKey], (card) => EnumUtils.IsQTypedCard(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.MissionTextBoxKey], (card) => EnumUtils.IsMissionCard(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.MissionTextBoxKey], (card) => EnumUtils.IsMissionCard(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.MissionTextBoxKey], (card) => EnumUtils.IsMissionCard(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.MissionTextBoxKey], (card) => EnumUtils.IsMissionCard(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataText(this, Card.TitleKey));
-                data.Add(new ObservableCardDataText(this, Card.LoreKey));
-                data.Add(new ObservableCardDataText(this, Card.GametextKey));
-                data.Add(new ObservableCardDataText(this, Card.CopyrightKey));
+
+                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.TypedTextBoxKey], (card) => EnumUtils.ShowTypedTextBoxOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.QTypedTextBoxKey], (card) => EnumUtils.ShowQTypedTextBoxOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.MissionTextBoxKey], (card) => EnumUtils.ShowMissionTextBoxOption(card.InternalObject.CardType)));
+               
+                data.Add(new ObservableCardDataText(this, Card.TitleKey, (card) => EnumUtils.ShowTitleOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataText(this, Card.LoreKey, (card) => EnumUtils.ShowLoreOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataText(this, Card.GametextKey, (card) => EnumUtils.ShowGametextOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataText(this, Card.CopyrightKey, (card) => EnumUtils.ShowCopyrightOption(card.InternalObject.CardType)));
             }
 
             return data;
