@@ -7,7 +7,7 @@
     <Copyright>Copyright © 2020 Jon Thysell</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/jonthysell/startrekcardmaker</RepositoryUrl>
-    <Version>0.9.0</Version>
+    <Version>0.9.1</Version>
     <AssemblyVersion>$(Version).0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
   </PropertyGroup>
