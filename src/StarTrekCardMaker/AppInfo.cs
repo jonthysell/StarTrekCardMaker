@@ -38,7 +38,19 @@ namespace StarTrekCardMaker
         public static string Name => _name ??= Models.EnumUtils.GetFriendlyValue(Assembly.GetName().Name);
         private static string _name = null;
 
-        public static string Version => _version ??= Assembly.GetName().Version.ToString();
+        public static string Version
+        {
+            get
+            {
+                if (null == _version)
+                {
+                    Version vers = Assembly.GetName().Version;
+                    _version = vers.Build == 0 ? $"{vers.Major}.{vers.Minor}" : $"{vers.Major}.{vers.Minor}.{vers.Build}";
+                }
+                return _version;
+            }
+        }
+
         private static string _version = null;
 
         public static string Copyright => _copyright ??= Assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;

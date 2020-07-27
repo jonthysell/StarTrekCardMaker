@@ -7,9 +7,9 @@
     <Copyright>Copyright © 2020 Jon Thysell</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/jonthysell/startrekcardmaker</RepositoryUrl>
-    <AssemblyVersion>0.9.0.0</AssemblyVersion>
-    <FileVersion>$(AssemblyVersion)</FileVersion>
     <Version>0.9.0</Version>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'osx-x64' ">
     <CFBundleVersion>$(AssemblyVersion)</CFBundleVersion>
