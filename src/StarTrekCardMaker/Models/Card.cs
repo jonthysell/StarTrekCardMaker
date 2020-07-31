@@ -54,9 +54,7 @@ namespace StarTrekCardMaker.Models
 
         public const string AffiliationKey = "Affiliation";
 
-        public const string Affiliation2Key = "Affiliation2";
-        public const string Affiliation3Key = "Affiliation3";
-        public const string Affiliation4Key = "Affiliation4";
+        public const int MaxAffiliations = 5;
 
         public Edition Edition
         {
@@ -147,9 +145,9 @@ namespace StarTrekCardMaker.Models
         public List<string> GetAffiliations()
         {
             List<string> values = new List<string>();
-            foreach (string key in new[] { AffiliationKey, Affiliation2Key, Affiliation3Key, Affiliation4Key })
+            for (int i = 1; i <= MaxAffiliations; i++)
             {
-                string value = GetValue(key);
+                string value = GetValue($"{AffiliationKey}{(i > 1 ? i.ToString() : "")}");
                 if (string.IsNullOrWhiteSpace(value) || value == DynamicEnum.NoneValue)
                 {
                     break;

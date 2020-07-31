@@ -131,20 +131,27 @@ namespace StarTrekCardMaker.Models
             return true;
         }
 
-        public static bool ShowAffiliationOption(CardType cardType)
+        public static bool ShowAffiliationOption(CardType cardType, int affiliationNumber = 1)
+        {
+            return affiliationNumber >= 1 && affiliationNumber <= MaxAffiliations(cardType);
+        }
+
+        public static int MaxAffiliations(CardType cardType)
         {
             switch (cardType)
             {
                 //case CardType.Facility:
+                //    return 1;
                 case CardType.MissionBoth:
                 case CardType.MissionPlanet:
                 case CardType.MissionSpace:
+                    return 5;
                 //case CardType.Personnel:
                 //case CardType.Ship:
-                    return true;
+                //    return 3;
             }
 
-            return false;
+            return 0;
         }
 
         public static bool ShowTypedTextBoxOption(CardType cardType)

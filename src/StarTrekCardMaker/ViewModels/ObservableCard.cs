@@ -202,10 +202,13 @@ namespace StarTrekCardMaker.ViewModels
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.PropertyLogoKey], (card) => EnumUtils.ShowPropertyLogoOption(card.InternalObject.CardType)));
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.ExpansionIconKey], (card) => EnumUtils.ShowExpansionIconOption(card.InternalObject.CardType)));
 
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.AffiliationKey, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation2Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 1));
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation3Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 2));
-                data.Add(new ObservableCardDataDynamicEnum(this, Card.Affiliation4Key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType) && card.InternalObject.GetAffiliations().Count >= 3));
+                for (int i = 0; i < Card.MaxAffiliations; i++)
+                {
+                    int affiliationNum = i + 1;
+                    string key = $"{Card.AffiliationKey}{(affiliationNum > 1 ? affiliationNum.ToString() : "")}";
+                    data.Add(new ObservableCardDataDynamicEnum(this, key, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.AffiliationKey], (card) => EnumUtils.ShowAffiliationOption(card.InternalObject.CardType, affiliationNum) && card.InternalObject.GetAffiliations().Count >= affiliationNum - 1) ); 
+                }
+
                 data.Add(new ObservableCardDataImage(this, Card.ArtKey));
 
                 data.Add(new ObservableCardDataDynamicEnum(this, AppVM.Configs.GetConfig(Edition.FirstEdition).Enums[Card.TypedTextBoxKey], (card) => EnumUtils.ShowTypedTextBoxOption(card.InternalObject.CardType)));
