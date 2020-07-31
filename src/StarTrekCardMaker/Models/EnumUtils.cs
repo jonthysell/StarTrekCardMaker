@@ -226,6 +226,19 @@ namespace StarTrekCardMaker.Models
             return true;
         }
 
+        public static bool ShowSpanOption(CardType cardType)
+        {
+            switch (cardType)
+            {
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    return true;
+            }
+
+            return false;
+        }
+
         public static IEnumerable<string> GetFriendlyValues(IEnumerable<string> values)
         {
             return values.Select(item => GetFriendlyValue(item));

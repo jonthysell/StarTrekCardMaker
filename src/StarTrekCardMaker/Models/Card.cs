@@ -54,6 +54,8 @@ namespace StarTrekCardMaker.Models
 
         public const string AffiliationKey = "Affiliation";
 
+        public const string SpanKey = "Span";
+
         public const int MaxAffiliations = 5;
 
         public Edition Edition

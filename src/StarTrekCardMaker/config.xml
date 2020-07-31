@@ -55,45 +55,45 @@
       <imagebox id="MissionTextBox.TwoLoreTwoGametext.ExpansionIcon" x="297" y="333" width="18" height="18" />
       <imagebox id="MissionTextBox.TwoLoreThreeGametext.ExpansionIcon" x="297" y="313" width="18" height="18" />
       
-      <imagebox id="MissionAffiliation.MainBox.1-1" x="122" y="419" width="62" height="23" />
+      <imagebox id="MissionAffiliation.Player.1-1" x="122" y="419" width="62" height="23" />
       
-      <imagebox id="MissionAffiliation.MainBox.1-2" x="84" y="419" width="62" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.2-2" x="159" y="419" width="62" height="23" />
+      <imagebox id="MissionAffiliation.Player.1-2" x="84" y="419" width="62" height="23" />
+      <imagebox id="MissionAffiliation.Player.2-2" x="159" y="419" width="62" height="23" />
       
-      <imagebox id="MissionAffiliation.MainBox.1-3" x="47" y="419" width="62" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.2-3" x="122" y="419" width="62" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.3-3" x="197" y="419" width="62" height="23" />
+      <imagebox id="MissionAffiliation.Player.1-3" x="47" y="419" width="62" height="23" />
+      <imagebox id="MissionAffiliation.Player.2-3" x="122" y="419" width="62" height="23" />
+      <imagebox id="MissionAffiliation.Player.3-3" x="197" y="419" width="62" height="23" />
       
-      <imagebox id="MissionAffiliation.MainBox.1-4" x="48" y="419" width="44" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.2-4" x="103" y="419" width="44" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.3-4" x="158" y="419" width="44" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.4-4" x="213" y="419" width="44" height="23" />
+      <imagebox id="MissionAffiliation.Player.1-4" x="48" y="419" width="44" height="23" />
+      <imagebox id="MissionAffiliation.Player.2-4" x="103" y="419" width="44" height="23" />
+      <imagebox id="MissionAffiliation.Player.3-4" x="158" y="419" width="44" height="23" />
+      <imagebox id="MissionAffiliation.Player.4-4" x="213" y="419" width="44" height="23" />
 
-      <imagebox id="MissionAffiliation.MainBox.1-5" x="47" y="419" width="34" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.2-5" x="92" y="419" width="34" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.3-5" x="136" y="419" width="34" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.4-5" x="181" y="419" width="34" height="23" />
-      <imagebox id="MissionAffiliation.MainBox.5-5" x="225" y="419" width="34" height="23" />
+      <imagebox id="MissionAffiliation.Player.1-5" x="47" y="419" width="34" height="23" />
+      <imagebox id="MissionAffiliation.Player.2-5" x="92" y="419" width="34" height="23" />
+      <imagebox id="MissionAffiliation.Player.3-5" x="136" y="419" width="34" height="23" />
+      <imagebox id="MissionAffiliation.Player.4-5" x="181" y="419" width="34" height="23" />
+      <imagebox id="MissionAffiliation.Player.5-5" x="225" y="419" width="34" height="23" />
       
-      <imagebox id="MissionAffiliation.MiniBox.1-1" x="302" y="47" width="10" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.1-1" x="302" y="47" width="10" height="25" />
       
-      <imagebox id="MissionAffiliation.MiniBox.1-2" x="309" y="47" width="10" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.2-2" x="295" y="47" width="10" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.1-2" x="309" y="47" width="10" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.2-2" x="295" y="47" width="10" height="25" />
       
-      <imagebox id="MissionAffiliation.MiniBox.1-3" x="316" y="47" width="10" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.2-3" x="302" y="47" width="10" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.3-3" x="288" y="47" width="10" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.1-3" x="316" y="47" width="10" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.2-3" x="302" y="47" width="10" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.3-3" x="288" y="47" width="10" height="25" />
 
-      <imagebox id="MissionAffiliation.MiniBox.1-4" x="318.5" y="47" width="6.5" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.2-4" x="308.5" y="47" width="6.5" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.3-4" x="298.5" y="47" width="6.5" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.4-4" x="288.5" y="47" width="6.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.1-4" x="318.5" y="47" width="6.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.2-4" x="308.5" y="47" width="6.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.3-4" x="298.5" y="47" width="6.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.4-4" x="288.5" y="47" width="6.5" height="25" />
 
-      <imagebox id="MissionAffiliation.MiniBox.1-5" x="320" y="47" width="5.5" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.2-5" x="312" y="47" width="5.5" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.3-5" x="304" y="47" width="5.5" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.4-5" x="296" y="47" width="5.5" height="25" />
-      <imagebox id="MissionAffiliation.MiniBox.5-5" x="288" y="47" width="5.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.1-5" x="320" y="47" width="5.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.2-5" x="312" y="47" width="5.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.3-5" x="304" y="47" width="5.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.4-5" x="296" y="47" width="5.5" height="25" />
+      <imagebox id="MissionAffiliation.Opponent.5-5" x="288" y="47" width="5.5" height="25" />
     </imageboxes>
     <textboxes>
       <textbox id="TypedTextBox.Title" font="VerbSpacing" size="16" caps="true" align="center" x="46" y="304" width="261" height="17" />
@@ -125,6 +125,9 @@
       
       <textbox id="MissionTextBox.TwoLoreTwoGametext.Title" font="VerbSpacing" color="white" size="24" align="center" x="35" y="301" width="284" height="27" />
       <textbox id="MissionTextBox.TwoLoreThreeGametext.Title" font="VerbSpacing" color="white" size="24" align="center" x="35" y="281" width="284" height="27" />
+
+      <textbox id="MissionTextBox.Player.Span" font="Gametext" color="white" size="20" align="center" x="168" y="452" width="20" height="20" />
+      <textbox id="MissionTextBox.Opponent.Span" font="Gametext" color="white" size="20" align="center" rotate="180" x="188" y="42" width="20" height="20" />
       
       <textbox id="ArtBox.Medium.Copyright" font="Lore" color="white" size="9.2" caps="true" x="313" y="270" width="170" height="13" rotate="-90" />
       <textbox id="ArtBox.ExtraLarge.Copyright" font="Lore" color="white" size="9.2" caps="true" x="313" y="454" width="150" height="13" rotate="-90" />

@@ -364,17 +364,17 @@ namespace StarTrekCardMaker.Rendering
             for (int i = 0; i < affiliations.Count; i++)
             {
                 TryGetCachedBrush($"MissionAffiliation.Color.{affiliations[i]}", out IBrush affiliationMissionBrush);
-                var mainBoxBorder = AddBorderByImageBoxId(target, $"MissionAffiliation.MainBox.{i + 1}-{affiliations.Count}", AppVM.DebugMode ? Brushes.Magenta : affiliationMissionBrush ?? Brushes.Transparent);
+                var playerBoxBorder = AddBorderByImageBoxId(target, $"MissionAffiliation.Player.{i + 1}-{affiliations.Count}", AppVM.DebugMode ? Brushes.Magenta : affiliationMissionBrush ?? Brushes.Transparent);
 
-                if (null != mainBoxBorder && TryGetCachedImage($"MissionAffiliation.{affiliations[i]}", out CachedImage result))
+                if (null != playerBoxBorder && TryGetCachedImage($"MissionAffiliation.{affiliations[i]}", out CachedImage result))
                 {
-                    mainBoxBorder.Child = new Image()
+                    playerBoxBorder.Child = new Image()
                     {
                         Source = result.Bitmap,
                     };
                 }
 
-                AddBorderByImageBoxId(target, $"MissionAffiliation.MiniBox.{i + 1}-{affiliations.Count}", AppVM.DebugMode ? Brushes.Magenta : affiliationMissionBrush ?? Brushes.Transparent);
+                AddBorderByImageBoxId(target, $"MissionAffiliation.Opponent.{i + 1}-{affiliations.Count}", AppVM.DebugMode ? Brushes.Magenta : affiliationMissionBrush ?? Brushes.Transparent);
             }
         }
 
@@ -532,6 +532,8 @@ namespace StarTrekCardMaker.Rendering
         private static void AddMissionTextBlocks(Canvas target, Card card, string textboxKey, string textboxValue)
         {
             AddTextBlock(target, $"{textboxKey}.{textboxValue}.{Card.TitleKey}", card.GetValue(Card.TitleKey));
+            AddTextBlock(target, $"{textboxKey}.Player.{Card.SpanKey}", card.GetValue(Card.SpanKey));
+            AddTextBlock(target, $"{textboxKey}.Opponent.{Card.SpanKey}", card.GetValue(Card.SpanKey));
         }
 
         private static void AddTextBlock(Canvas target, string textboxId, string textboxContents)

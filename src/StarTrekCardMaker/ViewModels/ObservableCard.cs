@@ -219,6 +219,7 @@ namespace StarTrekCardMaker.ViewModels
                 data.Add(new ObservableCardDataText(this, Card.LoreKey, (card) => EnumUtils.ShowLoreOption(card.InternalObject.CardType)));
                 data.Add(new ObservableCardDataText(this, Card.GametextKey, (card) => EnumUtils.ShowGametextOption(card.InternalObject.CardType)));
                 data.Add(new ObservableCardDataText(this, Card.CopyrightKey, (card) => EnumUtils.ShowCopyrightOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataText(this, Card.SpanKey, (card) => EnumUtils.ShowSpanOption(card.InternalObject.CardType)));
             }
 
             return data;
