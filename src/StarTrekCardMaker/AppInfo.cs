@@ -53,6 +53,20 @@ namespace StarTrekCardMaker
 
         private static string _version = null;
 
+        public static ulong LongVersion
+        {
+            get
+            {
+                if (!_longVersion.HasValue)
+                {
+                    Utils.UpdateUtils.TryParseLongVersion(Version, out ulong result);
+                    _longVersion = result;
+                }
+                return _longVersion.Value;
+            }
+        }
+        private static ulong? _longVersion;
+
         public static string Copyright => _copyright ??= Assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
         private static string _copyright = null;
 

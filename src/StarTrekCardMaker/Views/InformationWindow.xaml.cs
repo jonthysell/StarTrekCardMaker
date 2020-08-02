@@ -1,5 +1,5 @@
 ﻿// 
-// ExceptionViewModel.cs
+// InformationWindow.xaml.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,52 +24,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 
-using GalaSoft.MvvmLight.Command;
+using StarTrekCardMaker.ViewModels;
 
-namespace StarTrekCardMaker.ViewModels
+namespace StarTrekCardMaker.Views
 {
-    public class ExceptionViewModel : ViewModelBase
+    public class InformationWindow : Window
     {
-        #region Properties
-
-        public override string Title => "Exception";
-
-        public string Message => _exception.Message;
-
-        public string Details => _exception.ToString();
-
-        #endregion
-
-        #region Commands
-
-        public RelayCommand Close
+        public InformationViewModel VM
         {
             get
             {
-                return _close ??= new RelayCommand(() =>
-                {
-                    try
-                    {
-                        RequestClose?.Invoke();
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionUtils.HandleException(ex);
-                    }
-                });
+                return (InformationViewModel)DataContext;
+            }
+            set
+            {
+                DataContext = value;
+                value.RequestClose = Close;
             }
         }
-        private RelayCommand _close;
 
-        #endregion
-
-        private readonly Exception _exception;
-
-        public ExceptionViewModel(Exception exception) : base()
+        public InformationWindow()
         {
-            _exception = exception ?? throw new ArgumentNullException(nameof(exception));
+            InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
+        }
+
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
         }
     }
 }

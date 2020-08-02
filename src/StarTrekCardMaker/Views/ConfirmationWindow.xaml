@@ -17,7 +17,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid ColumnDefinitions="Auto,*"
           Margin="5"
-          RowDefinitions="*,Auto">
+          RowDefinitions="Auto,Auto">
         <Image Grid.Column="0"
                Grid.Row="0"
                Grid.RowSpan="2"

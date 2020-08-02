@@ -206,6 +206,8 @@ namespace StarTrekCardMaker.ViewModels
 
         public RelayCommand ShowAbout => AppVM.ShowAbout;
 
+        public RelayCommand CheckForUpdates => AppVM.CheckForUpdates;
+
         #endregion
 
         public event EventHandler RenderCard;

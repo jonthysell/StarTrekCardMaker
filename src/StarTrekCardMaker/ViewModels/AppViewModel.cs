@@ -32,6 +32,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
 using StarTrekCardMaker.Models;
+using StarTrekCardMaker.Utils;
 
 namespace StarTrekCardMaker.ViewModels
 {
@@ -89,6 +90,53 @@ namespace StarTrekCardMaker.ViewModels
             }
         }
         private RelayCommand _showAbout;
+
+        public RelayCommand CheckForUpdates
+        {
+            get
+            {
+                return _checkForUpdates ??= new RelayCommand(async () =>
+                {
+                    try
+                    {
+                        var latestRelease = await UpdateUtils.GetLatestGitHubReleaseInfoAsync("jonthysell", "StarTrekCardMaker");
+
+                        if (null == latestRelease)
+                        {
+                            Messenger.Default.Send(new InformationMessage("Unable to check for updates at this time. Please try again later."));
+                        }
+                        else if (latestRelease.LongVersion <= AppInfo.LongVersion)
+                        {
+                            Messenger.Default.Send(new InformationMessage($"{AppInfo.Name} is already up-to-date."));
+                        }
+                        else
+                        {
+                            // Update available
+                            Messenger.Default.Send(new ConfirmationMessage($"{latestRelease.Name} is now avaliable. Would you like to open the release page?", (result) =>
+                            {
+                                try
+                                {
+                                    if (result == ConfirmationResult.Yes)
+                                    {
+                                        Messenger.Default.Send(new LaunchUrlMessage(latestRelease.HtmlUrl));
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ExceptionUtils.HandleException(ex);
+                                }
+                                
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionUtils.HandleException(ex);
+                    }
+                });
+            }
+        }
+        private RelayCommand _checkForUpdates;
 
         private AppViewModel() { }
 

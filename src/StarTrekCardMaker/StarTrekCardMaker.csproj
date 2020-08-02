@@ -6,6 +6,7 @@
     <AssemblyName>StarTrekCardMaker</AssemblyName>
     <RootNamespace>StarTrekCardMaker</RootNamespace>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RuntimeIdentifier)' == 'osx-x64' ">
     <CFBundleName>Star Trek Card Maker</CFBundleName>
@@ -39,6 +40,9 @@
     <Content Include="icon.icns">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.Text.Json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.11" />

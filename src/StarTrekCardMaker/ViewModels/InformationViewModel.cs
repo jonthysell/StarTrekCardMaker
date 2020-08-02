@@ -1,5 +1,5 @@
 ﻿// 
-// ExceptionWindow.xaml.cs
+// InformationViewModel.cs
 //  
 // Author:
 //       Jon Thysell <thysell@gmail.com>
@@ -24,40 +24,55 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using System;
 
-using StarTrekCardMaker.ViewModels;
+using GalaSoft.MvvmLight.Command;
 
-namespace StarTrekCardMaker.Views
+namespace StarTrekCardMaker.ViewModels
 {
-    public class ExceptionWindow : Window
+    public class InformationViewModel : ViewModelBase
     {
-        public ExceptionViewModel VM
+        #region Properties
+
+        public override string Title => _title;
+        private string _title;
+
+        public string Message { get; private set; }
+
+        public string Details { get; private set; }
+
+        public bool HasDetails => !string.IsNullOrWhiteSpace(Details);
+
+        #endregion
+
+        #region Commands
+
+        public RelayCommand Close
         {
             get
             {
-                return (ExceptionViewModel)DataContext;
-            }
-            set
-            {
-                DataContext = value;
-                value.RequestClose = Close;
+                return _close ??= new RelayCommand(() =>
+                {
+                    try
+                    {
+                        RequestClose?.Invoke();
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionUtils.HandleException(ex);
+                    }
+                });
             }
         }
+        private RelayCommand _close;
 
-        public ExceptionWindow()
-        {
-            InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
-        }
+        #endregion
 
-        private void InitializeComponent()
+        public InformationViewModel(string title, string message, string details = null) : base()
         {
-            AvaloniaXamlLoader.Load(this);
+            _title = title?.Trim() ?? throw new ArgumentNullException(nameof(title));
+            Message = message?.Trim() ?? throw new ArgumentNullException(nameof(message));
+            Details = details?.Trim();
         }
     }
 }

@@ -13,6 +13,9 @@
     </Application.Resources>
     <NativeMenu.Menu>
         <NativeMenu>
+            <NativeMenuItem Command="{Binding CheckForUpdates}"
+                            Header="Check for Updates" />
+            <NativeMenuItemSeperator />
             <NativeMenuItem Command="{Binding ShowAbout}"
                             Header="About Star Trek Card Maker" />
         </NativeMenu>

@@ -30,6 +30,22 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace StarTrekCardMaker.ViewModels
 {
+    public abstract class CallbackMessage : MessageBase
+    {
+        private readonly Action Callback;
+
+        protected CallbackMessage(Action callback = null) : base()
+        {
+            Callback = callback;
+        }
+
+        public void Process()
+        {
+            Callback?.Invoke();
+        }
+
+    }
+
     public abstract class CallbackMessage<T> : MessageBase
     {
         private readonly Action<T> Callback;
@@ -55,21 +71,41 @@ namespace StarTrekCardMaker.ViewModels
         }
     }
 
-    public class ExceptionMessage : MessageBase
+    public class LaunchUrlMessage : CallbackMessage
     {
-        public readonly ExceptionViewModel VM;
+        public Uri Url { get; private set; }
 
-        public ExceptionMessage(Exception exception)
+        public LaunchUrlMessage(Uri url, Action callback = null) : base(callback)
         {
-            VM = new ExceptionViewModel(exception ?? throw new ArgumentNullException(nameof(exception)));
+            Url = url ?? throw new ArgumentNullException(nameof(url));
         }
     }
 
-    public class AboutMessage : MessageBase
+    public class InformationMessage : CallbackMessage
+    {
+        public readonly InformationViewModel VM;
+
+        public InformationMessage(string title, string message, string details, Action callback = null) : base(callback)
+        {
+            VM = new InformationViewModel(title, message, details);
+        }
+
+        public InformationMessage(string title, string message, Action callback = null) : this(title, message, null, callback) { }
+
+        public InformationMessage(string message, Action callback = null) : this("Information", message, callback) { }
+
+    }
+
+    public class ExceptionMessage : InformationMessage
+    {
+        public ExceptionMessage(Exception exception, Action callback = null) : base("Exception", exception.Message, exception.ToString(), callback) { }
+    }
+
+    public class AboutMessage : CallbackMessage
     {
         public readonly AboutViewModel VM;
 
-        public AboutMessage()
+        public AboutMessage(Action callback = null) : base(callback)
         {
             VM = new AboutViewModel();
         }

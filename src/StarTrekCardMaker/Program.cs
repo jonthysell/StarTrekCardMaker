@@ -24,6 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+using System.Diagnostics;
+
 using Avalonia;
 using Avalonia.Logging.Serilog;
 
@@ -36,6 +39,7 @@ namespace StarTrekCardMaker
         // yet and stuff might break.
         public static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
 
@@ -46,6 +50,11 @@ namespace StarTrekCardMaker
                 .UsePlatformDetect()
                 .LogToDebug()
                 .With(new AvaloniaNativePlatformOptions { UseGpu = false });
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Trace.TraceError($"Unhandled Exception: { (e.ExceptionObject as Exception)?.ToString() }");
         }
     }
 }

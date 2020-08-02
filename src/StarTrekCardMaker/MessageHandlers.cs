@@ -47,7 +47,9 @@ namespace StarTrekCardMaker
         public static void RegisterMessageHandlers(object recipient)
         {
             Messenger.Default.Register<ConfirmationMessage>(recipient, async (message) => await ShowConfirmationDialogAsync(message));
-            Messenger.Default.Register<ExceptionMessage>(recipient, async (message) => await ShowExceptionDialogAsync(message));
+            Messenger.Default.Register<LaunchUrlMessage>(recipient, async (message) => await LaunchUrlAsync(message));
+            Messenger.Default.Register<InformationMessage>(recipient, async (message) => await ShowInformationDialogAsync(message));
+            Messenger.Default.Register<ExceptionMessage>(recipient, async (message) => await ShowInformationDialogAsync(message));
             Messenger.Default.Register<AboutMessage>(recipient, async (message) => await ShowAboutDialogAsync(message));
             Messenger.Default.Register<OpenFileMessage>(recipient, async (message) => await ShowOpenFileDialogAsync(message));
             Messenger.Default.Register<SaveFileMessage>(recipient, async (message) => await ShowSaveFileDialogAsync(message));
@@ -56,6 +58,8 @@ namespace StarTrekCardMaker
         public static void UnregisterMessageHandlers(object recipient)
         {
             Messenger.Default.Unregister<ConfirmationMessage>(recipient);
+            Messenger.Default.Unregister<LaunchUrlMessage>(recipient);
+            Messenger.Default.Unregister<InformationMessage>(recipient);
             Messenger.Default.Unregister<ExceptionMessage>(recipient);
             Messenger.Default.Unregister<AboutMessage>(recipient);
             Messenger.Default.Unregister<OpenFileMessage>(recipient);
@@ -74,16 +78,47 @@ namespace StarTrekCardMaker
             message.Process(message.VM.Result);
         }
 
-        private static async Task ShowExceptionDialogAsync(ExceptionMessage message)
+        private static async Task LaunchUrlAsync(LaunchUrlMessage message)
         {
-            Trace.TraceError($"Exception: { message.VM.Details }");
+            string url = message.Url.AbsoluteUri;
 
-            var window = new ExceptionWindow()
+            await Task.Run(() =>
+            {
+                if (AppInfo.IsWindows)
+                {
+                    Process.Start(new ProcessStartInfo(url)
+                    {
+                        UseShellExecute = true
+                    });
+                }
+                else if (AppInfo.IsMacOS)
+                {
+                    Process.Start("open", url);
+                }
+                else if (AppInfo.IsLinux)
+                {
+                    Process.Start("xdg-open", url);
+                }
+
+                message.Process();
+            });
+        }
+
+        private static async Task ShowInformationDialogAsync(InformationMessage message)
+        {
+            if (message is ExceptionMessage)
+            {
+                Trace.TraceError($"Exception: { message.VM.Details }");
+            }
+
+            var window = new InformationWindow()
             {
                 VM = message.VM
             };
 
             await window.ShowDialog(MainWindow);
+
+            message.Process();
         }
 
         private static async Task ShowAboutDialogAsync(AboutMessage message)
@@ -94,6 +129,8 @@ namespace StarTrekCardMaker
             };
 
             await window.ShowDialog(MainWindow);
+
+            message.Process();
         }
 
         private static async Task ShowOpenFileDialogAsync(OpenFileMessage message)
