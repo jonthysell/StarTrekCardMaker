@@ -48,14 +48,25 @@ namespace StarTrekCardMaker.Models
 
         public readonly string DefaultFriendlyValue;
 
-        public DynamicEnum(string friendlyId, IEnumerable<string> friendlyValues, bool addNone)
+        public DynamicEnum(string friendlyId, IEnumerable<string> friendlyValues, bool addNone, bool addCustom)
         {
             FriendlyId = friendlyId ?? throw new ArgumentNullException(nameof(friendlyId));
-            _friendlyValues = new List<string>(addNone ? NoneEnum.Concat(friendlyValues) : friendlyValues);
+
+            if (addNone)
+            {
+                friendlyValues = NoneEnum.Concat(friendlyValues);
+            }
+
+            if (addCustom)
+            {
+                friendlyValues = friendlyValues.Concat(CustomEnum);
+            }
+
+            _friendlyValues = new List<string>(friendlyValues);
             DefaultFriendlyValue = _friendlyValues.FirstOrDefault();
 
             Id = EnumUtils.GetValue(FriendlyId);
-            _values = new List<string>((addNone ? NoneEnum.Concat(friendlyValues) : friendlyValues).Select(v => EnumUtils.GetValue(v)));
+            _values = new List<string>(friendlyValues.Select(v => EnumUtils.GetValue(v)));
             DefaultValue = _values.FirstOrDefault();
         }
 
@@ -72,7 +83,9 @@ namespace StarTrekCardMaker.Models
         }
 
         public const string NoneValue = "None";
+        public const string CustomValue = "Custom";
 
         private static readonly IEnumerable<string> NoneEnum = new[] { NoneValue };
+        private static readonly IEnumerable<string> CustomEnum = new[] { CustomValue };
     }
 }

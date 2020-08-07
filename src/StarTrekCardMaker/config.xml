@@ -37,8 +37,8 @@
       <image id="ArtBorder" path="Assets/FirstEdition/Default/ArtBorder" x="16" y="15" />
       <image id="TypedTitleBar" path="Assets/FirstEdition/Default/TypedTitleBar.png" x="16" y="15" />
       <image id="TypedTitle" path="Assets/FirstEdition/Default/TypedTitle" x="16" y="15" />
-      <image id="PropertyLogo" path="Assets/FirstEdition/Default/PropertyLogo" x="176" y="15" enum="true" optional="true" />
-      <image id="ExpansionIcon" path="Assets/FirstEdition/Default/ExpansionIcon" enum="true" optional="true" />
+      <image id="PropertyLogo" path="Assets/FirstEdition/Default/PropertyLogo" enum="true" optional="true" custom="true" />
+      <image id="ExpansionIcon" path="Assets/FirstEdition/Default/ExpansionIcon" enum="true" optional="true" custom="true" />
       <image id="TypedTextBox" path="Assets/FirstEdition/Default/TypedTextBox" x="16" y="15" />
       <image id="MissionTextBox" path="Assets/FirstEdition/Default/MissionTextBox" x="16" y="15"/>
       <image id="MissionAffiliation" path="Assets/FirstEdition/Default/MissionAffiliation" />
@@ -49,6 +49,8 @@
       <imagebox id="ArtBox.Large" x="49" y="94" width="255" height="192" />
       <imagebox id="ArtBox.ExtraLarge" x="22" y="22" width="310" height="450" />
       <imagebox id="ArtBox.Full" x="16" y="16" width="322" height="462" />
+
+      <imagebox id="PropertyLogo" x="176" y="15" width="161" height="80" />
       
       <imagebox id="TypedTextBox.ExpansionIcon" x="288" y="303" width="18" height="18" />
       <imagebox id="QTypedTextBox.ExpansionIcon" x="288" y="303" width="18" height="18" />

@@ -24,9 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using StarTrekCardMaker.Models;
 using System;
 using System.ComponentModel;
+
+using StarTrekCardMaker.Models;
 
 namespace StarTrekCardMaker.ViewModels
 {

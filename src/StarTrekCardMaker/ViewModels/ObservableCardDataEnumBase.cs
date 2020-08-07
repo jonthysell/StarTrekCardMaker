@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace StarTrekCardMaker.ViewModels
 {
@@ -33,6 +34,40 @@ namespace StarTrekCardMaker.ViewModels
     {
         public abstract ObservableCollection<string> Values { get; }
 
-        public ObservableCardDataEnumBase(ObservableCard parent, string key, Func<ObservableCard, bool> isEnabled = null) : base(parent, key, isEnabled) { }
+        public virtual bool IsCustom => false;
+
+        public virtual string CustomValue
+        {
+            get
+            {
+                return Parent.InternalObject.GetValue($"{Key}.Custom");
+            }
+            set
+            {
+                if (Parent.InternalObject.SetValue($"{Key}.Custom", value))
+                {
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCardDataEnumBase(ObservableCard parent, string key, Func<ObservableCard, bool> isEnabled = null) : base(parent, key, isEnabled)
+        {
+            PropertyChanged += ObservableCardDataEnumBase_PropertyChanged;
+        }
+
+        private void ObservableCardDataEnumBase_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Value):
+                    RaisePropertyChanged(nameof(IsCustom));
+                    break;
+                case nameof(CustomValue):
+                    Parent.RaisePropertyChanged(Key);
+                    Parent.RaisePropertyChanged(nameof(Parent.IsDirty));
+                    break;
+            }
+        }
     }
 }

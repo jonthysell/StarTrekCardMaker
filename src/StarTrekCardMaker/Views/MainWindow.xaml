@@ -138,6 +138,27 @@
                                       MaxWidth="230"
                                       Padding="5"
                                       SelectedItem="{Binding Value}" />
+                            <Image IsVisible="{Binding IsCustom}"
+                                   Margin="5"
+                                   Source="{Binding CustomValue, Converter={StaticResource Base64BitmapConverter}}"
+                                   Stretch="UniformToFill"
+                                   Width="230" />
+                            <Grid ColumnDefinitions="*,*"
+                                  IsVisible="{Binding IsCustom}"
+                                  MaxWidth="240">
+                                <Button Command="{Binding OpenCustomImage}"
+                                        Content="Open..."
+                                        FontSize="14"
+                                        Grid.Column="0"
+                                        Margin="5"
+                                        Padding="5" />
+                                <Button Command="{Binding ClearCustomImage}"
+                                        Content="Clear"
+                                        FontSize="14"
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        Padding="5" />
+                            </Grid>
                         </StackPanel>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:ObservableCardDataImage}">

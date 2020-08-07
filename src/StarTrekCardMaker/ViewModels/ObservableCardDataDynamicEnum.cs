@@ -27,6 +27,9 @@
 using System;
 using System.Collections.ObjectModel;
 
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+
 using StarTrekCardMaker.Models;
 
 namespace StarTrekCardMaker.ViewModels
@@ -60,6 +63,45 @@ namespace StarTrekCardMaker.ViewModels
                 return values;
             }
         }
+
+        public override bool IsCustom => Value == DynamicEnum.CustomValue;
+
+        public RelayCommand OpenCustomImage
+        {
+            get
+            {
+                return _openCustomImage ??= new RelayCommand(() =>
+                {
+                    Messenger.Default.Send(new OpenFileMessage("Open Custom Image", FileType.ImportedImage, null, (filename) =>
+                    {
+                        try
+                        {
+                            if (!string.IsNullOrWhiteSpace(filename))
+                            {
+                                CustomValue = Base64Utils.ReadFileToBase64(filename);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ExceptionUtils.HandleException(ex);
+                        }
+                    }));
+                });
+            }
+        }
+        private RelayCommand _openCustomImage;
+
+        public RelayCommand ClearCustomImage
+        {
+            get
+            {
+                return _clearCustomImage ??= new RelayCommand(() =>
+                {
+                    CustomValue = "";
+                });
+            }
+        }
+        private RelayCommand _clearCustomImage;
 
         public DynamicEnum DynamicEnum { get; private set; }
 

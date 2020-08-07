@@ -142,10 +142,11 @@ namespace StarTrekCardMaker.Models
                         string values = xmlReader.GetAttribute("values");
 
                         bool.TryParse(xmlReader.GetAttribute("optional"), out bool optional);
+                        bool.TryParse(xmlReader.GetAttribute("custom"), out bool custom);
 
                         string[] split = values.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
-                        config.Enums[id] = new DynamicEnum(id, split.Select(v => EnumUtils.GetFriendlyValue(v)), optional);
+                        config.Enums[id] = new DynamicEnum(id, split.Select(v => EnumUtils.GetFriendlyValue(v)), optional, custom);
                     }
                     else if (name == "image")
                     {
@@ -163,6 +164,7 @@ namespace StarTrekCardMaker.Models
                         bool.TryParse(xmlReader.GetAttribute("enum"), out bool isEnum);
 
                         bool.TryParse(xmlReader.GetAttribute("optional"), out bool optional);
+                        bool.TryParse(xmlReader.GetAttribute("custom"), out bool custom);
 
                         if (File.Exists(path))
                         {
@@ -182,7 +184,7 @@ namespace StarTrekCardMaker.Models
 
                             if (isEnum)
                             {
-                                config.Enums[id] = new DynamicEnum(id, files.Select(f => EnumUtils.GetFriendlyValue(GetFileId(f))), optional);
+                                config.Enums[id] = new DynamicEnum(id, files.Select(f => EnumUtils.GetFriendlyValue(GetFileId(f))), optional, custom);
                             }
                         }
                     }

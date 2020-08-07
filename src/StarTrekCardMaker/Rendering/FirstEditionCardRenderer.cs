@@ -111,17 +111,11 @@ namespace StarTrekCardMaker.Rendering
 
             AddArt(target, card);
 
-            AddBorder(target, card);
-
-            AddInnerBorder(target);
-
             AddTitleBar(target, card);
 
             AddTypedTitle(target, card);
 
-            AddProperty(target, card);
-
-            AddArtBorder(target, card);
+            AddPropertyLogo(target, card);
 
             AddTextBox(target, card);
 
@@ -130,6 +124,12 @@ namespace StarTrekCardMaker.Rendering
             AddCopyrightText(target, card);
 
             AddExpansionIcon(target, card);
+
+            AddBorder(target, card);
+
+            AddInnerBorder(target);
+
+            AddArtBorder(target, card);
         }
 
         private static void RenderMission(Canvas target, Card card)
@@ -137,8 +137,6 @@ namespace StarTrekCardMaker.Rendering
             AddInnerRect(target);
 
             AddArt(target, card);
-
-            AddBorder(target, card);
 
             AddTextBox(target, card);
 
@@ -149,6 +147,8 @@ namespace StarTrekCardMaker.Rendering
             AddMissionAffiliations(target, card);
 
             AddExpansionIcon(target, card);
+
+            AddBorder(target, card);
         }
 
         private static void AddInnerRect(Canvas target)
@@ -228,7 +228,7 @@ namespace StarTrekCardMaker.Rendering
             }
         }
 
-        private static void AddProperty(Canvas target, Card card)
+        private static void AddPropertyLogo(Canvas target, Card card)
         {
             AddCachedImageByEnumKey(target, card, Card.PropertyLogoKey);
         }
@@ -310,15 +310,15 @@ namespace StarTrekCardMaker.Rendering
                     AddCachedImage(target, $"{Card.TypedTextBoxKey}.Q");
                     break;
                 case CardType.MissionBoth:
-                    AddCachedImageByEnumKey(target, card, $"{Card.MissionTextBoxKey}");
+                    AddCachedImageByEnumKey(target, card, Card.MissionTextBoxKey);
                     AddCachedImage(target, $"{Card.MissionTextBoxKey}.{card.GetValue(CurrentConfig.Enums[Card.MissionTextBoxKey])}.Both");
                     break;
                 case CardType.MissionPlanet:
-                    AddCachedImageByEnumKey(target, card, $"{Card.MissionTextBoxKey}");
+                    AddCachedImageByEnumKey(target, card, Card.MissionTextBoxKey);
                     AddCachedImage(target, $"{Card.MissionTextBoxKey}.{card.GetValue(CurrentConfig.Enums[Card.MissionTextBoxKey])}.Planet");
                     break;
                 case CardType.MissionSpace:
-                    AddCachedImageByEnumKey(target, card, $"{Card.MissionTextBoxKey}");
+                    AddCachedImageByEnumKey(target, card, Card.MissionTextBoxKey);
                     AddCachedImage(target, $"{Card.MissionTextBoxKey}.{card.GetValue(CurrentConfig.Enums[Card.MissionTextBoxKey])}.Space");
                     break;
             }
@@ -341,7 +341,16 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Incident:
                 case CardType.Objective:
                     string expansionValue = card.GetValue(CurrentConfig.Enums[Card.ExpansionIconKey]);
-                    AddCachedImage(target, $"{Card.ExpansionIconKey}.{expansionValue}", GetOverrides(Card.TypedTextBoxKey, "SevenGametext", Card.ExpansionIconKey, expansionValue));
+                    var imageBoxIds = GetOverrides(Card.TypedTextBoxKey, "SevenGametext", Card.ExpansionIconKey, expansionValue);
+
+                    if (expansionValue == DynamicEnum.CustomValue)
+                    {
+                        AddCardArt(target, card, imageBoxIds, $"{Card.ExpansionIconKey}.{expansionValue}");
+                    }
+                    else
+                    {
+                        AddCachedImage(target, $"{Card.ExpansionIconKey}.{expansionValue}", imageBoxIds);
+                    }
                     break;
                 case CardType.QArtifact:
                 case CardType.QDilemma:
@@ -463,16 +472,34 @@ namespace StarTrekCardMaker.Rendering
 
         private static void AddCardArt(Canvas target, Card card, string artboxId, string artKey)
         {
+            AddCardArt(target, card, new[] { artboxId }, artKey);
+        }
+
+        private static void AddCardArt(Canvas target, Card card, IEnumerable<string> imageBoxOverrides, string artKey)
+        {
             string base64 = card.GetValue(artKey);
-            if (TryCreateImage(base64, artboxId, out IControl result))
+            if (TryCreateImage(base64, imageBoxOverrides, out IControl result))
             {
                 target.Children.Add(result);
             }
         }
 
-        private static bool TryCreateImage(string base64, string imageboxId, out IControl result)
+        private static bool TryCreateImage(string base64, IEnumerable<string> imageBoxOverrides, out IControl result)
         {
-            if (!CurrentConfig.ImageBoxDescriptors.TryGetValue(imageboxId, out ImageBoxDescriptor descriptor))
+            ImageBoxDescriptor imageBoxDescriptor = null;
+
+            if (null != imageBoxOverrides)
+            {
+                foreach (var imageBoxId in imageBoxOverrides)
+                {
+                    if (CurrentConfig.ImageBoxDescriptors.TryGetValue(imageBoxId, out imageBoxDescriptor))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (null == imageBoxDescriptor)
             {
                 result = null;
                 return false;
@@ -480,8 +507,8 @@ namespace StarTrekCardMaker.Rendering
 
             var border = new Border()
             {
-                Width = descriptor.Width,
-                Height = descriptor.Height,
+                Width = imageBoxDescriptor.Width,
+                Height = imageBoxDescriptor.Height,
             };
 
             if (AppVM.DebugMode)
@@ -489,8 +516,8 @@ namespace StarTrekCardMaker.Rendering
                 border.Background = Brushes.Magenta;
             }
 
-            Canvas.SetLeft(border, descriptor.X);
-            Canvas.SetTop(border, descriptor.Y);
+            Canvas.SetLeft(border, imageBoxDescriptor.X);
+            Canvas.SetTop(border, imageBoxDescriptor.Y);
 
             try
             {
@@ -499,8 +526,8 @@ namespace StarTrekCardMaker.Rendering
                 Image image = new Image()
                 {
                     Source = new Bitmap(stream),
-                    Width = descriptor.Width,
-                    Height = descriptor.Height,
+                    Width = imageBoxDescriptor.Width,
+                    Height = imageBoxDescriptor.Height,
                     Stretch = Stretch.UniformToFill,
                 };
 
@@ -618,10 +645,16 @@ namespace StarTrekCardMaker.Rendering
         private static void AddCachedImageByEnumKey(Canvas target, Card card, string enumKey, string imageBoxEnumKey = null)
         {
             string fullyQualifiedEnumValue = card.GetFullyQualifiedValue(CurrentConfig.Enums[enumKey]);
-
             List<string> defaultImageBoxIds = new List<string>(null == imageBoxEnumKey ? GetOverrides(card, enumKey) : GetOverrides(card, imageBoxEnumKey, enumKey));
 
-            AddCachedImage(target, fullyQualifiedEnumValue, defaultImageBoxIds);
+            if (fullyQualifiedEnumValue.EndsWith($".{DynamicEnum.CustomValue}"))
+            {
+                AddCardArt(target, card, defaultImageBoxIds, fullyQualifiedEnumValue);
+            }
+            else
+            {
+                AddCachedImage(target, fullyQualifiedEnumValue, defaultImageBoxIds);
+            }
         }
 
         private static void AddCachedImage(Canvas target, string imageId, IEnumerable<string> imageBoxOverrides = null)
