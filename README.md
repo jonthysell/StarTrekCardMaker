@@ -1,5 +1,7 @@
 # Star Trek Card Maker #
 
+![CI Build](https://github.com/jonthysell/StarTrekCardMaker/workflows/CI%20Build/badge.svg)
+
 Star Trek Card Maker is an application for creating cards for the Star Trek Customizable Card Game.
 
 Star Trek Card Maker was written in C# and should run anywhere that supports [.NET Core 3.1](https://github.com/dotnet/core/blob/master/release-notes/3.1/3.1-supported-os.md). It has been officially tested on:
