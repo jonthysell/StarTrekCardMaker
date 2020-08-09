@@ -100,6 +100,22 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool DebugMode => AppVM.DebugMode;
 
+        public bool CursorMode => AppVM.CursorMode;
+
+        public string CursorInfo
+        {
+            get
+            {
+                return $"[ {_cursorInfo} ]";
+            }
+            set
+            {
+                _cursorInfo = value;
+                RaisePropertyChanged();
+            }
+        }
+        private string _cursorInfo;
+
         public bool ShowMenu => AppInfo.IsWindows || AppInfo.IsLinux;
 
         public bool ValidConfig => AppVM.ValidConfig;
@@ -203,6 +219,26 @@ namespace StarTrekCardMaker.ViewModels
             }
         }
         private RelayCommand _toggleDebugMode;
+
+        public RelayCommand ToggleCursorMode
+        {
+            get
+            {
+                return _toggleCursorMode ??= new RelayCommand(() =>
+                {
+                    try
+                    {
+                        AppVM.CursorMode = !AppVM.CursorMode;
+                        RaisePropertyChanged(nameof(CursorMode));
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionUtils.HandleException(ex);
+                    }
+                }, () => ValidConfig);
+            }
+        }
+        private RelayCommand _toggleCursorMode;
 
         public RelayCommand ShowAbout => AppVM.ShowAbout;
 

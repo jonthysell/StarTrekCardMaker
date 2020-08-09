@@ -42,6 +42,9 @@
             <NativeMenuItem Header="Settings">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
+                        <NativeMenuItem Command="{Binding ToggleCursorMode}"
+                                        Gesture="Cmd+I"
+                                        Header="Show CursorInfo" />
                         <NativeMenuItem Command="{Binding ToggleDebugMode}"
                                         Gesture="Cmd+D"
                                         Header="Debug Mode" />
@@ -83,6 +86,15 @@
                           HotKey="Alt+F4" />
             </MenuItem>
             <MenuItem Header="_Settings">
+                <MenuItem Command="{Binding ToggleCursorMode}"
+                          Header="Show Cursor _Info"
+                          HotKey="Ctrl+I">
+                    <MenuItem.Icon>
+                        <CheckBox BorderThickness="0"
+                                  IsChecked="{Binding CursorMode}"
+                                  IsHitTestVisible="False" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Command="{Binding ToggleDebugMode}"
                           Header="_Debug Mode"
                           HotKey="Ctrl+D">
@@ -193,9 +205,8 @@
                 </ItemsControl.DataTemplates>
             </ItemsControl>
         </ScrollViewer>
-        <Grid RowDefinitions="Auto,*">
-            <Image Grid.RowSpan="2"
-                   Height="256"
+        <Grid>
+            <Image Height="256"
                    HorizontalAlignment="Center"
                    IsVisible="{Binding CardLoaded, Converter={StaticResource InverseBooleanValueConverter}}"
                    Margin="5"
@@ -203,16 +214,23 @@
                    Source="avares://StarTrekCardMaker/icon.ico"
                    VerticalAlignment="Center"
                    Width="256" />
-            <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
-                       FontSize="16"
-                       IsVisible="{Binding CardLoaded}"
-                       Margin="5"
-                       Text="Preview"
-                       TextAlignment="Center" />
-            <ScrollViewer Grid.Row="1"
-                          IsVisible="{Binding CardLoaded}">
-                <Grid Name="CardRenderTarget" />
-            </ScrollViewer>
+            <Grid IsVisible="{Binding CardLoaded}}"
+                  RowDefinitions="Auto,*,Auto">
+                <TextBlock FontFamily="avares://StarTrekCardMaker/Fonts/*.ttf#Skill"
+                           FontSize="16"
+                           Grid.Row="0"
+                           Margin="5"
+                           Text="Preview"
+                           TextAlignment="Center" />
+                <ScrollViewer Grid.Row="1">
+                    <Grid Name="CardRenderTarget" />
+                </ScrollViewer>
+                <TextBlock Grid.Row="2"
+                           IsVisible="{Binding CursorMode}"
+                           Margin="5"
+                           Text="{Binding CursorInfo}"
+                           TextAlignment="Center" />
+            </Grid>
         </Grid>
     </DockPanel>
 </Window>

@@ -70,6 +70,8 @@ namespace StarTrekCardMaker.ViewModels
 
         public bool DebugMode { get; set; } = false;
 
+        public bool CursorMode { get; set; } = false;
+
         public bool ValidConfig => null != Configs;
 
         public RelayCommand ShowAbout
