@@ -494,6 +494,11 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.Doorway:
                     AddTextBlock(target, $"Typed.{card.GetFullyQualifiedValue(CurrentConfig.Enums[Card.RarityTextBoxKey])}.{Card.RarityKey}", card.GetValue(Card.RarityKey));
                     break;
+                case CardType.MissionBoth:
+                case CardType.MissionPlanet:
+                case CardType.MissionSpace:
+                    AddTextBlock(target, $"Mission.{card.GetFullyQualifiedValue(CurrentConfig.Enums[Card.RarityTextBoxKey])}.{Card.RarityKey}", card.GetValue(Card.RarityKey));
+                    break;
             }
         }
 

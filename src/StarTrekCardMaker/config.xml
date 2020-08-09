@@ -133,6 +133,8 @@
 
       <textbox id="MissionTextBox.Player.Span" font="Gametext" color="white" size="20" align="center" x="168" y="452" width="20" height="20" />
       <textbox id="MissionTextBox.Opponent.Span" font="Gametext" color="white" size="20" align="center" rotate="180" x="188" y="42" width="20" height="20" />
+
+      <textbox id="Mission.RarityTextBox.Standard.Rarity" font="Skill" size="8" caps="true" align="center" x="295" y="455" width="24" height="13" />
       
       <textbox id="ArtBox.Medium.Copyright" font="Lore" color="white" size="9.2" caps="true" x="313" y="270" width="170" height="13" rotate="-90" />
       <textbox id="ArtBox.ExtraLarge.Copyright" font="Lore" color="white" size="9.2" caps="true" x="313" y="454" width="150" height="13" rotate="-90" />
