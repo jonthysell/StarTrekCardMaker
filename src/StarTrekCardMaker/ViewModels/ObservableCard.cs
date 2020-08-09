@@ -218,8 +218,11 @@ namespace StarTrekCardMaker.ViewModels
                 data.Add(new ObservableCardDataText(this, Card.TitleKey, (card) => EnumUtils.ShowTitleOption(card.InternalObject.CardType)));
                 data.Add(new ObservableCardDataText(this, Card.LoreKey, (card) => EnumUtils.ShowLoreOption(card.InternalObject.CardType)));
                 data.Add(new ObservableCardDataText(this, Card.GametextKey, (card) => EnumUtils.ShowGametextOption(card.InternalObject.CardType)));
-                data.Add(new ObservableCardDataText(this, Card.CopyrightKey, (card) => EnumUtils.ShowCopyrightOption(card.InternalObject.CardType)));
+
                 data.Add(new ObservableCardDataText(this, Card.SpanKey, (card) => EnumUtils.ShowSpanOption(card.InternalObject.CardType)));
+
+                data.Add(new ObservableCardDataText(this, Card.CopyrightKey, (card) => EnumUtils.ShowCopyrightOption(card.InternalObject.CardType)));
+                data.Add(new ObservableCardDataText(this, Card.RarityKey, (card) => EnumUtils.ShowRarityOption(card.InternalObject.CardType)));
             }
 
             return data;

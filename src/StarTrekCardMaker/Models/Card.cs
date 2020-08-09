@@ -47,10 +47,14 @@ namespace StarTrekCardMaker.Models
         public const string QTypedTextBoxKey = "QTypedTextBox";
         public const string MissionTextBoxKey = "MissionTextBox";
 
+        public const string RarityTextBoxKey = "RarityTextBox";
+
         public const string TitleKey = "Title";
         public const string LoreKey = "Lore";
         public const string GametextKey = "Gametext";
+
         public const string CopyrightKey = "Copyright";
+        public const string RarityKey = "Rarity";
 
         public const string AffiliationKey = "Affiliation";
 

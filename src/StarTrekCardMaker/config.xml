@@ -30,6 +30,7 @@
       <enum id="TypedTextBox" values="ThreeLoreThreeGametext|TwoLoreFourGametext|OneLoreFiveGametext|SevenGametext" />
       <enum id="QTypedTextBox" values="OneLoreSevenGametext|TwoLoreSixGametext|ThreeLoreFiveGametext|FourLoreFourGametext" />
       <enum id="MissionTextBox" values="TwoLoreTwoGametext|TwoLoreThreeGametext" />
+      <enum id="RarityTextBox" values="Standard|Extended" />
     </enums>
     <images>
       <image id="Border" path="Assets/FirstEdition/Default/Border" enum="true" />
@@ -110,6 +111,8 @@
       <textbox id="TypedTextBox.OneLoreFiveGametext.Gametext" font="Gametext" size="13.4" x="58" y="373" width="246" height="81" />
       
       <textbox id="TypedTextBox.SevenGametext.Gametext" font="Gametext" size="13.4" x="58" y="330" width="246" height="116" />
+
+      <textbox id="Typed.RarityTextBox.Standard.Rarity" font="Skill" size="8" caps="true" align="center" x="295" y="466" width="24" height="13" />
       
       <textbox id="QTypedTextBox.Title" font="VerbSpacing" size="16" align="center" color="white" caps="true" x="46" y="304" width="261" height="17" />
       

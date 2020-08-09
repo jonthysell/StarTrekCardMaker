@@ -129,6 +129,8 @@ namespace StarTrekCardMaker.Rendering
 
             AddInnerBorder(target);
 
+            AddRarityText(target, card);
+
             AddArtBorder(target, card);
         }
 
@@ -143,6 +145,8 @@ namespace StarTrekCardMaker.Rendering
             AddText(target, card);
 
             AddCopyrightText(target, card);
+
+            AddRarityText(target, card);
 
             AddMissionAffiliations(target, card);
 
@@ -466,6 +470,29 @@ namespace StarTrekCardMaker.Rendering
                 case CardType.MissionPlanet:
                 case CardType.MissionSpace:
                     AddTextBlock(target, "ArtBox.Full.Copyright", card.GetValue(Card.CopyrightKey, DefaultCopyrightText));
+                    break;
+            }
+        }
+
+        private static void AddRarityText(Canvas target, Card card)
+        {
+            switch (card.CardType)
+            {
+                case CardType.Artifact:
+                case CardType.DilemmaBoth:
+                case CardType.DilemmaPlanet:
+                case CardType.DilemmaSpace:
+                case CardType.Event:
+                case CardType.Equipment:
+                case CardType.Incident:
+                case CardType.Interrupt:
+                case CardType.Objective:
+                case CardType.QArtifact:
+                case CardType.QDilemma:
+                case CardType.QEvent:
+                case CardType.QInterrupt:
+                case CardType.Doorway:
+                    AddTextBlock(target, $"Typed.{card.GetFullyQualifiedValue(CurrentConfig.Enums[Card.RarityTextBoxKey])}.{Card.RarityKey}", card.GetValue(Card.RarityKey));
                     break;
             }
         }

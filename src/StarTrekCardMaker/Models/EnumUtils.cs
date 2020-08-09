@@ -221,11 +221,6 @@ namespace StarTrekCardMaker.Models
             return true;
         }
 
-        public static bool ShowCopyrightOption(CardType cardType)
-        {
-            return true;
-        }
-
         public static bool ShowSpanOption(CardType cardType)
         {
             switch (cardType)
@@ -237,6 +232,16 @@ namespace StarTrekCardMaker.Models
             }
 
             return false;
+        }
+
+        public static bool ShowCopyrightOption(CardType cardType)
+        {
+            return true;
+        }
+
+        public static bool ShowRarityOption(CardType cardType)
+        {
+            return true;
         }
 
         public static IEnumerable<string> GetFriendlyValues(IEnumerable<string> values)
